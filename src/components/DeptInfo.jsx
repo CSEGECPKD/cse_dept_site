@@ -1,77 +1,115 @@
-"use client"
-import { DeptConstants } from '@/constants/DeptConstants';
-import Image from 'next/image';
-import { useEffect, useState } from 'react';
+"use client";
+import { DeptConstants } from "@/constants/DeptConstants";
+import Image from "next/image";
+import {
+  motion,
+  useAnimate,
+  useInView,
+  useMotionValueEvent,
+  useScroll,
+} from "framer-motion";
+import ColoredSection from "./ColoredSection";
+import { useEffect, useRef } from "react";
+import convertRange from "@/lib/convertRange";
 
 const DeptInfo = () => {
-    const [scrollY, setScrollY] = useState(0);
-    const [showDivs, setShowDivs] = useState(false);
+  const [scope, animate] = useAnimate();
+  const containerRef = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start end", "end end"],
+  });
 
-    useEffect(() => {
-        const handleScroll = () => {
-            setScrollY(window.scrollY);
-        };
-
-        if (typeof window !== 'undefined') {
-            window.addEventListener('scroll', handleScroll);
-        }
-        return () => {
-            if (typeof window !== 'undefined') {
-                window.removeEventListener('scroll', handleScroll);
-            }
-        };
-    }, []);
-    useEffect(() => {
-        if (scrollY > 900) {
-            setShowDivs(true);
-        } else {
-            setShowDivs(false);
-
-        }
-    }, [scrollY]);
-   
-    let baseFontSize = typeof window !== 'undefined' && window.innerWidth >= 640 ? 34 : 25;
-    let fontSize = baseFontSize + Math.max(0, 80 - scrollY * 0.1);
-    let paddingVal = Math.max(0, 100 - scrollY * 0.1);
-    if (baseFontSize === 25 && fontSize > 50) {
-        fontSize = 50;
-    }
-
-
-    return (
-        <div className="bg-white w-full px-12 md:px-20 py-8 ">
-            <span className={`${showDivs ? 'hidden' : ''}`}>
-                <h1 className="font-bold" style={{ fontSize: `${fontSize}px` }}>
-                    {DeptConstants.title}
-                </h1>
-            </span>
-            <div className="w-full flex justify-between">
-                <div className="flex flex-col sm:w-6/12">
-                    <h1 className={`font-bold ${showDivs ? '' : 'hidden'}`} style={{ fontSize: `${fontSize}px` }}>
-                        {DeptConstants.title}
-                    </h1>
-                    <p className='text-gray-500' style={{ paddingTop: showDivs ? '' : `${paddingVal * 2}px` }}>
-                        <div className="py-4 text-lg">
-                            {DeptConstants.desc}
-                        </div>
-                        <button className="bg-black text-white p-2 mt-4 w-36 transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300">
-                            Read More {'>'}
-                        </button>
-                    </p>
-                </div>
-                <div className="w-5/12 hidden sm:flex justify-center items-center">
-                    <span style={{ paddingTop: showDivs ? '' : `${paddingVal * 2}px` }}>
-                        <Image
-                            src="/Computer.png"
-                            width={480}
-                            height={280}
-                            alt="computer"
-                        />
-                    </span>
-                </div>
-            </div>
-        </div>
+  async function animateHeading(latest) {
+    const animationStartPoint = 0;
+    const animationEndPoint = 0.5;
+    const fontSize = convertRange(
+      latest,
+      animationStartPoint,
+      animationEndPoint,
+      6.25,
+      2.5
     );
+    const top = convertRange(
+      latest,
+      animationStartPoint,
+      animationEndPoint,
+      55,
+      0
+    );
+    console.log(fontSize);
+    await animate(
+      scope.current,
+      {
+        fontSize: `${fontSize}vw`,
+        top: `-${top}%`,
+      },
+      {
+        duration: 0.1,
+        ease: "linear",
+      }
+    );
+  }
+
+  useEffect(() => {
+    const latest = scrollYProgress.get();
+    animateHeading(latest).then(() =>
+      animate(
+        scope.current,
+        {
+          opacity: 1,
+        },
+        {
+          delay: 0.1,
+        }
+      )
+    );
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [animate, animateHeading, scope]);
+
+  useMotionValueEvent(scrollYProgress, "change", (latest) =>
+    animateHeading(latest)
+  );
+  return (
+    <ColoredSection color="BLACK">
+      <div className="bg-white w-full px-12 md:px-20 py-8 min-h-[200vh]">
+        <div ref={containerRef} className="min-h-screen mt-[100vh]">
+          <div className="w-full grid grid-cols-[auto_40%] relative gap-12">
+            <div className="">
+              <h1
+                style={{
+                  opacity: 0,
+                }}
+                ref={scope}
+                className={`font-medium absolute leading-[1.1em]`}
+              >
+                The Department of Computer <br /> Science and Engineering
+              </h1>
+              <p
+                className="text-gray-400 pt-[8rem] text-[2vw]"
+                // style={{ paddingTop: showDivs ? "" : `${paddingVal * 2}px` }}
+              >
+                {DeptConstants.desc}
+              </p>
+              <button className="bg-black text-white p-2 mt-4 w-36 transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300">
+                Read More {">"}
+              </button>
+            </div>
+            <div className="hidden sm:flex justify-center items-center">
+              <Image
+                className="w-full"
+                src="/computer.png"
+                width={480}
+                height={280}
+                alt="computer"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </ColoredSection>
+  );
 };
 
 export default DeptInfo;

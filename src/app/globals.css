@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-body{
+body {
   min-height: 100vh;
   min-height: 100dvh;
 }
@@ -20,10 +20,49 @@ body{
 }
 
 .video {
-    width: 100%; 
-    height: 100%; 
-    object-fit: cover;
-    position:absolute;
-    top:0;
-    z-index:-1;
-  } 
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: absolute;
+  top: 0;
+  z-index: -1;
+}
+
+.nav-clr.white {
+  color: white;
+}
+
+.nav-clr.black {
+  color: black;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Toppers page section*/
+
+.student-card {
+  display: block;
+  transition: transform 0.3s;
+}
+
+@media (min-width: 425px) {
+  .student-card:hover .stud-image {
+    width: 220px;
+    height: 190px;
+    transition: width 0.3s, height 0.3s;
+  }
+}
+
+.student-card:hover .arrow-buttons {
+  display: flex;
+  transition: height 0.5s;
+}
+
+.student-card .arrow-buttons {
+  display: none;
+}
