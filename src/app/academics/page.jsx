@@ -6,19 +6,16 @@ import AcadamicsPrograms from "@/app/academics/prgmsandsyllabus/AcadamicsProgram
 import Labs from "@/app/academics/labs/AcadamicsLabs";
 import AcadamicsCoursesMtech from "@/components/AcadamicsCoursesMtech";
 import AcadamicsCoursesBtech from "@/components/AcadamicsCoursesBtech";
-import AcadamicsSidebar from "@/components/AcadamicsSidebar";
+
 
 const Acadamics = () => {
   return (
     <div className="">
-     <Navbar />
-      {/* <AcadamicsSidebar /> */}
-      <AcadamicsSidebar />
       <AcadamicsIntro />
       <AcadamicsPrograms />
-      <AcadamicsCoursesBtech />
-      <AcadamicsCoursesMtech />
-      <Labs />
+      {/* <AcadamicsCoursesBtech />
+      <AcadamicsCoursesMtech />*/}
+      <Labs /> 
       {/* <Footer /> */}
     </div>
   );

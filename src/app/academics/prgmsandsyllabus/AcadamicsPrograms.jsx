@@ -13,7 +13,7 @@ const AcadamicsPrograms = () => {
   return (
     <ColoredSection color="WHITE" className="bg-black w-full">
       <div className="lg:sticky">
-        <div className="brightness-50 hidden lg:sticky inset-0 lg:block">
+        <div className="brightness-50 hidden lg:sticky lg:inset-0 lg:block">
           <Image
             src="/bg-acadamic.jpeg"
             alt="department pic"
@@ -22,51 +22,52 @@ const AcadamicsPrograms = () => {
             height={1920}
           />
         </div>
-
-        <div className="px-6 py-32 text-white">
-          <div className="grid grid-cols-1 lg:grid-cols-[67%_33%] lg:gap-3 container mx-auto relative z-10">
+        
+        <div className="lg:px-24 py-20 text-white">
+          <div className="grid grid-cols-1 lg:grid-cols-[67%_33%] lg:gap-3 container mx-auto relative ">
             <div
-              className="space-y-4 lg:sticky lg:bottom-10 lg:top-40 z-10"
+              className="p-20 space-y-1 lg:sticky lg:bottom-10 lg:top-36  mb-4"
               style={{
-                minHeight: 'auto',
-                height: 'auto', 
+                minHeight: "auto",
+                height: "fit-content",
               }}
             >
-              <h2 className="text-[24px] lg:text-5xl font-normal font-bebasneue leading-[28.8px] lg:leading-tight lg:text-left">
+              <h2 className="text-[24px] md:text-[36px] lg:text-5xl font-normal font-bebasneue leading-[28.8px]">
                 LABS AND OTHER FACILITIES
               </h2>
-              <p className="font-montserrat text-[20px] leading-[40px] text-left lg:text-[24px]">
+              <p className="font-montserrat text-[15px]  text-left lg:text-[21px] xl:text-[24px]/[40px] lg:pr-20 md:text-[20px]">
                 The Department of Computer Science & Engineering (CSE) offers a
                 comprehensive range of programs designed to equip students with
                 the knowledge and skills necessary to thrive in the
                 ever-evolving field of computer science.
               </p>
             </div>
-            <div className="flex justify-center lg:justify-end z-10 mt-8 lg:mt-0">
+            <div className="flex justify-center lg:justify-end ">
               <div className="space-y-8 lg:space-y-[113px]">
                 {AcadamicsLabsDataForCard.map((item, i) => (
                   <div
                     ref={i === 6 ? ref : undefined}
                     key={i}
-                    className="max-w-[390px] w-full pl-10 lg:pl-16"
+                    className="h-[813.83px] w-[390px] "
                   >
-                    <div className="z-1">
+                    <div>
                       <img
-                        className="w-full h-auto lg:h-[525.83px] object-cover"
+                        className="w-[390px] h-[525.83px] flex justify-center items-center"
                         src={item.image}
                         alt=""
                       />
                     </div>
-                    <button className="w-full font-normal font-montserrat text-[16px] lg:text-[20px] leading-[24.38px] bg-[#FFFFFF26] text-center p-[10px] mt-6">
+                    <button className="font-normal font-montserrat text-[12.34px] lg:text-[20px]/[24.38px] bg-[#FFFFFF26] text-center p-[10px] mt-6">
                       SYLLABUS (2015 SCHEME)
                     </button>
-                    <button className="w-full font-normal font-montserrat text-[16px] lg:text-[20px] leading-[24.38px] bg-[#FFFFFF26] text-center p-[10px] mt-6">
+                    <br/>
+                    <button className="font-normal font-montserrat text-[12.34px] lg:text-[20px]/[24.38px] bg-[#FFFFFF26] text-center p-[10px] mt-6">
                       SYLLABUS (2019 SCHEME)
                     </button>
-                    <h2 className="font-medium font-montserrat text-[18px] lg:text-[20px] leading-[24.38px] mt-6">
+                    <h2 className="font-medium font-montserrat text-[20px]/[24.38px] mt-6">
                       {item.title}
                     </h2>
-                    <p className="font-normal font-montserrat text-[14px] lg:text-[16px] leading-[19.5px] mt-6">
+                    <p className="font-normal font-montserrat text-[16px]/[19.5px] mt-6">
                       {item.description}
                     </p>
                   </div>

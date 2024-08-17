@@ -6,7 +6,7 @@ import ColoredSection from "./ColoredSection";
 const PlacementIntro = () => {
   return (
     <ColoredSection  color="BLACK">
-      <div className="bg-white container mx-auto py-56 px-4 h-full md:h-[70vh]">
+      <div className="bg-white container mx-auto py-56 px-4 h-full md:min-h-[70vh]">
         <div className="w-full h-auto text-right">
           <h1 className="text-black w-auto h-auto text-4xl lg:text-5xl font-semibold font-bebasneue">
           . TRAINING & PLACEMENT
