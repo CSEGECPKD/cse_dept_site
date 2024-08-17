@@ -28,12 +28,13 @@ const SectionSubtitle = ({ children }) => (
 
 const List = ({ items }) => (
   <ul className="
+    pt-5
     px-1 sm:px-2 md:px-2
     list-disc
     font-montserrat
     font-normal
     text-gray-500
-    text-[20px] sm:text-[22px] md:text-[24px]
+    text-[15px] sm:text-[18px] md:text-[20px] lg:text-[22px]
     text-left
   ">
     {items.map((item, index) => (

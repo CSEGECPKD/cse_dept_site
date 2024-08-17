@@ -18,9 +18,13 @@ export default function Blog() {
     </div>
   );
 }
+const blogContnet=()=>{
+    setisClick(true)
+}
 
 function HoverableItem({ item }) {
   const [isHover, setHover] = useState(false);
+  // const [isClick, setisClick] =useState(false)
 
   return (
     <div>
@@ -28,6 +32,7 @@ function HoverableItem({ item }) {
         className="container mx-auto flex flex-row space-x-10 pt-20"
         onMouseEnter={() => setHover(true)}
         onMouseLeave={() => setHover(false)}
+        // onClick={blogContnet}
       >
         <div className="bg-slate-500 relative w-auto h-full">
           <Image

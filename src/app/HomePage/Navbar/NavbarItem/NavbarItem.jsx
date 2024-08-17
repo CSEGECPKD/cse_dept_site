@@ -15,54 +15,79 @@ function NavbarItem({
 }) {
   const [isHovered, setIsHovered] = useState(false);
   const [isWhite, setIsWhite] = useAtom(navbarAtom);
-  const color = isWhite === "WHITE" ? "text-white" : "text-black";
+  const color = isWhite === "WHITE" ? "mdlg:text-white" : "mdlg:text-black";
+  const bg = isWhite === "WHITE" ? "mdlg:bg-white" : "mdlg:bg-black";
+  const blurBg = isWhite === "WHITE" ? "bg-white/10" : "bg-black/10";
+  const arrow =
+    isWhite === "WHITE" ? "down-arrow-white.png" : "down-arrow-black.png";
 
   return (
     <li
-      className="relative md:pb-5 text-[16px] my-8 md:my-0 md:px-6 text-left border-b-2 md:border-b-0 md:hover:bg-transparent hover:scale-x-105"
+      className="relative h-full text-left border-b-2 mdlg:border-b-0 mdlg:hover:bg-transparent font-bebasneue"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
       <div
-        className={twMerge("flex items-center justify-between w-full", color)}
+        className={twMerge(
+          "flex items-center gap-[6px] justify-between w-fit mdlg:py-5 text-[16px] my-8 mdlg:my-0 mdlg:px-6 text-black relative group/main h-full",
+          color
+        )}
       >
-        {isHovered && (
-          <div className="dot w-2 h-2 absolute top-3 left-1 lg:bg-white rounded"></div>
+        {hasDropdown ? (
+          <img
+            className="shrink-0 opacity-0 group-hover/main:opacity-100 transition-transform hidden mdlg:block"
+            src={arrow}
+            alt="expand-links"
+          />
+        ) : (
+          <div
+            className={twMerge(
+              "h-[6px] w-[6px] shrink-0  opacity-0 group-hover/main:opacity-100 transition-transform hidden mdlg:block",
+              bg
+            )}
+          ></div>
         )}
         <Link
           href={href}
           onClick={() => setNavbar(false)}
-          className="flex-grow"
+          className="flex-grow shrink-0 tracking-link"
         >
           {label}
         </Link>
-        {hasDropdown && <FaChevronDown className="ml-2" />}
-        {showArrow && !hasDropdown && (
-          <FaArrowRightLong className="ml-2 block md:hidden" />
+
+        {hasDropdown && dropdownItems && (
+          <ul
+            className={twMerge(
+              `mdlg:absolute left-0 mt-2 mdlg:ml-0  w-full mdlg:w-52 mdlg:hidden top-[100%] group-hover/main:block backdrop-blur-[32px]`,
+              blurBg
+            )}
+          >
+            {dropdownItems.map((item, index) => (
+              <li
+                key={index}
+                className={twMerge(
+                  "flex gap-[6px] items-center py-3 px-4 mdlg:px-2 transition-all group/sub",
+                  color
+                )}
+              >
+                <div
+                  className={twMerge(
+                    "h-[6px] w-[6px] ml-2 shrink-0 opacity-0  group-hover/sub:opacity-100",
+                    bg
+                  )}
+                ></div>
+                <Link
+                  className="tracking-link"
+                  href={item.href}
+                  onClick={() => setNavbar(false)}
+                >
+                  {item.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
         )}
       </div>
-      {isHovered && hasDropdown && dropdownItems && (
-        <ul
-          style={{
-            background: "rgba(255, 255, 255, 0.10)",
-            backdropFilter: "blur(30px)",
-          }}
-          className={`md:absolute left-0 mt-2 md:ml-0 py-2 shadow-lg w-full md:w-52 ${
-            isHovered ? "block" : "hidden"
-          } md:block`}
-        >
-          {dropdownItems.map((item, index) => (
-            <li
-              key={index}
-              className="py-2 px-4 md:px-2 hover:bg-slate-500 hover:bg-opacity-10 hover:scale-95"
-            >
-              <Link href={item.href} onClick={() => setNavbar(false)}>
-                {item.label}
-              </Link>
-            </li>
-          ))}
-        </ul>
-      )}
     </li>
   );
 }

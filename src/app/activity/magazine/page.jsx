@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import { departmentMagazine, pgMagazine, pgNewsLetter } from "./magazin";
+import { departmentMagazine, pgMagazine, pgNewsLetter } from "./magazine";
 
 const EventCard = ({ event }) => {
   const [isHovered, setIsHovered] = useState(false);

@@ -1,6 +1,6 @@
 import { Inter, Montserrat, Bebas_Neue } from "next/font/google";
 import "./globals.css";
-import Navbar from "@/app/HomePage/Navbar/Navbar";
+import Navbar from "@/app/HomePage/Navbar/Navbar/Navbar";
 
 const inter = Inter({ subsets: ["latin"] });
 const montserrat = Montserrat({

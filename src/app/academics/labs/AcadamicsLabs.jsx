@@ -1,20 +1,18 @@
 "use client";
-
-import React, { useRef } from "react";
+import { useRef } from "react";
 import useBoundingclientrect from "@rooks/use-boundingclientrect";
 import Image from "next/image";
 import { AcadamicsLabsDataForCard } from "@/constants/contents";
 import ColoredSection from "../../../components/ColoredSection";
 
-// {title,description,image,color}
 
 const AcadamicsPrograms = () => {
   const ref = useRef(null);
   const boundingClientRect = useBoundingclientrect(ref);
   return (
-    <ColoredSection color="WHITE" className=" bg-black">
-      <div className="sticky ">
-        <div className="sticky inset-0 brightness-50">
+    <ColoredSection color="WHITE" className=" bg-black w-full">
+      <div className="lg:sticky">
+        <div className="brightness-50 hidden lg:sticky lg:inset-0 lg:block">
           <Image
             src="/bg-acadamic.jpeg"
             alt="department pic"
@@ -34,10 +32,10 @@ const AcadamicsPrograms = () => {
                 height: "fit-content",
               }}
             >
-              <h2 className="text-5.5xl lg:text-5xl font-normal font-bebasneue leading-tight ">
+              <h2 className="text-[24px] lg:text-5xl font-normal font-bebasneue leading-tight ">
                 LABS AND OTHER FACILITIES
               </h2>
-              <p className="font-montserrat text-[24px]/[40px] leading-10 ">
+              <p className="font-montserrat text-[24px]/[40px] leading-10 lg:text-[10px]">
                 The Department of Computer Science & Engineering (CSE) offers a
                 comprehensive range of programs designed to equip students with
                 the knowledge and skills necessary to thrive in the

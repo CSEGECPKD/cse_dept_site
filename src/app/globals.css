@@ -2,6 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer utilities {
+  .backdrop-hack {
+    @apply absolute inset-0 -z-10 backdrop-blur-[32px];
+  }
+}
+
 body {
   min-height: 100vh;
   min-height: 100dvh;

@@ -41,7 +41,7 @@ function Navbar() {
   const color = isWhite === "WHITE" ? "text-white" : "text-black";
   const logo = isWhite === "WHITE" ? "/logo.png" : "/logo(black).png";
   const bg =
-    isWhite === "WHITE" ? "rgba(255, 255, 255, 0.10)" : "rgba(0, 0, 0, 0.03)";
+    isWhite === "WHITE" ? "rgba(255, 255, 255, 0.10)" : "rgba(0, 0, 0, 0.10)";
   const toggleNavbar = () => {
     setOpen(!open);
   };
@@ -53,12 +53,15 @@ function Navbar() {
           ? { background: "white" }
           : {
               background: bg,
-              backdropFilter: "blur(30px)",
+              // backdropFilter: "blur(32px)",
             }
       }
-      className="md:flex lg:mt-8 max-w-screen-2xl mx-auto font-bold fixed top-0 left-0 right-0 z-10 h-20"
+      className={twMerge(
+        "md:flex items-center lgmd:mt-8 2xl:w-[80%] lgmd:w-[90%]  w-full max-w-[1200px] mx-auto font-bold fixed top-0 left-0 right-0 z-10 h-20 md:before:backdrop-hack",
+        !open && "before:backdrop-hack"
+      )}
     >
-      <div className="flex items-center justify-between py-3 px-4 md:px-2 h-20 mx-auto">
+      <div className="flex items-center justify-between w-full py-3 px-4 md:px-2 h-20 mx-auto">
         <div className="flex gap-4 items-center md:mr-14">
           <Image
             src={open ? "/logo(black).png" : logo}
@@ -69,7 +72,7 @@ function Navbar() {
           />
           <p
             className={twMerge(
-              "text-sm text-left mt-2",
+              "text-sm text-left mt-2 text-black",
               open ? "hidden md:block" : "block",
               color
             )}
@@ -77,7 +80,7 @@ function Navbar() {
             COMPUTER SCIENCE <br /> AND ENGINEERING
           </p>
         </div>
-        <div className="md:hidden">
+        <div className="mdlg:hidden">
           <button
             className="p-2 rounded-md outline-none"
             onClick={toggleNavbar}
@@ -95,11 +98,12 @@ function Navbar() {
         </div>
       </div>
       <div
-        className={`fixed top-20 h-screen p-3 px-6 left-0 right-0 bg-white text-black transition-transform duration-1000 ease-in-out ${
-          open ? "transform translate-x-0" : "transform -translate-x-full"
-        } md:relative md:top-0 md:bg-transparent md:translate-x-0 md:flex md:p-0 md:h-auto md:pb-0 md:mt-0 `}
+        className={twMerge(
+          `fixed top-20 h-screen p-3 px-6 left-0 right-0 bg-white text-black transition-transform duration-1000 ease-in-out mdlg:relative md:top-0 md:bg-transparent mdlg:translate-x-0 mdlg:flex  mdlg:p-0 mdlg:h-auto mdlg:pb-0 mdlg:mt-0 `,
+          open ? "translate-x-0" : "-translate-x-full"
+        )}
       >
-        <ul className="items md:h-20 md:pl-28 items-center justify-center md:flex md:mr-8 lg:pt-6">
+        <ul className="items  items-center justify-center mdlg:flex mdlg:mr-8 ">
           <NavbarItem
             href="/"
             label="HOME"
@@ -129,7 +133,7 @@ function Navbar() {
             dropdownItems={peopleDropdownItems}
           />
           <NavbarItem
-            href="/activities"
+            href="/activity"
             label="ACTIVITIES"
             setNavbar={setOpen}
             showArrow={open}
