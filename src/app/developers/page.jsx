@@ -76,7 +76,7 @@ export default function Developers() {
               >
                 <Image
                   src={item.img}
-                  alt="developers"
+                  alt="developer"
                   width={500}
                   height={200}
                   className="rounded-lg w-auto h-[300px] md:h-[400px] object-cover"
