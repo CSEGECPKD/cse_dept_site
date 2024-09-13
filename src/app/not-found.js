@@ -30,7 +30,7 @@ export default function Page() {
             alt="Computer Image"
             className="w-[206px] h-[200px] md:h-[320px] md:w-[330px] object-contain"
           />
-          <div className="divider w-[100px] h-[2px] bg-black my-10 md:my-5"></div>
+          <div className="divider mt-28 md:mt-4 invisible md:visible w-[100px] h-[2px] bg-black my-10 md:my-5"></div>
           <div className="flex justify-center md:justify-start group transition-all duration-300 ease-in-out transform  translate-x-0 hover:-translate-x-3 ">
             <a
               href="/"
@@ -108,7 +108,7 @@ export default function Page() {
       )}
       <div
         id="canvas-container"
-        className={`absolute bottom-5 flex items-center justify-center w-screen border-2 ${
+        className={`flex absolute md:bottom-5 bottom-[120px] items-center justify-center w-screen border-2 ${
           showDinoGame ? "z-0" : "-z-10"
         }`}
       >

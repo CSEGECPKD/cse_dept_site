@@ -1,6 +1,7 @@
 "use client";
 import { DeptConstants } from "@/constants/DeptConstants";
 import Image from "next/image";
+import { FaAngleRight, FaArrowRightLong } from "react-icons/fa6";
 import {
   motion,
   useAnimate,
@@ -11,6 +12,7 @@ import {
 } from "framer-motion";
 import ColoredSection from "./ColoredSection";
 import { useEffect, useRef, useState } from "react";
+import About from "@/app/aboutus/page";
 
 const DeptInfo = () => {
   const containerRef = useRef(null);
@@ -52,7 +54,10 @@ const DeptInfo = () => {
 
   return (
     <ColoredSection color="BLACK">
-      <div className="bg-white w-full px-12 md:px-20 py-16 nav-md:py-8 nav-md:min-h-[200vh]" id="dept">
+      <div
+        className="bg-white w-full px-12 md:px-20 py-16 nav-md:py-8 nav-md:min-h-[200vh]"
+        id="dept"
+      >
         <div
           ref={containerRef}
           className="nav-md:min-h-screen nav-md:mt-[100vh]"
@@ -79,9 +84,16 @@ const DeptInfo = () => {
               >
                 {DeptConstants.desc}
               </p>
-              <button className="bg-black text-white p-2 mt-4 w-36 transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300">
-                Read More {">"}
-              </button>
+              <a
+                href="/aboutus"
+                className="inline-flex items-center group bg-black hover:bg-white text-white hover:text-black border-2 border-black p-2 mt-4 transition-all duration-300 ease-in-out transform hover:pr-6"
+              >
+                Read More
+                <span className="inline-flex items-center justify-center ml-2 w-auto h-auto transform group-hover:translate-x-3 transition-all duration-300 ease-in-out">
+                  <FaAngleRight className="group-hover:hidden text-white transition-all duration-300 ease-in-out" />
+                  <FaArrowRightLong className="hidden group-hover:inline-flex text-black transition-all duration-300 ease-in-out" />
+                </span>
+              </a>
             </div>
             <div className="hidden nav-md:flex justify-center items-center">
               <Image

@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import Link from "next/link";
+import { FaArrowRightLong } from "react-icons/fa6";
 import { MdOutlineArrowOutward } from "react-icons/md";
 import { RiInstagramFill } from "react-icons/ri";
 import { IoLogoLinkedin } from "react-icons/io";
@@ -41,9 +42,12 @@ const Footer = () => {
                 </div>
               )
             )}
-            <button className="bg-black text-white p-2 px-3 flex items-center mt-4">
+            <button className="inline-flex items-center group bg-black hover:bg-white text-white hover:text-black text-md border-2 border-black p-1 mt-4 transition-all duration-300 ease-in-out transform hover:pr-3">
               SEND
-              <MdOutlineArrowOutward className="ml-2 font-bold" />
+              <span className="inline-flex items-center justify-center ml-1 w-auto h-auto transform group-hover:translate-x-2 transition-all duration-300 ease-in-out">
+                <MdOutlineArrowOutward className="group-hover:hidden text-white transition-all duration-300 ease-in-out" />
+                <FaArrowRightLong className="hidden group-hover:inline-flex text-black transition-all duration-300 ease-in-out" />
+              </span>
             </button>
           </form>
           <p className="text-[#656565] hidden sm:block">
