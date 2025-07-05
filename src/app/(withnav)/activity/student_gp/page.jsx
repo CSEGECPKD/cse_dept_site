@@ -49,17 +49,18 @@ function HoverableItem({ item, onClick }) {
       onMouseLeave={() => setHover(false)}
       onClick={onClick}
     >
-      <div className="bg-slate-500 relative w-full md:w-1/5">
+      <div className="flex relative w-full md:w-1/5">
         <Image
           src={item.img}
           alt={item.head}
           width={800}
           height={400}
-          className={`w-full h-auto ${
+          className={`w-full h-auto object-cover ${
             isHover ? "" : "grayscale"
           } transition-all duration-300`}
         />
       </div>
+
       <div className="w-full md:w-3/5">
         <div className="flex mb-3 sm:mb-4 md:mb-5 justify-start flex-row items-end">
           <span
