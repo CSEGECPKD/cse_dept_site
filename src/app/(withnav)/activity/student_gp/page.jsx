@@ -77,12 +77,11 @@ function HoverableItem({ item, onClick }) {
           </h1>
         </div>
         <p
+          dangerouslySetInnerHTML={{ __html: item.content }}
           className={`${
             isHover ? "text-[#dc856e]" : "text-[#000000]"
           } transition-colors duration-300 text-base sm:text-lg md:text-[20px] text-justify`}
-        >
-          {item.content}
-        </p>
+        ></p>
         <button
           className={`p-2 ${
             isHover ? "bg-[#dc856e]" : "bg-[#696969]"
