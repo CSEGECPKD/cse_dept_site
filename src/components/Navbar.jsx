@@ -100,16 +100,16 @@ const links = [
     type: "main",
     href: "/people",
     node: [
-      {
-        label: "Teaching Staffs",
-        type: "sub-main",
-        href: "/people",
-      },
-      {
-        label: "Technical Staffs",
-        type: "sub-main",
-        href: "/people",
-      },
+      // {
+      //   label: "Teaching Staffs",
+      //   type: "sub-main",
+      //   href: "/people",
+      // },
+      // {
+      //   label: "Technical Staffs",
+      //   type: "sub-main",
+      //   href: "/people",
+      // },
       {
         label: "Association Members",
         type: "sub-main",
@@ -194,7 +194,7 @@ function Navbar() {
         className={twMerge(
           "w-full nav-lg:w-[90%] 2xl:w-[80%] max-w-[1400px]  nav-lg:mt-[1.875rem]  mx-auto flex justify-between items-center  relative px-4 py-2 nav-md:py-0 font-bebasneue",
           !open && "before:backdrop-hack",
-          open ? "bg-white" : bgBlur
+          open ? "bg-white" : bgBlur,
         )}
       >
         <div className="flex justify-center items-end h-full gap-4">
@@ -225,7 +225,7 @@ function Navbar() {
             className={twMerge(
               "p-2 font-montserrat outline-none",
               btnColor,
-              bgColor
+              bgColor,
             )}
             onClick={() => {
               setOpenedLabel("");
@@ -307,14 +307,14 @@ function DesktopNavbarItem({ link }) {
             <div
               className={twMerge(
                 "h-[6px] w-[6px] ml-2 shrink-0 -translate-y-[2px]",
-                bgColor
+                bgColor,
               )}
             ></div>
           ) : (
             <img
               className={twMerge(
                 "shrink-0 opacity-0 group-hover/main:opacity-100 transition-transform block w-[15px] -translate-y-[2px]",
-                link.href === pathname && "opacity-1"
+                link.href === pathname && "opacity-1",
               )}
               src={arrow}
               alt="expand-links"
@@ -325,7 +325,7 @@ function DesktopNavbarItem({ link }) {
             className={twMerge(
               "h-[6px] w-[6px] ml-2 shrink-0 opacity-0 -translate-y-[2px]  group-hover/main:opacity-100",
               bgColor,
-              link.href === pathname && "opacity-1"
+              link.href === pathname && "opacity-1",
             )}
           ></div>
         )}
@@ -335,7 +335,7 @@ function DesktopNavbarItem({ link }) {
       <ul
         className={twMerge(
           `absolute left-0 mt-2 ml-0   w-52 hidden top-[90%] group-hover/main:block backdrop-blur-[32px]`,
-          blurBg
+          blurBg,
         )}
       >
         {hasDropdown &&
@@ -344,13 +344,13 @@ function DesktopNavbarItem({ link }) {
               key={index}
               className={twMerge(
                 "flex gap-[6px] items-center py-3 px-2 transition-all group/sub",
-                color
+                color,
               )}
             >
               <div
                 className={twMerge(
                   "h-[6px] w-[6px] ml-2 shrink-0 opacity-0  group-hover/sub:opacity-100 -translate-y-[2px]",
-                  bgColor
+                  bgColor,
                 )}
               ></div>
               <Link className="tracking-link" href={item.href}>
@@ -377,7 +377,7 @@ function MobileNavbarItem({ link, openedLabel, setOpenedLabel, setClose }) {
           <FaArrowRightLong
             className={twMerge(
               "text-black transition-transform",
-              openedLabel === link.label && link.node && "rotate-45"
+              openedLabel === link.label && link.node && "rotate-45",
             )}
           />
         </button>

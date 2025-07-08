@@ -1,6 +1,6 @@
 // import CourseOfferedSection from "@/components/CourseOfferedSection";
 
-"use client"
+"use client";
 import { useState } from "react";
 import DeptInfo from "@/components/DeptInfo";
 import DeptLogo from "@/components/DeptLogo";
@@ -20,7 +20,7 @@ export default function Home() {
       <DeptInfo />
       <DeptLogo />
       <HorizontalScrollCarousel />
-      <HodMessage />
+      {/* <HodMessage /> */}
       {/* <Acheivers /> */}
       <References />
     </main>
