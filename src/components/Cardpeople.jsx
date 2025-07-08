@@ -40,7 +40,7 @@ const ExpandableCards = ({ title, item }) => {
     return startB - startA;
   });
   const year = sortedRanges.filter(
-    (item, index) => sortedRanges.indexOf(item) === index
+    (item, index) => sortedRanges.indexOf(item) === index,
   );
 
   const [selectedContent, setselectedContent] = useState(year[0]);
@@ -56,7 +56,7 @@ const ExpandableCards = ({ title, item }) => {
       <div
         className={cn(
           "group w-[90%] flex flex-col justify-center transition-all duration-[1s] ease-in-out bg-[#E9E9E8] p-3",
-          { "mb-5 mt-5": isExpanded }
+          { "mb-5 mt-5": isExpanded },
         )}
       >
         <div className="flex justify-between">
@@ -64,7 +64,7 @@ const ExpandableCards = ({ title, item }) => {
             onClick={toggleExpand}
             className={cn(
               "group font-bold transition-all duration-700 flex lg:text-2xl text-lg pl-5",
-              { "text-black": isExpanded, "text-[#696969]": !isExpanded }
+              { "text-black": isExpanded, "text-[#696969]": !isExpanded },
             )}
           >
             <FaSquareFull
@@ -73,7 +73,7 @@ const ExpandableCards = ({ title, item }) => {
                 {
                   "text-[5px] mr-2 text-black": isExpanded,
                   "text-[0px] text-[#696969] mr-0": !isExpanded,
-                }
+                },
               )}
             />
             {title}
@@ -82,7 +82,7 @@ const ExpandableCards = ({ title, item }) => {
             onClick={toggleExpand}
             className={cn(
               "transition-transform opacity-0 group-hover:opacity-100 cursor-pointer",
-              { "rotate-180 opacity-100": isExpanded }
+              { "rotate-180 opacity-100": isExpanded },
             )}
           >
             <MdKeyboardArrowDown className="w-10 h-8 text-[#9E9E9E]" />
@@ -106,7 +106,7 @@ const ExpandableCards = ({ title, item }) => {
                   onClick={toggleOpen}
                   className={cn(
                     "transition-transform opacity-0 group-hover/year:opacity-100 cursor-pointer",
-                    { "rotate-180 opacity-100": isOpen }
+                    { "rotate-180 opacity-100": isOpen },
                   )}
                 >
                   <MdKeyboardArrowDown className={`w-10 h-8 text-[#9E9E9E] `} />
@@ -119,7 +119,7 @@ const ExpandableCards = ({ title, item }) => {
                     {
                       "opacity-100": isOpen,
                       "opacity-0 max-h-0": !isOpen,
-                    }
+                    },
                   )}
                 >
                   {year.map((item, index) => (
@@ -138,7 +138,7 @@ const ExpandableCards = ({ title, item }) => {
           <div className="flex pb-3">
             <div
               className={cn(
-                "no-scrollbar flex flex-wrap flex-initial max-h-full  overflow-auto justify-items-start w-full transition-all duration-[1s] ease-in-out gap-3 mb-3 px-5"
+                "no-scrollbar flex flex-wrap flex-initial max-h-full  overflow-auto justify-items-start w-full transition-all duration-[1s] ease-in-out gap-3 mb-3 px-5",
               )}
             >
               {items.map((data, key) => (
@@ -146,7 +146,7 @@ const ExpandableCards = ({ title, item }) => {
                   <div
                     className={cn(
                       "bg-white group/items  hover:bg-[#DD846E] w-[240px] transition-all duration-800  cursor-pointer",
-                      { "bg-[#DD846E]": isDescVisible === key }
+                      { "bg-[#DD846E]": isDescVisible === key },
                     )}
                     onClick={() => toggleVisible(key)}
                     onMouseEnter={() => setIsHover(true)}
@@ -368,7 +368,7 @@ function Student({ title, item }) {
       const [startA] = a.split("-").map(Number);
       const [startB] = b.split("-").map(Number);
       return startB - startA;
-    }
+    },
   );
 
   const [selectedYear, setSelectedYear] = useState(years[0] || "");
@@ -383,7 +383,7 @@ function Student({ title, item }) {
 
   // Filter students based on selected department and year
   const filteredStudents = item.filter(
-    (student) => student.year === selectedYear && student.dept === dept
+    (student) => student.year === selectedYear && student.dept === dept,
   );
 
   return (
@@ -714,8 +714,8 @@ function cardpeople() {
   return (
     <div className="flex flex-col    overflow-hidden min-h-[400px]  mt-[15rem] ">
       <div className="w-min ">
-        <ExpandableCards title="TEACHING STAFFS" item={FACULTYDATA} />
-        <ExpandableCards title="TECHNICAL STAFFS" item={TECHSTAFF} />
+        {/* <ExpandableCards title="TEACHING STAFFS" item={FACULTYDATA} /> */}
+        {/* <ExpandableCards title="TECHNICAL STAFFS" item={TECHSTAFF} /> */}
         <ExpandableCards title="ASSOCIATION MEMBER" item={item1} />
         <Student title="STUDENTS" item={studitem} />
         <Student title="ALUMNI" item={studitem} />

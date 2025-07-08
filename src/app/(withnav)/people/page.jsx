@@ -6,7 +6,7 @@ function page() {
   return (
     <>
       <div className="h-20"></div>
-      <HodMessage />
+      {/* <HodMessage /> */}
       <Cardpeople />
     </>
   );
