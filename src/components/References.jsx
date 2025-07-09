@@ -79,7 +79,7 @@ export default function References() {
   return (
     <ColoredSection color="BLACK">
       <div
-        className="text-black lg:max-w-screen overflow-x-hidden"
+        className="text-black lg:max-w-screen overflow-x-hidden md:mt-40"
         ref={animatedRef}
       >
         <div className="lg:flex-row flex flex-col-reverse lg:10 xl:px-20 justify-between">
@@ -114,7 +114,7 @@ export default function References() {
               ))}
             </div>
           </div>
-          <div className="lg:w-[60%] px-5 lg:px-0">
+          <div className="lg:w-[60%] px-5 lg:px-0  min-[1023px]:ml-9">
             <div ref={text2} className="flex lg:justify-end">
               <p className="text-[56px] font-bebasneue mt-[1rem] mb-[1rem] font-bold">
                 .NEW POSTS
