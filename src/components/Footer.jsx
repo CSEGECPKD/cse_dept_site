@@ -210,14 +210,19 @@ const Footer = () => {
               © {currentYear} CSE ASSOCIATION
             </p>
             <div className="flex items-center justify-between mt-2.5 w-full sm:absolute bottom-0">
-              <p className="text-[#656565]">
-                DESIGN AND POWERED BY{" "}
-                <Link
-                  className="underline font-bold hover:text-blue-500"
-                  href="/developers"
-                >
-                  CSE STUDENTS
-                </Link>
+              <p className="text-[#656565] text-sm">
+                <p>
+                  DESIGN AND POWERED BY{" "}
+                  <Link
+                    className="underline font-bold hover:text-blue-500"
+                    href="/developers"
+                  >
+                    CSE STUDENTS
+                  </Link>{" "}
+                </p>
+                <p>
+                  NOT OFFICIALLY AFFILIATED TO CSE DEPARTMENT OF GEC PALAKKAD.
+                </p>
               </p>
               <div className="flex items-center">
                 <a href="https://www.instagram.com/cse_gecpkd/">
