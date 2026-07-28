@@ -15,6 +15,7 @@ const eventFormSchema = z.object({
   name: z.string().min(1, { message: "Name is required" }),
   date: z.date({ required_error: "Date is required" }),
   details: z.string().min(1, { message: "Details are required" }),
+  mode: z.string().min(1, { message: "Mode is required" }),
   posters: z.array(z.string()).min(1, { message: "At least one poster is required" }),
   regLinks: z.array(z.string()).min(1, { message: "At least one registration link is required" }),
 });
@@ -77,6 +78,19 @@ const EventForm = () => {
         {...register("date", { valueAsDate: true })}
         error={errors?.date}
       />
+      <div className="space-y-2">
+        <label className="font-medium capitalize text-2xl">Mode</label>
+        <select
+          {...register("mode")}
+          className="w-full border border-gray-300 rounded px-3 py-2"
+        >
+          <option value="">Select mode</option>
+          <option value="Offline">Offline</option>
+          <option value="Online">Online</option>
+          <option value="Hybrid">Hybrid</option>
+        </select>
+        {errors?.mode && <p className="text-red-500">{errors.mode.message}</p>}
+      </div>
       <Input
         label="Details"
         type="textarea"

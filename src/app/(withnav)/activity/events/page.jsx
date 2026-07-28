@@ -1,7 +1,7 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { upcomingEvents, pastEvents } from "./eventsData";
+import { getEvents } from "@/actions/event.action";
 import ColoredSection from "../../../../components/ColoredSection";
 
 const EventCard = ({ event }) => {
@@ -9,7 +9,7 @@ const EventCard = ({ event }) => {
   const router = useRouter();
 
   const handleCardClick = () => {
-    router.push(`/activity/events/${event.id}`);
+    router.push(`/activity/events/${event._id}`);
   };
 
   return (
@@ -72,7 +72,11 @@ const EventCard = ({ event }) => {
                 isHovered ? "text-red-500" : "text-gray-600"
               }`}
             >
-              {event.date}
+              {new Date(event.date).toLocaleDateString("en-US", {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+              })}
             </p>
           </div>
           <div>
@@ -101,19 +105,47 @@ const EventsSection = ({ title, events }) => {
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-10">
         {events.map((event) => (
-          <EventCard key={event.id} event={event} />
+          <EventCard key={event._id} event={event} />
         ))}
-      </div>
-      <div className="text-center mt-6">
-        <button className="bg-gray-500 text-white px-4 py-2 rounded">
-          Load More
-        </button>
       </div>
     </div>
   );
 };
 
 export default function Page() {
+  const [upcomingEvents, setUpcomingEvents] = useState([]);
+  const [pastEvents, setPastEvents] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchEvents() {
+      try {
+        const events = await getEvents();
+        const now = new Date();
+        const mapped = events.map((e) => ({
+          _id: e._id,
+          title: e.name,
+          description: e.details,
+          mode: e.mode,
+          date: e.date,
+          image: e.posters?.[0] || "/placeholder-image.jpg",
+          registrationLink: e.regLinks?.[0] || null,
+        }));
+        setUpcomingEvents(
+          mapped.filter((e) => new Date(e.date) >= now)
+        );
+        setPastEvents(
+          mapped.filter((e) => new Date(e.date) < now)
+        );
+      } catch (error) {
+        console.error("Error fetching events:", error);
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchEvents();
+  }, []);
+
   return (
     <ColoredSection color="BLACK">
       <div>
@@ -126,10 +158,16 @@ export default function Page() {
           </div>
         </div>
         <div className="bg-white container mx-auto">
-          <div>
-            <EventsSection title="Upcoming Events" events={upcomingEvents} />
-            <EventsSection title="Past Events" events={pastEvents} />
-          </div>
+          {loading ? (
+            <div className="container mx-auto py-20 text-center">
+              <p className="text-xl">Loading events...</p>
+            </div>
+          ) : (
+            <div>
+              <EventsSection title="Upcoming Events" events={upcomingEvents} />
+              <EventsSection title="Past Events" events={pastEvents} />
+            </div>
+          )}
         </div>
       </div>
     </ColoredSection>

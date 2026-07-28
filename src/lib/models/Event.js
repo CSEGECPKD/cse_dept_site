@@ -13,6 +13,11 @@ const eventSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    mode: {
+        type: String,
+        enum: ["Online", "Offline", "Hybrid"],
+        default: "Offline"
+    },
     posters: [{
         type: String,
         required: true
