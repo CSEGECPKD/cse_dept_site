@@ -13,7 +13,7 @@ import {
 import ColoredSection from "./ColoredSection";
 import { useEffect, useRef, useState } from "react";
 
-const DeptInfo = () => {
+const DeptInfo = ({ isAboutPage = false }) => {
   const containerRef = useRef(null);
   const [width, setWidth] = useState(1024);
   const { scrollYProgress } = useScroll({
@@ -54,56 +54,84 @@ const DeptInfo = () => {
   return (
     <ColoredSection color="BLACK">
       <div
-        className="bg-white w-full px-12 md:px-20 py-16 nav-md:py-8 nav-md:min-h-[200vh]"
+        className={
+          isAboutPage
+            ? "bg-white w-full px-12 md:px-20 pt-36 pb-16"
+            : "bg-white w-full px-12 md:px-20 py-16 nav-md:py-8 nav-md:min-h-[200vh]"
+        }
         id="dept"
       >
         <div
           ref={containerRef}
-          className="nav-md:min-h-screen nav-md:mt-[100vh]"
+          className={
+            isAboutPage ? "w-full" : "nav-md:min-h-screen nav-md:mt-[100vh]"
+          }
         >
-          <div className="w-full grid grid-cols-1 nav-md:grid-cols-[auto_40%] relative gap-12">
-            <div className="">
-              <motion.h1
-                style={{
-                  scale: scale,
-                  y: y,
-                }}
-                className={`font-medium text-4xl origin-left absolute leading-[1.1em] hidden nav-md:block`}
-              >
-                The Department of Computer <br /> Science and Engineering
-              </motion.h1>
-              <h1
-                className={`font-medium text-xl sm:text-2xl md:text-3xl leading-[1.1em] block nav-md:hidden`}
-              >
-                The Department of Computer <br /> Science and Engineering
-              </h1>
-              <p
-                className="text-gray-400  sm:text-2xl md:text-3xl nav-md:pt-28 pt-4 text-xl nav-md:text-3xl"
-                // style={{ paddingTop: showDivs ? "" : `${paddingVal * 2}px` }}
-              >
-                {DeptConstants.desc}
-              </p>
-              <a
-                href="/aboutus"
-                className="inline-flex items-center group bg-black hover:bg-white text-white hover:text-black border-2 border-black p-2 mt-4 transition-all duration-300 ease-in-out transform hover:pr-6"
-              >
-                Read More
-                <span className="inline-flex items-center justify-center ml-2 w-auto h-auto transform group-hover:translate-x-3 transition-all duration-300 ease-in-out">
-                  <FaAngleRight className="group-hover:hidden text-white transition-all duration-300 ease-in-out" />
-                  <FaArrowRightLong className="hidden group-hover:inline-flex text-black transition-all duration-300 ease-in-out" />
-                </span>
-              </a>
+          {isAboutPage ? (
+            <div className="w-full grid grid-cols-1 nav-md:grid-cols-[auto_40%] relative gap-12">
+              <div className="flex flex-col gap-6">
+                <h1 className="font-medium text-4xl sm:text-6xl md:text-7xl nav-md:text-8xl leading-[1.1em] text-black">
+                  The Department of Computer <br className="hidden sm:inline" /> Science and Engineering
+                </h1>
+                <p className="text-gray-600 sm:text-2xl md:text-3xl text-xl leading-relaxed pt-2 font-normal">
+                  {DeptConstants.desc}
+                </p>
+              </div>
+              <div className="hidden nav-md:flex justify-center items-center">
+                <Image
+                  className="w-full"
+                  src="/computer.png"
+                  width={480}
+                  height={280}
+                  alt="computer illustration"
+                />
+              </div>
             </div>
-            <div className="hidden nav-md:flex justify-center items-center">
-              <Image
-                className="w-full"
-                src="/computer.png"
-                width={480}
-                height={280}
-                alt="computer"
-              />
+          ) : (
+            <div className="w-full grid grid-cols-1 nav-md:grid-cols-[auto_40%] relative gap-12">
+              <div className="">
+                <motion.h1
+                  style={{
+                    scale: scale,
+                    y: y,
+                  }}
+                  className={`font-medium text-4xl origin-left absolute leading-[1.1em] hidden nav-md:block`}
+                >
+                  The Department of Computer <br /> Science and Engineering
+                </motion.h1>
+                <h1
+                  className={`font-medium text-xl sm:text-2xl md:text-3xl leading-[1.1em] block nav-md:hidden`}
+                >
+                  The Department of Computer <br /> Science and Engineering
+                </h1>
+                <p
+                  className="text-gray-400  sm:text-2xl md:text-3xl nav-md:pt-28 pt-4 text-xl nav-md:text-3xl"
+                  // style={{ paddingTop: showDivs ? "" : `${paddingVal * 2}px` }}
+                >
+                  {DeptConstants.desc}
+                </p>
+                <a
+                  href="/aboutus"
+                  className="inline-flex items-center group bg-black hover:bg-white text-white hover:text-black border-2 border-black p-2 mt-4 transition-all duration-300 ease-in-out transform hover:pr-6"
+                >
+                  Read More
+                  <span className="inline-flex items-center justify-center ml-2 w-auto h-auto transform group-hover:translate-x-3 transition-all duration-300 ease-in-out">
+                    <FaAngleRight className="group-hover:hidden text-white transition-all duration-300 ease-in-out" />
+                    <FaArrowRightLong className="hidden group-hover:inline-flex text-black transition-all duration-300 ease-in-out" />
+                  </span>
+                </a>
+              </div>
+              <div className="hidden nav-md:flex justify-center items-center">
+                <Image
+                  className="w-full"
+                  src="/computer.png"
+                  width={480}
+                  height={280}
+                  alt="computer"
+                />
+              </div>
             </div>
-          </div>
+          )}
         </div>
       </div>
     </ColoredSection>
