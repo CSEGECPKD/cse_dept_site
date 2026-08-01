@@ -191,23 +191,23 @@ export default studentsByCategory;
 
 export const AcadamicsDataForCard = [
   {
-    title: "BTech Computer Science And Engineering",
+    title: "B.Tech in Computer Science and Engineering",
     description:
-      "The program started in 1999 with an approved intake of 66, consisting of 6 Regulars and 6 LET officers. Affiliation Kerala Technological University [KTU]",
+      "The program started in 1999 with an approved intake of 66, including regular and Lateral Entry (LET) admissions. Affiliated with APJ Abdul Kalam Technological University (KTU).",
     image: "./acadamic-logo1.svg",
     color: "FEE2DF",
   },
   {
-    title: "M.Tech Computational Linguistics",
+    title: "M.Tech in Computational Linguistics",
     description:
-      "The program commenced in 2011 with an approved intake of 18 students. Affiliation Kerala Technological University [KTU]",
+      "The program commenced in 2011 with an approved intake of 18 students. Affiliated with APJ Abdul Kalam Technological University (KTU).",
     image: "./acadamic-logo2.svg",
     color: "E1E1FC",
   },
   {
-    title: "PhD Computer Science And Engineering",
+    title: "Ph.D. in Computer Science and Engineering",
     description:
-      "The program began in 2016. Information about the approved intake is currently unavailable. Affiliation Kerala Technological University [KTU]",
+      "The program began in 2016. Information about the approved intake is currently unavailable. Affiliated with APJ Abdul Kalam Technological University (KTU).",
     image: "./acadamic-logo3.svg",
     color: "E7EAF3",
   },

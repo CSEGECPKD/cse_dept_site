@@ -52,6 +52,11 @@ const links = [
         href: "/aboutus#history",
       },
       {
+        label: "Contact Us",
+        type: "sub-main",
+        href: "/aboutus#contact",
+      },
+      {
         label: "Advisory Board",
         type: "sub-main",
         href: "/aboutus",

@@ -5,7 +5,7 @@ import React from "react";
 
 export default function Contact() {
   return (
-    <div className="container mx-auto lg:mx-24 px-4 my-12">
+    <div className="container mx-auto lg:mx-24 px-4 my-12 scroll-mt-24" id="contact">
       <div className="flex flex-wrap space-y-6 md:space-y-0 md:space-x-3 lg:ml-10   ">
         <div className="w-full md:w-1/4 ">
           <h1 className="uppercase text-4xl font-bold">Contact Us</h1>
