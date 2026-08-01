@@ -6,10 +6,9 @@ export default function History() {
     <div className="mt-10 mb-20 md:space-y-24 px-4 md:px-28 mx-8 " id="history">
       <div className="flex flex-col md:flex-row space-y-10 md:space-y-0 md:space-x-10">
         <div className="w-full md:w-1/2 to">
-          <h1 className="font-bold text-3xl">History of the department</h1>
+          <h1 className="font-bold text-3xl">History of the Department</h1>
           <p className="mt-5 text-xl md:text-2xl text-gray-500 text-justify">
-            At the heart of the digital revolution lies the computer science
-            department. We are the architects of the future, unraveling the
+            At the heart of the digital revolution lies the Department of Computer Science and Engineering. We are the architects of the future, unraveling the
             mysteries of computation and transforming them into groundbreaking
             technologies. Our department offers a thrilling exploration into the
             world of computers and computational systems, encompassing
