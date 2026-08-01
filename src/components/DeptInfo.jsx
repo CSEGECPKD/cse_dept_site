@@ -55,7 +55,7 @@ const DeptInfo = ({ isAboutPage = false }) => {
       <div
         className={
           isAboutPage
-            ? "bg-white w-full px-12 md:px-20 pt-36 pb-16"
+            ? "bg-white w-full px-6 sm:px-12 md:px-16 lg:px-20 pt-32 lg:pt-40 pb-12 lg:pb-16 flex flex-col justify-center"
             : "bg-white w-full px-12 md:px-20 py-16 nav-md:py-8 nav-md:min-h-[200vh]"
         }
         id="dept"
@@ -68,13 +68,18 @@ const DeptInfo = ({ isAboutPage = false }) => {
         >
           {isAboutPage ? (
             <div className="w-full relative">
-              <div className="flex flex-col gap-6">
-                <h1 className="font-medium text-4xl sm:text-6xl md:text-7xl nav-md:text-8xl leading-[1.1em] text-black">
-                  The Department of Computer <br className="hidden sm:inline" /> Science and Engineering
-                </h1>
-                <p className="text-gray-600 sm:text-2xl md:text-3xl text-xl leading-relaxed pt-2 font-normal">
-                  {DeptConstants.desc}
-                </p>
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-10 xl:gap-14 items-center">
+                <div className="lg:col-span-5">
+                  <h1 className="font-bold text-4xl sm:text-5xl lg:text-5xl xl:text-6xl leading-[1.15em] text-gray-900 tracking-tight">
+                    The Department of <br className="hidden sm:inline" /> Computer Science <br className="hidden sm:inline" /> and Engineering
+                  </h1>
+                  <div className="w-16 h-[3px] bg-black mt-6 sm:mt-8 rounded-full"></div>
+                </div>
+                <div className="lg:col-span-7">
+                  <p className="text-gray-600 sm:text-xl md:text-2xl text-lg leading-relaxed font-normal max-w-[600px]">
+                    {DeptConstants.desc}
+                  </p>
+                </div>
               </div>
             </div>
           ) : (
