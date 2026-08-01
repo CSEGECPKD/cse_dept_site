@@ -1,6 +1,5 @@
 "use client";
 import { DeptConstants } from "@/constants/DeptConstants";
-import Image from "next/image";
 import { FaAngleRight, FaArrowRightLong } from "react-icons/fa6";
 import {
   motion,
@@ -68,7 +67,7 @@ const DeptInfo = ({ isAboutPage = false }) => {
           }
         >
           {isAboutPage ? (
-            <div className="w-full grid grid-cols-1 nav-md:grid-cols-[auto_40%] relative gap-12">
+            <div className="w-full relative">
               <div className="flex flex-col gap-6">
                 <h1 className="font-medium text-4xl sm:text-6xl md:text-7xl nav-md:text-8xl leading-[1.1em] text-black">
                   The Department of Computer <br className="hidden sm:inline" /> Science and Engineering
@@ -77,18 +76,9 @@ const DeptInfo = ({ isAboutPage = false }) => {
                   {DeptConstants.desc}
                 </p>
               </div>
-              <div className="hidden nav-md:flex justify-center items-center">
-                <Image
-                  className="w-full"
-                  src="/computer.png"
-                  width={480}
-                  height={280}
-                  alt="computer illustration"
-                />
-              </div>
             </div>
           ) : (
-            <div className="w-full grid grid-cols-1 nav-md:grid-cols-[auto_40%] relative gap-12">
+            <div className="w-full relative">
               <div className="">
                 <motion.h1
                   style={{
@@ -120,15 +110,6 @@ const DeptInfo = ({ isAboutPage = false }) => {
                     <FaArrowRightLong className="hidden group-hover:inline-flex text-black transition-all duration-300 ease-in-out" />
                   </span>
                 </a>
-              </div>
-              <div className="hidden nav-md:flex justify-center items-center">
-                <Image
-                  className="w-full"
-                  src="/computer.png"
-                  width={480}
-                  height={280}
-                  alt="computer"
-                />
               </div>
             </div>
           )}
