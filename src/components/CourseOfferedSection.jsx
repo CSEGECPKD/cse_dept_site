@@ -11,7 +11,7 @@ const CourseOfferedSection = () => {
   const boundingClientRect = useBoundingclientrect(ref);
 
   return (
-    <ColoredSection color="WHITE" className="bg-black w-full" id="course">
+    <ColoredSection color="WHITE" className="bg-black w-full">
       <div className="lg:sticky">
         <div className="brightness-50 hidden lg:sticky inset-0 lg:block">
           <Image
@@ -23,8 +23,8 @@ const CourseOfferedSection = () => {
           />
         </div>
 
-        <div className="px-10 py-32 text-white">
-          <div className="grid grid-cols-1 lg:grid-cols-[67%_33%] lg:gap-3 container mx-auto relative z-1">
+        <div className="px-6 sm:px-12 lg:px-20 py-16 md:py-24 text-white scroll-mt-24" id="course">
+          <div className="grid grid-cols-1 lg:grid-cols-[60%_40%] lg:gap-3 w-full max-w-[1400px] mx-auto relative z-1">
             <div
               className="space-y-4 lg:sticky lg:bottom-10 lg:top-40 z-1"
               style={{
@@ -36,10 +36,10 @@ const CourseOfferedSection = () => {
                 Course Offered
               </h2>
               <p className="font-montserrat text-[16px] sm:text-[22px] md:text-[24px]">
-                The Department of Computer Science & Engineering (CSE) offers a
-                comprehensive range of programs designed to equip students with
-                the knowledge and skills necessary to thrive in the
-                ever-evolving field of computer science.
+                The Department of Computer Science and Engineering offers rigorous
+                undergraduate, postgraduate, and doctoral programmes designed to foster
+                academic excellence, advance research, and develop future leaders in
+                computing.
               </p>
             </div>
             <div className="flex justify-center lg:justify-end z-10 mt-8 lg:mt-0">
@@ -50,19 +50,6 @@ const CourseOfferedSection = () => {
                     key={i}
                     className="max-w-[390px] w-full  lg:pl-16"
                   >
-                    <div className="z-1">
-                      <img
-                        className="w-full h-auto lg:h-[525.83px] object-cover"
-                        src={item.image}
-                        alt=""
-                      />
-                    </div>
-                    {/* <button className="font-normal font-montserrat text-[16px] lg:text-[20px] leading-[24.38px] bg-[#FFFFFF26] text-center p-[10px] mt-6">
-                      SYLLABUS (2015 SCHEME)
-                    </button>
-                    <button className=" font-normal font-montserrat text-[16px] lg:text-[20px] leading-[24.38px] bg-[#FFFFFF26] text-center p-[10px] mt-6">
-                      SYLLABUS (2019 SCHEME)
-                    </button> */}
                     <h2 className="font-medium font-montserrat text-[18px] lg:text-[20px] leading-[24.38px] mt-6">
                       {item.title}
                     </h2>
