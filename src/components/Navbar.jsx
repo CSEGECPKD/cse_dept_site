@@ -52,6 +52,11 @@ const links = [
         href: "/aboutus#history",
       },
       {
+        label: "Department Library",
+        type: "sub-main",
+        href: "/aboutus#library",
+      },
+      {
         label: "Contact Us",
         type: "sub-main",
         href: "/aboutus#contact",
