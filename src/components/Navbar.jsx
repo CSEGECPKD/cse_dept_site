@@ -191,7 +191,7 @@ function Navbar() {
   const btnColor = isWhite === "WHITE" && !open ? "text-black" : "text-white";
   const logo = isWhite === "WHITE" && !open ? "/logo.png" : "/logo(black).png";
   const bgColor = isWhite === "WHITE" && !open ? "bg-white" : "bg-black";
-  const bgBlur = isWhite === "WHITE" ? "bg-white/10" : "bg-black/10";
+  const bgBlur = isWhite === "WHITE" ? "bg-black/80" : "bg-white/80";
 
   return (
     <div className="z-10 fixed w-screen isolate">
@@ -295,7 +295,7 @@ function DesktopNavbarItem({ link }) {
   const [isWhite, setIsWhite] = useAtom(navbarAtom);
   const color = isWhite === "WHITE" ? "text-white" : "text-black";
   const bgColor = isWhite === "WHITE" ? "bg-white" : "bg-black";
-  const blurBg = isWhite === "WHITE" ? "bg-white/10" : "bg-black/10";
+  const blurBg = isWhite === "WHITE" ? "bg-black/80" : "bg-white/80";
   const hasDropdown = !!link.node;
   const arrow =
     isWhite === "WHITE" ? "/down-arrow-white.png" : "/down-arrow-black.png";
