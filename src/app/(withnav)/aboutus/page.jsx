@@ -2,6 +2,7 @@ import React from "react";
 import DeptInfo from "../../../components/DeptInfo";
 import DeptLogo from "../../../components/DeptLogo";
 import History from "../../../components/History";
+import Library from "../../../components/Library";
 import CourseOfferedSection from "@/components/CourseOfferedSection";
 import Contact from "@/components/Contact";
 
@@ -12,6 +13,7 @@ export default function About() {
       <DeptLogo />
       <CourseOfferedSection />
       <History />
+      <Library />
       <Contact />
     </main>
   );
