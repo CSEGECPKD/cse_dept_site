@@ -2,9 +2,11 @@ import { FaLocationDot } from "react-icons/fa6";
 import { MdOutlineEmail } from "react-icons/md";
 import { IoCallOutline } from "react-icons/io5";
 import React from "react";
+import ColoredSection from "./ColoredSection";
 
 export default function Contact() {
   return (
+    <ColoredSection color="BLACK">
     <div className="container mx-auto lg:mx-24 px-4 my-12 scroll-mt-24" id="contact">
       <div className="flex flex-wrap space-y-6 md:space-y-0 md:space-x-3 lg:ml-10   ">
         <div className="w-full md:w-1/4 ">
@@ -63,5 +65,6 @@ export default function Contact() {
         </div>
       </div>
     </div>
+    </ColoredSection>
   );
 }
