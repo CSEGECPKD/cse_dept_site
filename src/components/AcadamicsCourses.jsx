@@ -7,7 +7,6 @@ const Notifications = () => {
   return (
     <ColoredSection color="WHITE">
       <div className="grid grid-cols-1 md:grid-cols-2 min-h-full">
-
         {/* Btech Logo (Hidden on mobile, shown on larger screens) */}
         <div className="bg-[#FEE2DF] relative hidden md:block">
           <div className="sticky top-0 h-screen block">
@@ -57,7 +56,6 @@ const Notifications = () => {
             </ol>
           </div>
         </div>
-
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 min-h-full">

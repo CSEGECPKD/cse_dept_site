@@ -133,10 +133,10 @@ export default function Page() {
   const [showModal, setShowModal] = useState(false);
 
   const handleCardClick = (pdf) => {
-    if (pdf.endsWith('.pdf')) {
+    if (pdf.endsWith(".pdf")) {
       setSelectedPdf(pdf);
       setShowModal(true);
-    } else if (pdf.startsWith('http://') || pdf.startsWith('https://')) {
+    } else if (pdf.startsWith("http://") || pdf.startsWith("https://")) {
       window.open(pdf, "_blank");
     } else {
       setSelectedPdf(pdf);
@@ -194,7 +194,7 @@ export default function Page() {
       {/* Modal for FlipBook */}
       {showModal && (
         <Modal onClose={closeModal}>
-          {selectedPdf.endsWith('.pdf') ? (
+          {selectedPdf.endsWith(".pdf") ? (
             <FlipBook pdf={selectedPdf} />
           ) : (
             <iframe
@@ -202,7 +202,7 @@ export default function Page() {
               title="External Content"
               width="100%"
               height="600px"
-              style={{ border: 'none' }}
+              style={{ border: "none" }}
             />
           )}
         </Modal>

@@ -42,12 +42,12 @@ const DeptInfo = ({ isAboutPage = false }) => {
   const scale = useTransform(
     scrollYProgress,
     [ANIMATION_START, ANIMATION_END],
-    [Math.max(1, scaleBy), 1]
+    [Math.max(1, scaleBy), 1],
   );
   const y = useTransform(
     scrollYProgress,
     [ANIMATION_START, ANIMATION_END],
-    [-300, 0]
+    [-300, 0],
   );
 
   return (
@@ -71,7 +71,9 @@ const DeptInfo = ({ isAboutPage = false }) => {
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-10 xl:gap-14 items-center">
                 <div className="lg:col-span-5">
                   <h1 className="font-bold text-4xl sm:text-5xl lg:text-5xl xl:text-6xl leading-[1.15em] text-gray-900 tracking-tight">
-                    The Department of <br className="hidden sm:inline" /> Computer Science <br className="hidden sm:inline" /> and Engineering
+                    The Department of <br className="hidden sm:inline" />{" "}
+                    Computer Science <br className="hidden sm:inline" /> and
+                    Engineering
                   </h1>
                   <div className="w-16 h-[3px] bg-black mt-6 sm:mt-8 rounded-full"></div>
                 </div>

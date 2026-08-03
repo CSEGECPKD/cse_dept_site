@@ -10,7 +10,7 @@ const MoreAchievers = ({ studentsByCategory }) => {
   const handleLoadMore = () => {
     const totalCards = Object.keys(studentsByCategory).reduce(
       (sum, category) => sum + studentsByCategory[category].length,
-      0
+      0,
     );
     setVisibleCards(Math.min(visibleCards + 4, totalCards));
   };

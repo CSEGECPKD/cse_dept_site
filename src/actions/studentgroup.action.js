@@ -1,8 +1,8 @@
-'use server'
+"use server";
 
-import dbConnect from '@/lib/db';
-import StudentGroup from '@/lib/models/StudentGroup';
-import { isAuthenticated } from '@/lib/auth';
+import dbConnect from "@/lib/db";
+import StudentGroup from "@/lib/models/StudentGroup";
+import { isAuthenticated } from "@/lib/auth";
 
 export async function createStudentGroup({ name, description, logoUrl }) {
   try {
@@ -34,18 +34,19 @@ export async function getStudentGroups() {
 }
 
 export async function deleteStudentGroup(studentGroupId) {
-    try {
-        if (!(await isAuthenticated())) {
-            throw new Error('Unauthorized');
-        }
-        await dbConnect();
-        const deletedStudentGroup = await StudentGroup.findByIdAndDelete(studentGroupId);
-        if (!deletedStudentGroup) {
-            throw new Error('Student group not found');
-        }
-        return { message: 'Student group deleted successfully' };
-    } catch (error) {
-        console.error('Failed to delete student group:', error);
-        throw new Error('Failed to delete student group');
+  try {
+    if (!(await isAuthenticated())) {
+      throw new Error("Unauthorized");
     }
+    await dbConnect();
+    const deletedStudentGroup =
+      await StudentGroup.findByIdAndDelete(studentGroupId);
+    if (!deletedStudentGroup) {
+      throw new Error("Student group not found");
+    }
+    return { message: "Student group deleted successfully" };
+  } catch (error) {
+    console.error("Failed to delete student group:", error);
+    throw new Error("Failed to delete student group");
+  }
 }

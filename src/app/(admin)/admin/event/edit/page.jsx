@@ -11,7 +11,7 @@ const EditAccreditionPage = async () => {
         <EventForm />
       </div>
       <div className="py-20 px-10">
-        <EventList eventList={eventList}/>
+        <EventList eventList={eventList} />
       </div>
     </div>
   );

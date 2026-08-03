@@ -9,9 +9,9 @@ const calcDynamicHeight = (objectWidth) => {
 
 const handleDynamicHeight = (ref, setDynamicHeight) => {
   if (ref.current) {
-  const objectWidth = ref.current.scrollWidth;
-  const dynamicHeight = calcDynamicHeight(objectWidth);
-  setDynamicHeight(dynamicHeight);
+    const objectWidth = ref.current.scrollWidth;
+    const dynamicHeight = calcDynamicHeight(objectWidth);
+    setDynamicHeight(dynamicHeight);
   }
 };
 

@@ -7,15 +7,8 @@ const upcomingEvents = [
     date: "October 26, 2024",
     time: "11 AM IST",
     platform: " ",
-    topics: [
-      "UI/UX Designing",
-      "Ideas  for product",
-    
-    ],
-    speakers: [
-      { name: "Rajesh E M", title: "LEAD UI/UX Designer" },
-     
-    ],
+    topics: ["UI/UX Designing", "Ideas  for product"],
+    speakers: [{ name: "Rajesh E M", title: "LEAD UI/UX Designer" }],
     location: "Offline  - PG Seminar Hall",
     image: "/ideaintoproduct.jpeg",
     registrationLink: "https://example.com/register",
@@ -29,20 +22,13 @@ const upcomingEvents = [
     date: "October 26, 2024",
     time: "11:30 AM IST",
     platform: " ",
-    topics: [
-      "Hardware Expo",
-      "ML Project Expo",
-    
-    ],
-    speakers: [
-    
-     
-    ],
+    topics: ["Hardware Expo", "ML Project Expo"],
+    speakers: [],
     location: "Offline  - Room No : 108",
     image: "/expo.jpeg",
     registrationLink: "https://example.com/register",
     description:
-      "Catch the buzz at our Project Expo by ALGORHYTHM'24 featuring the ML Learning Group and Void Minds ! Check out the projects that are set to shake things up. "
+      "Catch the buzz at our Project Expo by ALGORHYTHM'24 featuring the ML Learning Group and Void Minds ! Check out the projects that are set to shake things up. ",
   },
   {
     id: 3,
@@ -51,21 +37,13 @@ const upcomingEvents = [
     date: "October 26, 2024",
     time: "10:00 AM IST",
     platform: " ",
-    topics: [
-      "Competition",
-      "Network",
-      "Coding"
-    
-    ],
-    speakers: [
-    
-     
-    ],
+    topics: ["Competition", "Network", "Coding"],
+    speakers: [],
     location: "Offline  - Network Lab",
     image: "/coderelay.jpeg",
     registrationLink: "https://example.com/register",
     description:
-      "ALGORHYTHM'24 is set to ignite your coding skills with an epic Code Relay on 26th October  "
+      "ALGORHYTHM'24 is set to ignite your coding skills with an epic Code Relay on 26th October  ",
   },
   {
     id: 4,

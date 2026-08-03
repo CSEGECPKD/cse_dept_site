@@ -12,7 +12,7 @@ const EditAccreditionPage = async () => {
         <CertificateForm />
       </div>
       <div className="py-20 px-10">
-        <CertificateList certificateList={certificateList}/>
+        <CertificateList certificateList={certificateList} />
       </div>
     </div>
   );

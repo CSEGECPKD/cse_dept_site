@@ -39,7 +39,7 @@ const topperSchema = mongoose.model(
       type: String,
       required: true,
     },
-  })
+  }),
 );
 
 const Topper = mongoose.models.Topper || topperSchema;

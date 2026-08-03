@@ -9,7 +9,7 @@ import ColoredSection from "../../../components/ColoredSection";
 const AcadamicsPrograms = () => {
   const ref = useRef(null);
   const boundingClientRect = useBoundingclientrect(ref);
-  
+
   return (
     <ColoredSection color="WHITE" className="bg-black w-full">
       <div className="lg:sticky">
@@ -28,7 +28,7 @@ const AcadamicsPrograms = () => {
             <div
               className="space-y-4 lg:sticky lg:bottom-10 lg:top-40 z-1"
               style={{
-                minHeight: 'auto',
+                minHeight: "auto",
                 height: "fit-content",
               }}
             >

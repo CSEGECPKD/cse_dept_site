@@ -28,9 +28,9 @@ export default function RootLayout({ children }) {
         className={`${inter.className} ${montserrat.variable} ${bebasNeue.variable}`}
       >
         <LenisScroll>
-        <Navbar/>
-        {children}
-        <Footer/>
+          <Navbar />
+          {children}
+          <Footer />
         </LenisScroll>
       </body>
     </html>

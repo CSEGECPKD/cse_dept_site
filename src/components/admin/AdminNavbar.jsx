@@ -130,7 +130,7 @@ function NavLink({ link, active, label }) {
     <Link
       className={twMerge(
         "text-white p-6 border-r border-b border-t border-white first-of-type:border-l h-fit",
-        active && "text-black bg-white border-black border-b-1"
+        active && "text-black bg-white border-black border-b-1",
       )}
       href={link}
     >

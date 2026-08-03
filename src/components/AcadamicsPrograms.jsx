@@ -10,7 +10,7 @@ import Link from "next/link";
 const AcadamicsPrograms = () => {
   const ref = useRef(null);
   const boundingClientRect = useBoundingclientrect(ref);
-  
+
   return (
     <ColoredSection color="WHITE" className="bg-black w-full">
       <div className="lg:sticky">
@@ -29,7 +29,7 @@ const AcadamicsPrograms = () => {
             <div
               className="space-y-4 lg:sticky lg:bottom-10 lg:top-40 z-1"
               style={{
-                minHeight: 'auto',
+                minHeight: "auto",
                 height: "fit-content",
               }}
             >
@@ -37,7 +37,10 @@ const AcadamicsPrograms = () => {
                 PROGRAMMES AND SYLLABI
               </h2>
               <p className="font-montserrat text-[16px] sm:text-[22px] md:text-[24px]">
-                The Department of Computer Science & Engineering (CSE) offers a comprehensive range of programs designed to equip students with the knowledge and skills necessary to thrive in the ever-evolving field of computer science.
+                The Department of Computer Science & Engineering (CSE) offers a
+                comprehensive range of programs designed to equip students with
+                the knowledge and skills necessary to thrive in the
+                ever-evolving field of computer science.
               </p>
             </div>
             <div className="flex justify-center lg:justify-end z-1 mt-8 lg:mt-0">
@@ -57,12 +60,12 @@ const AcadamicsPrograms = () => {
                     </div>
                     <button className="font-normal font-montserrat text-[16px] lg:text-[20px] leading-[24.38px] bg-[#FFFFFF26] text-center p-[10px] mt-6">
                       <Link href="https://ktu.edu.in/academics/scheme">
-                      SYLLABUS (2015 SCHEME)
+                        SYLLABUS (2015 SCHEME)
                       </Link>
                     </button>
                     <button className=" font-normal font-montserrat text-[16px] lg:text-[20px] leading-[24.38px] bg-[#FFFFFF26] text-center p-[10px] mt-6">
                       <Link href="https://ktu.edu.in/academics/scheme">
-                      SYLLABUS (2019 SCHEME)
+                        SYLLABUS (2019 SCHEME)
                       </Link>
                     </button>
                     <h2 className="font-medium font-montserrat text-[18px] lg:text-[20px] leading-[24.38px] mt-6">

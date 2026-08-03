@@ -7,7 +7,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { UploadButton } from "@/components/uploadthing";
-import { useMutation } from '@tanstack/react-query';
+import { useMutation } from "@tanstack/react-query";
 import { createEvent } from "@/actions/event.action";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/hooks/use-toast";
@@ -16,8 +16,12 @@ const eventFormSchema = z.object({
   date: z.date({ required_error: "Date is required" }),
   details: z.string().min(1, { message: "Details are required" }),
   mode: z.string().min(1, { message: "Mode is required" }),
-  posters: z.array(z.string()).min(1, { message: "At least one poster is required" }),
-  regLinks: z.array(z.string()).min(1, { message: "At least one registration link is required" }),
+  posters: z
+    .array(z.string())
+    .min(1, { message: "At least one poster is required" }),
+  regLinks: z
+    .array(z.string())
+    .min(1, { message: "At least one registration link is required" }),
 });
 
 const EventForm = () => {
@@ -40,20 +44,21 @@ const EventForm = () => {
 
   const mutation = useMutation({
     mutationFn: async (data) => {
-      await createEvent(data)
-    },onSuccess: () => {
-        router.refresh();
-        reset();
-      },
-      onError: (error) => {
-        toast({
-          description: `Cannot create ${error.message}`
-        })
-      }
+      await createEvent(data);
+    },
+    onSuccess: () => {
+      router.refresh();
+      reset();
+    },
+    onError: (error) => {
+      toast({
+        description: `Cannot create ${error.message}`,
+      });
+    },
   });
 
   const onSubmit = (data) => {
-    mutation.mutate(data)
+    mutation.mutate(data);
   };
 
   console.log(errors);
@@ -148,7 +153,11 @@ const EventForm = () => {
           <p className="text-red-500">{errors.regLinks.message}</p>
         )}
       </div>
-      <SubmitButton disabled={mutation.isPending} label="Save Event" type="submit" />
+      <SubmitButton
+        disabled={mutation.isPending}
+        label="Save Event"
+        type="submit"
+      />
     </form>
   );
 };

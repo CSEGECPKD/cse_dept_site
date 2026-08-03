@@ -7,7 +7,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { UploadButton } from "@/components/uploadthing";
-import { useMutation } from '@tanstack/react-query';
+import { useMutation } from "@tanstack/react-query";
 import { createFaculty } from "@/actions/faculty.action";
 import { createAdvisoryBoardMember } from "@/actions/advisoryboard.action";
 import { useRouter } from "next/navigation";
@@ -38,7 +38,7 @@ const AdvisorBoundForm = () => {
 
   const mutation = useMutation({
     mutationFn: async (data) => {
-      await createAdvisoryBoardMember(data)
+      await createAdvisoryBoardMember(data);
     },
     onSuccess: () => {
       router.refresh();
@@ -46,9 +46,9 @@ const AdvisorBoundForm = () => {
     },
     onError: (error) => {
       toast({
-        description: `Cannot create ${error.message}`
-      })
-    }
+        description: `Cannot create ${error.message}`,
+      });
+    },
   });
 
   const onSubmit = (data) => {

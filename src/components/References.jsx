@@ -140,7 +140,6 @@ export default function References() {
                       </p>
                       <div className="absolute inset-x-5 bottom-6">
                         <div className="text-white">
-                          
                           <style>
                             {`.parent:hover svg {
                         fill: black;

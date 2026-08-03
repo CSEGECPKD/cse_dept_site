@@ -1,6 +1,5 @@
 import mongoose from "mongoose";
 
-
 const userSchema = new mongoose.Schema(
   {
     _id: {
@@ -13,13 +12,9 @@ const userSchema = new mongoose.Schema(
       unique: true,
     },
   },
-  { _id: false }
+  { _id: false },
 );
 
 const User = mongoose.models.User || mongoose.model("User", userSchema);
 
 export default User;
-
-
-
-

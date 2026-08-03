@@ -4,7 +4,7 @@ import Gallery from "@/components/Gallery";
 const Acadamics = () => {
   return (
     <div className="">
-      <Gallery/>
+      <Gallery />
     </div>
   );
 };

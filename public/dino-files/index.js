@@ -54,7 +54,7 @@ function createSprites() {
     playerHeightInGame,
     minJumpHeightInGame,
     maxJumpHeightInGame,
-    scaleRatio
+    scaleRatio,
   );
 
   ground = new Ground(
@@ -62,7 +62,7 @@ function createSprites() {
     groundWidthInGame,
     groundHeightInGame,
     GROUND_AND_CACTUS_SPEED,
-    scaleRatio
+    scaleRatio,
   );
 
   const cactiImages = CACTI_CONFIG.map((cactus) => {
@@ -79,7 +79,7 @@ function createSprites() {
     ctx,
     cactiImages,
     scaleRatio,
-    GROUND_AND_CACTUS_SPEED
+    GROUND_AND_CACTUS_SPEED,
   );
 
   score = new Score(ctx, scaleRatio);
@@ -106,12 +106,12 @@ function getScaleRatio() {
 
   const screenHeight = Math.min(
     containerHeight,
-    document.documentElement.clientHeight
+    document.documentElement.clientHeight,
   );
 
   const screenWidth = Math.min(
     containerWidth,
-    document.documentElement.clientWidth
+    document.documentElement.clientWidth,
   );
 
   //window is wider than the game width

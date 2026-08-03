@@ -9,7 +9,7 @@ const Input = forwardRef(({ label, className, error, ...props }, ref) => {
         ref={ref}
         className={twMerge(
           "w-full py-6 px-5 bg-[#E9E9E8] placeholder:[#696969] placeholder:uppercase",
-          className
+          className,
         )}
         {...props}
       />

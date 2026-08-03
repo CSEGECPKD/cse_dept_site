@@ -24,8 +24,17 @@ const HodMessage = () => {
           </div>
           {/* message of hod */}
           <div className="flex-auto w-full">
-          <p className="text-gray-500 text-[16px] sm:text-[17px] lg:text-[20px] xl:text-[24px] leading-[28px] md:leading-[30px] lg:leading-[185%] transition duration-300 ease-in-out">
-          Lorem ipsum dolor sit amet consectetur. Turpis consequat nec et suscipit in urna rhoncus. Ut amet ut arcu in ornare urna blandit. Sollicitudin sit est a odio. Eros vulputate etiam euismod risus augue feugiat in quis. Est molestie tristique feugiat faucibus tortor.Tortor nibh nunc congue consequat. Eleifend mauris magna egestas ultrices porta adipiscing turpis nunc praesent. Tortor phasellus diam arcu a massa. Cras lacus nec tellus nulla consectetur rhoncus tristique pellentesque montes. Dictumst sit vel faucibus egestas. Vehicula consectetur nisl in nulla venenatis.
+            <p className="text-gray-500 text-[16px] sm:text-[17px] lg:text-[20px] xl:text-[24px] leading-[28px] md:leading-[30px] lg:leading-[185%] transition duration-300 ease-in-out">
+              Lorem ipsum dolor sit amet consectetur. Turpis consequat nec et
+              suscipit in urna rhoncus. Ut amet ut arcu in ornare urna blandit.
+              Sollicitudin sit est a odio. Eros vulputate etiam euismod risus
+              augue feugiat in quis. Est molestie tristique feugiat faucibus
+              tortor.Tortor nibh nunc congue consequat. Eleifend mauris magna
+              egestas ultrices porta adipiscing turpis nunc praesent. Tortor
+              phasellus diam arcu a massa. Cras lacus nec tellus nulla
+              consectetur rhoncus tristique pellentesque montes. Dictumst sit
+              vel faucibus egestas. Vehicula consectetur nisl in nulla
+              venenatis.
             </p>
           </div>
         </div>

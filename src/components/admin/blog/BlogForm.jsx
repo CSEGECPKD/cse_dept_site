@@ -7,7 +7,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { UploadButton } from "@/components/uploadthing";
-import { useMutation } from '@tanstack/react-query';
+import { useMutation } from "@tanstack/react-query";
 import { createBlog } from "@/actions/blog.action";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/hooks/use-toast";
@@ -40,7 +40,7 @@ const BlogForm = () => {
 
   const mutation = useMutation({
     mutationFn: async (data) => {
-      await createBlog(data)
+      await createBlog(data);
     },
     onSuccess: () => {
       router.refresh();
@@ -48,9 +48,9 @@ const BlogForm = () => {
     },
     onError: (error) => {
       toast({
-        description: `Cannot create ${error.message}`
-      })
-    }
+        description: `Cannot create ${error.message}`,
+      });
+    },
   });
 
   const onSubmit = (data) => {
@@ -104,7 +104,9 @@ const BlogForm = () => {
         error={errors?.authorLinkedin}
       />
       <div className="space-y-2">
-        <h3 className="font-medium capitalize text-2xl">Author Image(JPEG/JPG)</h3>
+        <h3 className="font-medium capitalize text-2xl">
+          Author Image(JPEG/JPG)
+        </h3>
         {authorImage === "" ? (
           <>
             <UploadButton

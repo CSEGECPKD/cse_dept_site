@@ -18,7 +18,7 @@ ChartJS.register(
   BarElement,
   Title,
   Tooltip,
-  Legend
+  Legend,
 );
 
 const PlacementGraph = () => {
@@ -48,8 +48,8 @@ const PlacementGraph = () => {
     };
 
     handleResize();
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   return (
@@ -60,12 +60,14 @@ const PlacementGraph = () => {
       >
         <div className="flex items-center mb-5">
           <FaSquareFull className="text-[3px] md:text-[4px] lg:text-[5px] mr-1 md:mr-2 text-[#696969]" />
-          <h1 className="text-black py-3 sm:py-5 font-bebas-neue font-normal leading-tight text-[1.5rem]"
-              style={{
-                fontFamily: "Bebas Neue",
-                fontWeight: 400,
-                lineHeight: "1.2",
-              }}>
+          <h1
+            className="text-black py-3 sm:py-5 font-bebas-neue font-normal leading-tight text-[1.5rem]"
+            style={{
+              fontFamily: "Bebas Neue",
+              fontWeight: 400,
+              lineHeight: "1.2",
+            }}
+          >
             YEAR WISE PLACEMENT OFFERS
           </h1>
         </div>
@@ -77,7 +79,7 @@ const PlacementGraph = () => {
                 labels: ["2007", "2008", "2009", "2010", "2011"],
                 datasets: [
                   {
-                    label: 'Placement Offers',
+                    label: "Placement Offers",
                     data: [140, 120, 105, 90, 130],
                     backgroundColor: "#9E9E9E",
                   },

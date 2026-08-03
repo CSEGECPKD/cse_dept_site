@@ -23,7 +23,10 @@ const CourseOfferedSection = () => {
           />
         </div>
 
-        <div className="px-6 sm:px-12 lg:px-20 py-16 md:py-24 text-white scroll-mt-24" id="course">
+        <div
+          className="px-6 sm:px-12 lg:px-20 py-16 md:py-24 text-white scroll-mt-24"
+          id="course"
+        >
           <div className="grid grid-cols-1 lg:grid-cols-[60%_40%] lg:gap-3 w-full max-w-[1400px] mx-auto relative z-1">
             <div
               className="space-y-4 lg:sticky lg:bottom-10 lg:top-40 z-1"
@@ -36,10 +39,10 @@ const CourseOfferedSection = () => {
                 Course Offered
               </h2>
               <p className="font-montserrat text-[16px] sm:text-[22px] md:text-[24px]">
-                The Department of Computer Science and Engineering offers rigorous
-                undergraduate, postgraduate, and doctoral programmes designed to foster
-                academic excellence, advance research, and develop future leaders in
-                computing.
+                The Department of Computer Science and Engineering offers
+                rigorous undergraduate, postgraduate, and doctoral programmes
+                designed to foster academic excellence, advance research, and
+                develop future leaders in computing.
               </p>
             </div>
             <div className="flex justify-center lg:justify-end z-10 mt-8 lg:mt-0">

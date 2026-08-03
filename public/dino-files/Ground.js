@@ -24,7 +24,7 @@ export default class Ground {
       this.x,
       this.y,
       this.width,
-      this.height
+      this.height,
     );
 
     this.ctx.drawImage(
@@ -32,7 +32,7 @@ export default class Ground {
       this.x + this.width,
       this.y,
       this.width,
-      this.height
+      this.height,
     );
 
     if (this.x < -this.width) {

@@ -19,15 +19,13 @@ const EventCard = ({ event }) => {
       onMouseLeave={() => setIsHovered(false)}
       onClick={handleCardClick}
     >
-      <div className="h-auto w-full md:w-auto overflow-hidden bg-no-repeat bg-cover " >
+      <div className="h-auto w-full md:w-auto overflow-hidden bg-no-repeat bg-cover ">
         <img
           src={event.image}
           alt={event.title}
-        
+
           className={`object-cover transition duration-300 w-full md:w-[500px] bg-no-repeat  '
-             ${
-            isHovered ? "" : "grayscale"
-          }`}
+             ${isHovered ? "" : "grayscale"}`}
         />
       </div>
 
@@ -131,12 +129,8 @@ export default function Page() {
           image: e.posters?.[0] || "/placeholder-image.jpg",
           registrationLink: e.regLinks?.[0] || null,
         }));
-        setUpcomingEvents(
-          mapped.filter((e) => new Date(e.date) >= now)
-        );
-        setPastEvents(
-          mapped.filter((e) => new Date(e.date) < now)
-        );
+        setUpcomingEvents(mapped.filter((e) => new Date(e.date) >= now));
+        setPastEvents(mapped.filter((e) => new Date(e.date) < now));
       } catch (error) {
         console.error("Error fetching events:", error);
       } finally {

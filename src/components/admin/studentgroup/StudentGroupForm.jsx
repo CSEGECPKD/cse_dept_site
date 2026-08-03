@@ -45,9 +45,9 @@ const StudentGroupForm = () => {
     },
     onError: (error) => {
       toast({
-        description: `Cannot create ${error.message}`
-      })
-    }
+        description: `Cannot create ${error.message}`,
+      });
+    },
   });
   const onSubmit = (data) => {
     mutate(data);

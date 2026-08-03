@@ -58,7 +58,9 @@
   .student-card:hover .stud-image {
     width: 220px;
     height: 190px;
-    transition: width 0.3s, height 0.3s;
+    transition:
+      width 0.3s,
+      height 0.3s;
   }
   .student-card:hover .slick-arrow.slick-next,
   .student-card:hover .slick-arrow.slick-prev {

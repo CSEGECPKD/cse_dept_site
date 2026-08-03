@@ -21,7 +21,6 @@ const AcadamicsPrograms = () => {
             className="object-fill"
             width={1920}
             height={1920}
-
           />
         </div>
 
@@ -52,7 +51,7 @@ const AcadamicsPrograms = () => {
                     key={i}
                     className="min-h-[813.83px] w-[390px] pl-16"
                   >
-                    <div >
+                    <div>
                       <img
                         className="w-[390px] h-[525.83px] flex justify-center items-center "
                         src={item.image}

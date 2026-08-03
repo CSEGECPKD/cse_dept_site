@@ -7,7 +7,7 @@ export const GET = async () => {
   const token = getSessionToken();
   if (token && token.length > 0) {
     const sessionId = encodeHexLowerCase(
-      sha256(new TextEncoder().encode(token))
+      sha256(new TextEncoder().encode(token)),
     );
     await dbConnect();
     await Session.deleteMany({

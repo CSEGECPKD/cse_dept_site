@@ -7,7 +7,7 @@ const ExpandableCards = ({ title }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [cardWidth, setCardWidth] = useState("100%");
 
-  useEffect(() => { 
+  useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth < 620) {
         setCardWidth("90%");
@@ -21,8 +21,8 @@ const ExpandableCards = ({ title }) => {
     };
 
     handleResize();
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   const toggleExpand = () => {
@@ -41,7 +41,9 @@ const ExpandableCards = ({ title }) => {
         <div className="flex justify-between items-center">
           <div
             className={`font-bold transition-all duration-700 flex items-center group-hover:text-black group-hover:text-lg md:group-hover:text-xl lg:group-hover:text-2xl pl-2 md:pl-5 ${
-              isExpanded ? "text-black text-lg md:text-xl lg:text-2xl lg:pb-8" : "text-black"
+              isExpanded
+                ? "text-black text-lg md:text-xl lg:text-2xl lg:pb-8"
+                : "text-black"
             } cursor-pointer`}
             style={{
               fontFamily: "Bebas Neue",

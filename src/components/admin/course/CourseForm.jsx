@@ -7,7 +7,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { UploadButton } from "@/components/uploadthing";
-import { useMutation } from '@tanstack/react-query';
+import { useMutation } from "@tanstack/react-query";
 import { createFaculty } from "@/actions/faculty.action";
 import { createCourse } from "@/actions/course.action";
 import { useRouter } from "next/navigation";
@@ -21,8 +21,8 @@ const courseFormSchema = z.object({
 });
 
 const CourseForm = () => {
-    const router = useRouter();
-    const toast = useToast();
+  const router = useRouter();
+  const toast = useToast();
   const {
     register,
     handleSubmit,
@@ -40,21 +40,21 @@ const CourseForm = () => {
 
   const mutation = useMutation({
     mutationFn: async (data) => {
-      await createCourse(data)
+      await createCourse(data);
     },
     onSuccess: () => {
-        router.refresh();
-        reset();
+      router.refresh();
+      reset();
     },
     onError: (error) => {
       toast({
-        description: `Cannot create ${error.message}`
-      })
-    }
+        description: `Cannot create ${error.message}`,
+      });
+    },
   });
 
   const onSubmit = (data) => {
-    mutation.mutate(data)
+    mutation.mutate(data);
   };
 
   console.log(errors);

@@ -2,32 +2,37 @@ import React from "react";
 import ColoredSection from "../../../components/ColoredSection";
 
 const SectionTitle = ({ children, align = "left" }) => (
-  <h1 className={`
+  <h1
+    className={`
     font-bebasneue
     text-[26px]/[31.2px] sm:text-[28px] md:text-[40px] lg:text-[56px]
     font-normal
     leading-[31.2px] sm:leading-[32px] md:leading-[48px] lg:leading-[64px]
-    text-left ${align === 'right' ? 'md:text-right' : ''}
-  `}>
+    text-left ${align === "right" ? "md:text-right" : ""}
+  `}
+  >
     . {children}
   </h1>
 );
 
 const SectionSubtitle = ({ children }) => (
-  <h2 className="
+  <h2
+    className="
     py-2 sm:py-3 md:py-4
     font-montserrat
     text-[16px]/[24.32px] sm:text-[20px] md:text-[26px] lg:text-[32px]
     leading-[24.32px] sm:leading-[30px] md:leading-[39px] lg:leading-[48px]
     font-medium
     text-left
-  ">
+  "
+  >
     {children}
   </h2>
 );
 
 const List = ({ items }) => (
-  <ul className="
+  <ul
+    className="
     px-1 sm:px-2 md:px-2
     list-disc
     font-montserrat
@@ -36,9 +41,12 @@ const List = ({ items }) => (
     pt-5
     text-[16px] sm:text-[22px] md:text-[24px]
     text-left
-  ">
+  "
+  >
     {items.map((item, index) => (
-      <li key={index} className="mb-3 sm:mb-4">{item}</li>
+      <li key={index} className="mb-3 sm:mb-4">
+        {item}
+      </li>
     ))}
   </ul>
 );
@@ -57,21 +65,22 @@ const AcademicsIntro = () => {
   const sections = [
     {
       title: "Program education objectives - peos",
-      subtitle: "Within a short span of time after graduation, the graduates shall:",
+      subtitle:
+        "Within a short span of time after graduation, the graduates shall:",
       items: [
         "PEO1. Apply good analytic, design, and implementation skills required to formulate and solve computer science problems.",
         "PEO2. Be employed as computer science professionals beyond entry-level positions.",
         "PEO3. Be able to route their talents in to post graduate and research programs, promoting remarkable advancements in emerging areas.",
-        "PEO4. Demonstrate that they can function, communicate, collaborate and continue to learn effectively as ethically and socially responsible computer science professionals."
-      ]
+        "PEO4. Demonstrate that they can function, communicate, collaborate and continue to learn effectively as ethically and socially responsible computer science professionals.",
+      ],
     },
     {
       title: "Program specific outcomes - pSos",
       titleAlign: "right",
       items: [
         "PSO1: Problem Solving Skills: Ability to design and develop computer programs and computer based systems of moderate complexity in the areas pertaining to system software, multimedia, database, networking, artificial intelligence, web- design and information security.",
-        "PSO2: Professional Skills: Ability to apply standard practices and methods in software project management and software development using suitable programming environments to deliver quality product for the industry.."
-      ]
+        "PSO2: Professional Skills: Ability to apply standard practices and methods in software project management and software development using suitable programming environments to deliver quality product for the industry..",
+      ],
     },
     {
       title: "Program outcomes - pos",
@@ -89,9 +98,9 @@ const AcademicsIntro = () => {
         "PO 9. Individual and team work: Function effectively as an individual, and as a member or leader in diverse teams, and in multidisciplinary settings.",
         "PO 10. Communication: Communicate effectively on complex engineering activities with the engineering community and with society at large, such as, being able to comprehend and write effective reports and design documentation, make effective presentations, and give and receive clear instructions.",
         "PO 11. Project management and finance: Demonstrate knowledge and understanding of the engineering and management principles and apply these to one’s own work, as a member and leader in a team, to manage projects and in multidisciplinary environments.",
-        "PO 12. Life-long learning: Recognize the need for, and have the preparation and ability to engage in independent and life-long learning in the broadest context of technological change."
-      ]
-    }
+        "PO 12. Life-long learning: Recognize the need for, and have the preparation and ability to engage in independent and life-long learning in the broadest context of technological change.",
+      ],
+    },
   ];
 
   return (

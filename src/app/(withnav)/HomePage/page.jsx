@@ -44,13 +44,13 @@ function Home() {
     }
   }, [hasAutoOpened]);
   useEffect(() => {
-    const video = document.getElementById('backgroundVideo');
-    video.addEventListener('loadeddata', () => {
+    const video = document.getElementById("backgroundVideo");
+    video.addEventListener("loadeddata", () => {
       setIsVideoLoaded(true);
     });
 
     return () => {
-      video.removeEventListener('loadeddata', () => {
+      video.removeEventListener("loadeddata", () => {
         setIsVideoLoaded(true);
       });
     };
@@ -80,22 +80,22 @@ function Home() {
 
         <div className="overflow-hidden relative w-full h-screen">
           <img
-            src="/placeholder-image.jpeg"  // Replace with your placeholder image path
+            src="/placeholder-image.jpeg" // Replace with your placeholder image path
             alt="Background"
             className={`w-full h-full object-cover absolute top-0 z-[-2] transition-opacity duration-500 ${
-              isVideoLoaded ? 'opacity-0' : 'opacity-100'
+              isVideoLoaded ? "opacity-0" : "opacity-100"
             }`}
           />
           <video
             id="backgroundVideo"
-            src="frontVid.mp4"  // Replace with your video path
+            src="frontVid.mp4" // Replace with your video path
             autoPlay
             muted
             loop
             playsInline
             preload="auto"
             className={`w-full h-full object-cover absolute top-0 z-[-1] transition-opacity duration-500 ${
-              isVideoLoaded ? 'opacity-100' : 'opacity-0'
+              isVideoLoaded ? "opacity-100" : "opacity-0"
             }`}
           />
 

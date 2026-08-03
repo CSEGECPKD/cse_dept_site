@@ -4,7 +4,6 @@ import AcadamicsPrograms from "@/components/AcadamicsPrograms";
 import AcadamicsLabs from "@/components/AcadamicsLabs";
 import AcadamicsCourses from "@/components/AcadamicsCourses";
 
-
 const Acadamics = () => {
   return (
     <div className="">

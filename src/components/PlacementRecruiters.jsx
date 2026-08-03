@@ -10,7 +10,7 @@ const PlacementRecruiters = () => {
   const setupInstances = useCallback(() => {
     if (!innerRef1.current || !outerRef.current) return;
     const { width: innerWidth } = innerRef1.current.getBoundingClientRect();
-    
+
     const speed = 300; // pixels per second
     setAnimationDuration(innerWidth / speed);
   }, []);
@@ -66,10 +66,9 @@ const PlacementRecruiters = () => {
   return (
     <section className="bg-white w-full py-32">
       <div className="px-20">
-      <h1 className=" w-auto h-auto text-3xl md:text-4xl lg:text-5xl font-semibold font-bebasneue">
-      . Our RECRUITERS
-      </h1>
-        
+        <h1 className=" w-auto h-auto text-3xl md:text-4xl lg:text-5xl font-semibold font-bebasneue">
+          . Our RECRUITERS
+        </h1>
       </div>
       <div className="overflow-hidden relative pt-20" ref={outerRef}>
         <ScrollingRow direction="left" innerRef={innerRef1} images={images1} />
@@ -81,12 +80,20 @@ const PlacementRecruiters = () => {
         <ScrollingRow direction="right" innerRef={innerRef2} images={images2} />
         <style jsx>{`
           @keyframes scrollLeft {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
+            0% {
+              transform: translateX(0);
+            }
+            100% {
+              transform: translateX(-50%);
+            }
           }
           @keyframes scrollRight {
-            0% { transform: translateX(-50%); }
-            100% { transform: translateX(0); }
+            0% {
+              transform: translateX(-50%);
+            }
+            100% {
+              transform: translateX(0);
+            }
           }
         `}</style>
       </div>

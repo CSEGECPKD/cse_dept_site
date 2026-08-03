@@ -1,12 +1,9 @@
-
 import React from "react";
 import background2 from "../../public/btech-logo.svg";
 import Image from "next/image";
 import ColoredSection from "./ColoredSection";
 
-
 const AcadamicsCoursesBtech = () => {
-
   return (
     <ColoredSection className="grid grid-cols-[50%_50%] min-h-full">
       <div className="bg-black text-white px-6 py-32">
@@ -166,6 +163,6 @@ const AcadamicsCoursesBtech = () => {
       </div>
     </ColoredSection>
   );
-}
+};
 
-export default AcadamicsCoursesBtech
+export default AcadamicsCoursesBtech;

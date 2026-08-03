@@ -1,8 +1,8 @@
-'use server'
+"use server";
 
-import dbConnect from '../lib/db';
-import Facility from '../lib/models/Facility';
-import { isAuthenticated } from '../lib/auth';
+import dbConnect from "../lib/db";
+import Facility from "../lib/models/Facility";
+import { isAuthenticated } from "../lib/auth";
 
 export async function getFacilities() {
   try {
@@ -33,18 +33,18 @@ export async function createFacility({ name, description, pdfUrl }) {
 }
 
 export async function deleteFacility(facilityId) {
-    try {
-        if (!(await isAuthenticated())) {
-            throw new Error('Unauthorized');
-        }
-        await dbConnect();
-        const deletedFacility = await Facility.findByIdAndDelete(facilityId);
-        if (!deletedFacility) {
-            throw new Error('Facility not found');
-        }
-        return { message: 'Facility deleted successfully' };
-    } catch (error) {
-        console.error('Failed to delete facility:', error);
-        throw new Error('Failed to delete facility');
+  try {
+    if (!(await isAuthenticated())) {
+      throw new Error("Unauthorized");
     }
+    await dbConnect();
+    const deletedFacility = await Facility.findByIdAndDelete(facilityId);
+    if (!deletedFacility) {
+      throw new Error("Facility not found");
+    }
+    return { message: "Facility deleted successfully" };
+  } catch (error) {
+    console.error("Failed to delete facility:", error);
+    throw new Error("Failed to delete facility");
+  }
 }

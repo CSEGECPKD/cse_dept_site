@@ -11,7 +11,7 @@ import { useMutation } from "@tanstack/react-query";
 import { createFaculty } from "@/actions/faculty.action";
 import { createPoster } from "@/actions/poster.action";
 import { useRouter } from "next/navigation";
-import { useToast } from "@/hooks/use-toast"; 
+import { useToast } from "@/hooks/use-toast";
 
 const posterFormSchema = z.object({
   name: z.string().min(1, { message: "Name is required" }),
@@ -46,9 +46,9 @@ const PosterForm = () => {
     },
     onError: (error) => {
       toast({
-        description: `Cannot create ${error.message}`
-      })
-    }
+        description: `Cannot create ${error.message}`,
+      });
+    },
   });
 
   const onSubmit = (data) => {

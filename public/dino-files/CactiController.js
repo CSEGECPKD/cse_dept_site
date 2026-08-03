@@ -20,7 +20,7 @@ export default class CactiController {
   setNextCactusTime() {
     const num = this.getRandomNumber(
       this.CACTUS_INTERVAL_MIN,
-      this.CACTUS_INTERVAL_MAX
+      this.CACTUS_INTERVAL_MAX,
     );
 
     this.nextCactusInterval = num;
@@ -41,7 +41,7 @@ export default class CactiController {
       y,
       cactusImage.width,
       cactusImage.height,
-      cactusImage.image
+      cactusImage.image,
     );
 
     this.cacti.push(cactus);

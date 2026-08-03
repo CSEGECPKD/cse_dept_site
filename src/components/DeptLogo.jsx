@@ -11,9 +11,8 @@ import {
   useMotionValueEvent,
   cubicBezier,
 } from "framer-motion";
-import { useRef,useEffect } from "react";
+import { useRef, useEffect } from "react";
 import gsap from "gsap";
-
 
 const imageAnimationVariants = {
   invisible: {
@@ -50,7 +49,7 @@ const DeptLogo = () => {
     [0, 1],
     {
       ease: cubicBezier(0.455, 0.03, 0.515, 0.955),
-    }
+    },
   );
   const visionTextY = useTransform(scrollYProgress, [0.75, 0.85], [200, 0], {
     ease: cubicBezier(0.455, 0.03, 0.515, 0.955),
@@ -62,7 +61,6 @@ const DeptLogo = () => {
     ease: cubicBezier(0.455, 0.03, 0.515, 0.955),
   });
 
-
   const item1 = useRef(null);
   const item2 = useRef(null);
   const item3 = useRef(null);
@@ -70,41 +68,39 @@ const DeptLogo = () => {
   let xPercent = 0;
   let direction = -1;
   let isPaused = false; // New flag to control animation state
-  
+
   useEffect(() => {
     requestAnimationFrame(animation);
   }, []);
-  
+
   const animation = () => {
-    if (!isPaused) {  // Only update animation if not paused
+    if (!isPaused) {
+      // Only update animation if not paused
       if (xPercent <= -100) {
         xPercent = 0;
       }
       if (xPercent > 0) {
         xPercent = -100;
       }
-  
+
       gsap.set(item1.current, { xPercent: xPercent });
       gsap.set(item2.current, { xPercent: xPercent });
       gsap.set(item3.current, { xPercent: xPercent });
       gsap.set(item4.current, { xPercent: xPercent });
-  
+
       xPercent += 0.15 * direction;
     }
-  
+
     requestAnimationFrame(animation);
   };
-  
+
   const handleMouseEnter = () => {
-    isPaused = true;  // Pause animation on hover
+    isPaused = true; // Pause animation on hover
   };
-  
+
   const handleMouseLeave = () => {
-    isPaused = false;  // Resume animation when hover ends
+    isPaused = false; // Resume animation when hover ends
   };
-
-
-
 
   return (
     <ColoredSection color="BLACK">
@@ -183,71 +179,75 @@ const DeptLogo = () => {
           </motion.div>
         </div>
 
-       
-
-            
-
-         <div className="overflow-hidden flex  flex-row items-center w-screen h-min  "
-         onMouseEnter={handleMouseEnter}
-         onMouseLeave={handleMouseLeave}>
-
-         <div className="flex items-center whitespace-nowrap gap-5 h-[100px]  max-w-screen " ref={item1}>
-          <p className=" lg:text-4xl text-2xl text-[#9E9E9E] font-extrabold font-bebasneue pl-5" >
-            NATIONAL BOARD OF ACCREDITATION ACCREDITED
-          </p>
-          <div className="border-x-4 border-[#9E9E9E] border-solid px-2">
-            <img
-              src="./nba.svg"
-              alt="Description"
-              className="  text-[#9E9E9E] min-w-[33px] min-h-[33px]"
-            />
-          </div>
-        </div>
-        
-
-         
-        <div className="flex  items-center whitespace-nowrap gap-5 h-[100px]" ref={item2}>
-          <p className=" lg:text-4xl text-2xl text-[#9E9E9E] font-extrabold font-bebasneue pl-5" >
-            NATIONAL BOARD OF ACCREDITATION ACCREDITED
-          </p>
-          <div className="border-x-4 border-[#9E9E9E] border-solid px-2">
-            <img
-              src="./nba.svg"
-              alt="Description"
-              className="  text-[#9E9E9E] min-w-[33px] min-h-[33px]"
-            />
-          </div>
-        </div>
-        <div className="flex items-center whitespace-nowrap gap-5 h-[100px] " ref={item3}>
-          <p className="lg:text-4xl text-2xl text-[#9E9E9E] font-extrabold font-bebasneue pl-5" >
-            NATIONAL BOARD OF ACCREDITATION ACCREDITED
-          </p>
-          <div className="border-x-4 border-[#9E9E9E] border-solid px-2">
-            <img
-              src="./nba.svg"
-              alt="Description"
-              className="  text-[#9E9E9E] min-w-[33px] min-h-[33px]"
-            />
-          </div>
-        </div>
-
-            <div
-              className="flex items-center whitespace-nowrap gap-5 h-[100px] "
-              ref={item4}
-            >
-              <p className="lg:text-4xl text-2xl text-[#9E9E9E] font-extrabold font-bebasneue pl-5">
-                NATIONAL BOARD OF ACCREDITATION ACCREDITED
-              </p>
-              <div className="border-x-4 border-[#9E9E9E] border-solid px-2">
-                <img
-                  src="./nba.svg"
-                  alt="Description"
-                  className="  text-[#9E9E9E] min-w-[33px] min-h-[33px]"
-                />
-              </div>
+        <div
+          className="overflow-hidden flex  flex-row items-center w-screen h-min  "
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+        >
+          <div
+            className="flex items-center whitespace-nowrap gap-5 h-[100px]  max-w-screen "
+            ref={item1}
+          >
+            <p className=" lg:text-4xl text-2xl text-[#9E9E9E] font-extrabold font-bebasneue pl-5">
+              NATIONAL BOARD OF ACCREDITATION ACCREDITED
+            </p>
+            <div className="border-x-4 border-[#9E9E9E] border-solid px-2">
+              <img
+                src="./nba.svg"
+                alt="Description"
+                className="  text-[#9E9E9E] min-w-[33px] min-h-[33px]"
+              />
             </div>
           </div>
-          {/* <div className=" flex items-center whitespace-nowrap gap-5 h-[100px] w-screen lg:hidden  justify-center"   >
+
+          <div
+            className="flex  items-center whitespace-nowrap gap-5 h-[100px]"
+            ref={item2}
+          >
+            <p className=" lg:text-4xl text-2xl text-[#9E9E9E] font-extrabold font-bebasneue pl-5">
+              NATIONAL BOARD OF ACCREDITATION ACCREDITED
+            </p>
+            <div className="border-x-4 border-[#9E9E9E] border-solid px-2">
+              <img
+                src="./nba.svg"
+                alt="Description"
+                className="  text-[#9E9E9E] min-w-[33px] min-h-[33px]"
+              />
+            </div>
+          </div>
+          <div
+            className="flex items-center whitespace-nowrap gap-5 h-[100px] "
+            ref={item3}
+          >
+            <p className="lg:text-4xl text-2xl text-[#9E9E9E] font-extrabold font-bebasneue pl-5">
+              NATIONAL BOARD OF ACCREDITATION ACCREDITED
+            </p>
+            <div className="border-x-4 border-[#9E9E9E] border-solid px-2">
+              <img
+                src="./nba.svg"
+                alt="Description"
+                className="  text-[#9E9E9E] min-w-[33px] min-h-[33px]"
+              />
+            </div>
+          </div>
+
+          <div
+            className="flex items-center whitespace-nowrap gap-5 h-[100px] "
+            ref={item4}
+          >
+            <p className="lg:text-4xl text-2xl text-[#9E9E9E] font-extrabold font-bebasneue pl-5">
+              NATIONAL BOARD OF ACCREDITATION ACCREDITED
+            </p>
+            <div className="border-x-4 border-[#9E9E9E] border-solid px-2">
+              <img
+                src="./nba.svg"
+                alt="Description"
+                className="  text-[#9E9E9E] min-w-[33px] min-h-[33px]"
+              />
+            </div>
+          </div>
+        </div>
+        {/* <div className=" flex items-center whitespace-nowrap gap-5 h-[100px] w-screen lg:hidden  justify-center"   >
           <p className=" text-2xl text-[#9E9E9E] font-extrabold font-bebasneue" >
             NATIONAL BOARD OF ACCREDITATION ACCREDITED
           </p>
@@ -260,7 +260,6 @@ const DeptLogo = () => {
           </div>
         </div> */}
       </div>
-    
     </ColoredSection>
   );
 };

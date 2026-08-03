@@ -39,7 +39,7 @@ const facultyFormSchema = z.object({
 
 const FacultyForm = () => {
   const router = useRouter();
-  toast
+  toast;
   const {
     register,
     handleSubmit,
@@ -64,9 +64,9 @@ const FacultyForm = () => {
     },
     onError: (error) => {
       toast({
-        description: `Cannot create ${error.message}`
-      })
-    }
+        description: `Cannot create ${error.message}`,
+      });
+    },
   });
 
   const onSubmit = (data) => {
