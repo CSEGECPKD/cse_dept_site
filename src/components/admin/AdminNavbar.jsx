@@ -6,11 +6,6 @@ import { twMerge } from 'tailwind-merge';
 
 const links = [
     {
-        label: 'Students',
-        href: '/admin/student/edit',
-        id: 'student',
-    },
-    {
         label: 'Faculty',
         href: '/admin/faculty/edit',
         id: 'faculty',
