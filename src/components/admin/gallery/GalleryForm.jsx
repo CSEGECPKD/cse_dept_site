@@ -1,115 +1,116 @@
-"use client";
+'use client';
 
-import React from "react";
-import SubmitButton from "@/components/admin/SubmitButton";
-import Input from "@/components/admin/Input";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { UploadButton } from "@/components/uploadthing";
-import { useMutation } from "@tanstack/react-query";
-import { createGallery } from "@/actions/gallery.action";
-import { useRouter } from "next/navigation";
-import { useToast } from "@/hooks/use-toast";
+import React from 'react';
+import { Loader2 } from 'lucide-react';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useMutation } from '@tanstack/react-query';
+
+import { createGallery } from '@/actions/gallery.action';
+import { Button } from '@/components/ui/button';
+import FormField from '../ui/FormField';
+import UploadCard from '../ui/UploadCard';
+import { toast } from '@/hooks/use-toast';
 
 const galleryFormSchema = z.object({
-  name: z.string().min(1, { message: "Name is required" }),
-  image: z.string().min(1, { message: "Image is required" }),
-  imgDescription: z
-    .string()
-    .min(1, { message: "Image Description is required" }),
+    name: z.string().min(1, { message: 'Name is required' }),
+    image: z.string().min(1, { message: 'Image is required' }),
+    imgDescription: z
+        .string()
+        .min(1, { message: 'Image Description is required' }),
 });
 
-const GalleryForm = () => {
-  const router = useRouter();
-  const toast = useToast();
-  const {
-    register,
-    handleSubmit,
-    watch,
-    reset,
-    formState: { errors },
-    setValue,
-  } = useForm({
-    resolver: zodResolver(galleryFormSchema),
-    defaultValues: {
-      image: "",
-      imgDescription: "",
-    },
-  });
+const GalleryForm = ({ refreshGalleries }) => {
+    const {
+        register,
+        handleSubmit,
+        watch,
+        reset,
+        formState: { errors },
+        setValue,
+    } = useForm({
+        resolver: zodResolver(galleryFormSchema),
+        defaultValues: {
+            image: '',
+            imgDescription: '',
+        },
+    });
 
-  const mutation = useMutation({
-    mutationFn: async (data) => {
-      await createGallery(data);
-    },
-    onSuccess: () => {
-      reset();
-      router.refresh();
-    },
-    onError: (error) => {
-      toast({
-        description: `Cannot create ${error.message}`
-      })
-    }
-  });
+    const mutation = useMutation({
+        mutationFn: async (data) => createGallery(data),
+        onSuccess: () => {
+            reset();
+            toast({
+                variant: 'success',
+                title: 'Gallery item added',
+                description: 'Gallery item added successfully.',
+            });
+            refreshGalleries?.();
+        },
+        onError: (error) => {
+            toast({
+                variant: 'destructive',
+                title: 'Unable to add gallery item',
+                description: error?.message || 'Please try again.',
+            });
+        },
+    });
 
-  const onSubmit = (data) => {
-    mutation.mutate(data);
-  };
+    const onSubmit = (data) => {
+        mutation.mutate(data);
+    };
 
-  console.log(errors);
+    const imageUrl = watch('image');
 
-  const imageUrl = watch("image");
-
-  return (
-    <form className="space-y-8" onSubmit={handleSubmit(onSubmit)}>
-      <Input
-        label="Name"
-        type="text"
-        placeholder="eg. Gallery Name"
-        name="name"
-        {...register("name")}
-        error={errors?.name}
-      />
-      <div className="space-y-2">
-        <h3 className="font-medium capitalize text-2xl">Image(JPEG/JPG)</h3>
-        {imageUrl === "" ? (
-          <>
-            <UploadButton
-              endpoint="imageUploader"
-              onClientUploadComplete={(res) => {
-                // Do something with the response
-                console.log("Files: ", res);
-                setValue("image", res[0].url);
-              }}
-              onUploadError={(error) => {
-                // Do something with the error.
-                alert(`ERROR! ${error.message}`);
-              }}
+    return (
+        <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
+            <FormField
+                id="name"
+                label="Name"
+                type="text"
+                placeholder="eg. Gallery Name"
+                required
+                error={errors?.name}
+                {...register('name')}
             />
-            {errors?.image && (
-              <p className="text-red-500">{errors.image.message}</p>
-            )}
-          </>
-        ) : (
-          <img
-            className="w-[200px] border-2 border-black"
-            src={imageUrl}
-            alt=""
-          />
-        )}
-      </div>
-      <Input
-        label="Image Description"
-        type="text"
-        placeholder="eg. Description of the gallery"
-        name="imgDescription"
-        {...register("imgDescription")}
-        error={errors?.imgDescription}
-      />
-      <SubmitButton disabled={mutation.isPending} label="save" type="submit" />
-    </form>
-  );
+
+            <div className="space-y-2">
+                <p className="text-sm font-medium">Image</p>
+                <UploadCard
+                    value={imageUrl}
+                    onChange={(url) => setValue('image', url)}
+                    label="Image"
+                />
+                {errors?.image && (
+                    <p className="text-xs font-medium text-destructive">
+                        {errors.image.message}
+                    </p>
+                )}
+            </div>
+
+            <FormField
+                id="imgDescription"
+                label="Image Description"
+                type="text"
+                placeholder="eg. Description of the gallery"
+                required
+                error={errors?.imgDescription}
+                {...register('imgDescription')}
+            />
+
+            <Button
+                type="submit"
+                disabled={mutation.isPending}
+                className="w-full gap-2 sm:w-auto"
+            >
+                {mutation.isPending && (
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                )}
+                {mutation.isPending ? 'Saving…' : 'Add Gallery Item'}
+            </Button>
+        </form>
+    );
 };
 
 export default GalleryForm;

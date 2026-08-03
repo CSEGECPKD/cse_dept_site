@@ -1,4 +1,4 @@
-'use server'
+'use server';
 
 import dbConnect from '@/lib/db';
 import Blog from '@/lib/models/Blog';
@@ -15,16 +15,30 @@ export async function getBlogs() {
     }
 }
 
-export async function createBlog({ name, authorName, type, authorPosition, authorImage, authorLinkedin }) {
+export async function createBlog({
+    name,
+    authorName,
+    type,
+    authorPosition,
+    authorImage,
+    authorLinkedin,
+}) {
     try {
         if (!(await isAuthenticated())) {
             throw new Error('Unauthorized');
         }
         await dbConnect();
-        const newBlog = new Blog({ name, authorName, type, authorPosition, authorImage, authorLinkedin });
+        const newBlog = new Blog({
+            name,
+            authorName,
+            type,
+            authorPosition,
+            authorImage,
+            authorLinkedin,
+        });
         await newBlog.save();
         return {
-            message: "Blog created successfully"
+            message: 'Blog created successfully',
         };
     } catch (error) {
         console.error('Failed to create blog:', error);

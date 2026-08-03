@@ -1,29 +1,76 @@
-"use client";
+'use client';
 
-import React from "react";
-import ListItem from "../ListItem";
-import { deleteMagazine } from "@/actions/magazine.action";
+import React from 'react';
 
-const MagazineList = ({ magazines }) => {
-  return (
-    <div className="space-y-1">
-      <h2 className="text-right text-3xl font-medium">PUBLISHED MAGAZINES</h2>
-      <ul className="space-y-1">
-        {magazines.map((item) => (
-          <ListItem
-            key={item._id}
-            title={item.name}
-            handleDelete={async () => {
-              await deleteMagazine(item._id);
+import DataTable from '../ui/DataTable';
+import RowActions from '../ui/RowActions';
+import { deleteMagazine } from '@/actions/magazine.action';
+
+const MagazineList = ({ magazines, loading, refresh }) => {
+    const columns = [
+        {
+            key: 'name',
+            header: 'Name',
+            sortable: true,
+            cell: (item) => <span className="font-medium">{item.name}</span>,
+        },
+        {
+            key: 'category',
+            header: 'Category',
+            cell: (item) => item.category,
+        },
+        {
+            key: 'date',
+            header: 'Date',
+            sortable: true,
+            cell: (item) =>
+                item.date
+                    ? new Date(item.date).toLocaleDateString('en-US', {
+                          year: 'numeric',
+                          month: 'short',
+                          day: 'numeric',
+                      })
+                    : '—',
+        },
+        {
+            key: 'description',
+            header: 'Description',
+            cell: (item) => (
+                <span className="text-muted-foreground">
+                    {item.description}
+                </span>
+            ),
+        },
+        {
+            key: 'actions',
+            header: '',
+            cellClassName: 'text-right',
+            cell: (item) => (
+                <RowActions
+                    onDelete={async () => {
+                        await deleteMagazine(item._id);
+                    }}
+                    onSuccess={refresh}
+                    deleteTitle="Delete magazine?"
+                    deleteDescription="This will permanently remove this magazine from the site."
+                />
+            ),
+        },
+    ];
+
+    return (
+        <DataTable
+            data={magazines}
+            loading={loading}
+            columns={columns}
+            searchKeys={['name', 'category']}
+            searchPlaceholder="Search magazines…"
+            emptyState={{
+                title: 'No magazines yet',
+                subtitle: 'Your magazine list is empty.',
             }}
-          />
-        ))}
-        {magazines.length === 0 && (
-          <p className="text-center text-red-500">No Data</p>
-        )}
-      </ul>
-    </div>
-  );
+        />
+    );
 };
 
 export default MagazineList;

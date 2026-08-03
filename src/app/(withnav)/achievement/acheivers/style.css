@@ -1,83 +1,85 @@
 .student-card {
-  display: block;
-  transition: transform 0.3s;
-  z-index: 0;
+    display: block;
+    transition: transform 0.3s;
+    z-index: 0;
 }
 
 .card {
-  position: relative;
+    position: relative;
 }
 
 .slick-slider.slick-initialized {
-  position: static;
+    position: static;
 }
 
 .slick-arrow.slick-next {
-  right: 0px;
-  top: 15px;
+    right: 0px;
+    top: 15px;
 }
 .slick-arrow.slick-prev {
-  left: auto;
-  right: 60px;
-  top: 15px;
+    left: auto;
+    right: 60px;
+    top: 15px;
 }
 
 .slick-arrow.slick-next,
 .slick-arrow.slick-prev {
-  z-index: 1;
-  background-color: white;
-  color: black;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  opacity: 1;
-  height: 30px;
-  width: 20%;
+    z-index: 1;
+    background-color: white;
+    color: black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 1;
+    height: 30px;
+    width: 20%;
 }
 
 .slick-arrow.slick-next:hover,
 .slick-arrow.slick-prev:hover {
-  background-color: #9e9e9e;
-  transition: all 0.2s ease-in-out;
-  color: white;
-  opacity: 1;
+    background-color: #9e9e9e;
+    transition: all 0.2s ease-in-out;
+    color: white;
+    opacity: 1;
 }
 
 .slick-prev::before,
 .slick-next::before {
-  display: none;
+    display: none;
 }
 
 .arrows {
-  height: 20px;
-  width: 20px;
-  margin: 1px;
+    height: 20px;
+    width: 20px;
+    margin: 1px;
 }
 
 @media (min-width: 425px) {
-  .student-card:hover .stud-image {
-    width: 220px;
-    height: 190px;
-    transition: width 0.3s, height 0.3s;
-  }
-  .student-card:hover .slick-arrow.slick-next,
-  .student-card:hover .slick-arrow.slick-prev {
-    transition: all 0.2s ease-in-out;
-    z-index: 1;
-  }
-  .slick-arrow.slick-next {
-    right: 0;
-    bottom: 0px;
-  }
-  .slick-arrow.slick-prev {
-    left: 0;
-    bottom: 0px;
-  }
-  .slick-arrow.slick-next,
-  .slick-arrow.slick-prev {
-    z-index: -1;
-    opacity: 0.8;
-    width: 50%;
-    top: auto;
-  }
+    .student-card:hover .stud-image {
+        width: 220px;
+        height: 190px;
+        transition:
+            width 0.3s,
+            height 0.3s;
+    }
+    .student-card:hover .slick-arrow.slick-next,
+    .student-card:hover .slick-arrow.slick-prev {
+        transition: all 0.2s ease-in-out;
+        z-index: 1;
+    }
+    .slick-arrow.slick-next {
+        right: 0;
+        bottom: 0px;
+    }
+    .slick-arrow.slick-prev {
+        left: 0;
+        bottom: 0px;
+    }
+    .slick-arrow.slick-next,
+    .slick-arrow.slick-prev {
+        z-index: -1;
+        opacity: 0.8;
+        width: 50%;
+        top: auto;
+    }
 }

@@ -3,18 +3,19 @@ import mongoose from 'mongoose';
 const facilitySchema = new mongoose.Schema({
     name: {
         type: String,
-        required: true
+        required: true,
     },
     description: {
         type: String,
-        required: true
+        required: true,
     },
     pdfUrl: {
         type: String,
-        required: true
-    }
+        required: true,
+    },
 });
 
-const Facility = mongoose.models.Facility || mongoose.model('Facility', facilitySchema);
+const Facility =
+    mongoose.models.Facility || mongoose.model('Facility', facilitySchema);
 
 export default Facility;

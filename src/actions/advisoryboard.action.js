@@ -1,19 +1,29 @@
-'use server'
+'use server';
 
 import dbConnect from '@/lib/db';
 import AdvisoryBoard from '@/lib/models/AdvisoryBoard';
 import { isAuthenticated } from '@/lib/auth';
 
-export async function createAdvisoryBoardMember({ name, designation, position, imageUrl }) {
+export async function createAdvisoryBoardMember({
+    name,
+    designation,
+    position,
+    imageUrl,
+}) {
     try {
         if (!(await isAuthenticated())) {
             throw new Error('Unauthorized');
         }
         await dbConnect();
-        const newMember = new AdvisoryBoard({ name, designation, position, imageUrl });
+        const newMember = new AdvisoryBoard({
+            name,
+            designation,
+            position,
+            imageUrl,
+        });
         await newMember.save();
         return {
-            message: "Advisory board member created successfully"
+            message: 'Advisory board member created successfully',
         };
     } catch (error) {
         console.error('Failed to create advisory board member:', error);

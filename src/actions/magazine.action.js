@@ -1,4 +1,4 @@
-'use server'
+'use server';
 
 import dbConnect from '../lib/db';
 import Magazine from '../lib/models/Magazine';
@@ -15,7 +15,14 @@ export async function getMagazines() {
     }
 }
 
-export async function createMagazine({ name, category, date, description, pdfUrl, frontPageUrl }) {
+export async function createMagazine({
+    name,
+    category,
+    date,
+    description,
+    pdfUrl,
+    frontPageUrl,
+}) {
     try {
         if (!(await isAuthenticated())) {
             throw new Error('Unauthorized');
@@ -27,11 +34,11 @@ export async function createMagazine({ name, category, date, description, pdfUrl
             date: new Date(date),
             description,
             pdfUrl,
-            frontPageUrl
+            frontPageUrl,
         });
         await newMagazine.save();
         return {
-          message: "Success",
+            message: 'Success',
         };
     } catch (error) {
         console.error('Failed to create magazine:', error);
@@ -50,8 +57,7 @@ export async function deleteMagazine(magazineId) {
             throw new Error('Magazine not found');
         }
         return { message: 'Magazine deleted successfully' };
-    }
-    catch (error) {
+    } catch (error) {
         console.error('Failed to delete magazine:', error);
         throw new Error('Failed to delete magazine');
     }
@@ -67,4 +73,3 @@ export async function getMagazinesByCategory(category) {
         throw new Error('Failed to fetch magazines by category');
     }
 }
-

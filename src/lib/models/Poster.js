@@ -3,16 +3,16 @@ import mongoose from 'mongoose';
 const posterSchema = new mongoose.Schema({
     name: {
         type: String,
-        required: true
+        required: true,
     },
     imageUrl: {
         type: String,
-        required: true
+        required: true,
     },
     description: {
         type: String,
-        required: true
-    }
+        required: true,
+    },
 });
 
 const Poster = mongoose.models.Poster || mongoose.model('Poster', posterSchema);

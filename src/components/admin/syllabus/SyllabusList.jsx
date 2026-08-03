@@ -1,29 +1,54 @@
-"use client";
+'use client';
 
-import React from "react";
-import ListItem from "../ListItem";
-import { deleteSyllabus } from "@/actions/syllabus.action";
+import React from 'react';
 
-const SyllabusList = ({ syllabusList }) => {
-  return (
-    <div className="space-y-1">
-      <h2 className="text-right text-3xl font-medium">SYLLABUS LIST</h2>
-      <ul className="space-y-1">
-        {syllabusList.map((item) => (
-          <ListItem
-            key={item._id}
-            title={item.course}
-            handleDelete={async () => {
-              await deleteSyllabus(item._id);
+import DataTable from '../ui/DataTable';
+import RowActions from '../ui/RowActions';
+import { deleteSyllabus } from '@/actions/syllabus.action';
+
+const SyllabusList = ({ syllabusList, loading, refresh }) => {
+    const columns = [
+        {
+            key: 'course',
+            header: 'Course',
+            sortable: true,
+            cell: (item) => <span className="font-medium">{item.course}</span>,
+        },
+        {
+            key: 'yearOfScheme',
+            header: 'Year of Scheme',
+            cell: (item) => item.yearOfScheme,
+        },
+        {
+            key: 'actions',
+            header: '',
+            cellClassName: 'text-right',
+            cell: (item) => (
+                <RowActions
+                    onDelete={async () => {
+                        await deleteSyllabus(item._id);
+                    }}
+                    onSuccess={refresh}
+                    deleteTitle="Delete syllabus?"
+                    deleteDescription="This will permanently remove this syllabus from the site."
+                />
+            ),
+        },
+    ];
+
+    return (
+        <DataTable
+            data={syllabusList}
+            loading={loading}
+            columns={columns}
+            searchKeys={['course', 'yearOfScheme']}
+            searchPlaceholder="Search syllabus…"
+            emptyState={{
+                title: 'No syllabus yet',
+                subtitle: 'Your syllabus list is empty.',
             }}
-          />
-        ))}
-        {syllabusList.length === 0 && (
-          <p className="text-center text-red-500">No Data</p>
-        )}
-      </ul>
-    </div>
-  );
+        />
+    );
 };
 
 export default SyllabusList;

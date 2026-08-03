@@ -3,28 +3,29 @@ import {
     generateSessionToken,
     createSession,
     setSessionTokenCookie,
-} from "@/lib/session";
-import { google } from "@/lib/auth";
-import { cookies } from "next/headers";
-import User from "@/lib/models/User";
-import dbConnect from "@/lib/db";
-import { generateRandomString, alphabet } from "oslo/crypto";
-import { NextResponse } from "next/server";
+} from '@/lib/session';
+import { google } from '@/lib/auth';
+import { cookies } from 'next/headers';
+import User from '@/lib/models/User';
+import dbConnect from '@/lib/db';
+import { generateRandomString, alphabet } from 'oslo/crypto';
+import { NextResponse } from 'next/server';
 
 const emails = [
-    "mohdhashique10@gmail.com",
-    "viswajithviswa715@gmail.com",
-    "jeraldjoyson21@gmail.com",
-    "sabarisanthosh45@gmail.com",
-    "mofahadkundupuzhakkal@gmail.com",
+    'mohdhashique10@gmail.com',
+    'viswajithviswa715@gmail.com',
+    'jeraldjoyson21@gmail.com',
+    'sabarisanthosh45@gmail.com',
+    'mofahadkundupuzhakkal@gmail.com',
 ];
 
 export async function GET(request) {
     const url = new URL(request.url);
-    const code = url.searchParams.get("code");
-    const state = url.searchParams.get("state");
-    const storedState = cookies().get("google_oauth_state")?.value ?? null;
-    const codeVerifier = cookies().get("google_code_verifier")?.value ?? null;
+    const code = url.searchParams.get('code');
+    const state = url.searchParams.get('state');
+    const cookieStore = await cookies();
+    const storedState = cookieStore.get('google_oauth_state')?.value ?? null;
+    const codeVerifier = cookieStore.get('google_code_verifier')?.value ?? null;
     if (
         code === null ||
         state === null ||
@@ -51,12 +52,12 @@ export async function GET(request) {
         });
     }
     const response = await fetch(
-        "https://www.googleapis.com/oauth2/v3/userinfo",
+        'https://www.googleapis.com/oauth2/v3/userinfo',
         {
             headers: {
                 Authorization: `Bearer ${tokens.accessToken}`,
             },
-        },
+        }
     );
     const claims = await response.json();
     const email = claims.email;
@@ -66,9 +67,9 @@ export async function GET(request) {
             `<html><body>This email ${email} is not authorized <a href="/">Go To Home</a></body></html>`,
             {
                 headers: {
-                    "Content-Type": "text/html",
+                    'Content-Type': 'text/html',
                 },
-            },
+            }
         );
     }
 
@@ -82,16 +83,16 @@ export async function GET(request) {
     if (existingUser !== null) {
         const sessionToken = generateSessionToken();
         const session = await createSession(sessionToken, existingUser._id);
-        setSessionTokenCookie(sessionToken, session.expiresAt);
+        await setSessionTokenCookie(sessionToken, session.expiresAt);
         return new Response(null, {
             status: 302,
             headers: {
-                Location: "/admin",
+                Location: '/admin',
             },
         });
     }
 
-    const userId = generateRandomString(10, alphabet("a-z", "0-9"));
+    const userId = generateRandomString(10, alphabet('a-z', '0-9'));
 
     const user = await User.create({
         _id: userId,
@@ -100,11 +101,11 @@ export async function GET(request) {
 
     const sessionToken = generateSessionToken();
     const session = await createSession(sessionToken, user._id);
-    setSessionTokenCookie(sessionToken, session.expiresAt);
+    await setSessionTokenCookie(sessionToken, session.expiresAt);
     return new Response(null, {
         status: 302,
         headers: {
-            Location: "/admin",
+            Location: '/admin',
         },
     });
 }

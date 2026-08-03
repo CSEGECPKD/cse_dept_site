@@ -1,29 +1,69 @@
-"use client";
+'use client';
 
-import React from "react";
-import ListItem from "../ListItem";
-import { deleteSubject } from "@/actions/subject.action";
+import React from 'react';
 
-const SubjectList = ({ subjectList }) => {
-  return (
-    <div className="space-y-1">
-      <h2 className="text-right text-3xl font-medium">ALREADY ON SITE</h2>
-      <ul className="space-y-1">
-        {subjectList.map((item) => (
-          <ListItem
-            key={item._id}
-            title={item.name}
-            handleDelete={async () => {
-              await deleteSubject(item._id);
+import DataTable from '../ui/DataTable';
+import RowActions from '../ui/RowActions';
+import { deleteSubject } from '@/actions/subject.action';
+
+const SubjectList = ({ subjectList, loading, refresh }) => {
+    const columns = [
+        {
+            key: 'name',
+            header: 'Name',
+            sortable: true,
+            cell: (item) => <span className="font-medium">{item.name}</span>,
+        },
+        {
+            key: 'subCode',
+            header: 'Subject Code',
+            cell: (item) => item.subCode,
+        },
+        {
+            key: 'courseId',
+            header: 'Course ID',
+            cell: (item) => item.courseId,
+        },
+        {
+            key: 'yearOfScheme',
+            header: 'Year of Scheme',
+            cell: (item) => item.yearOfScheme,
+        },
+        {
+            key: 'semester',
+            header: 'Semester',
+            cell: (item) => item.semester,
+        },
+        {
+            key: 'actions',
+            header: '',
+            cellClassName: 'text-right',
+            cell: (item) => (
+                <RowActions
+                    onDelete={async () => {
+                        await deleteSubject(item._id);
+                    }}
+                    onSuccess={refresh}
+                    deleteTitle="Delete subject?"
+                    deleteDescription="This will permanently remove this subject from the site."
+                />
+            ),
+        },
+    ];
+
+    return (
+        <DataTable
+            data={subjectList}
+            loading={loading}
+            columns={columns}
+            searchKeys={['name', 'subCode', 'courseId']}
+            searchPlaceholder="Search subjects…"
+            emptyState={{
+                title: 'No subjects yet',
+                subtitle: 'Your subject list is empty.',
             }}
-          />
-        ))}
-        {subjectList.length === 0 && (
-          <p className="text-center text-red-500">No Data</p>
-        )}
-      </ul>
-    </div>
-  );
+        />
+    );
 };
 
 export default SubjectList;

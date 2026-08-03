@@ -4,20 +4,19 @@ const studentSchema = new mongoose.Schema({
     course: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Course',
-        required: true
+        required: true,
     },
     batch: {
         type: String,
-        required: true
+        required: true,
     },
     name: {
         type: String,
-        required: true
+        required: true,
     },
-    
-    
 });
 
-const Student = mongoose.models.Student || mongoose.model('Student', studentSchema);
+const Student =
+    mongoose.models.Student || mongoose.model('Student', studentSchema);
 
 export default Student;

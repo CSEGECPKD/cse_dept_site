@@ -1,4 +1,4 @@
-'use server'
+'use server';
 
 import dbConnect from '../lib/db';
 import Gallery from '../lib/models/Gallery';
@@ -24,7 +24,7 @@ export async function createGallery({ name, image, imgDescription }) {
         const newGallery = new Gallery({ name, image, imgDescription });
         await newGallery.save();
         return {
-          message: "Created successfully",
+            message: 'Created successfully',
         };
     } catch (error) {
         console.error('Failed to create gallery:', error);

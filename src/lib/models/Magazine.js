@@ -3,30 +3,31 @@ import mongoose from 'mongoose';
 const magazineSchema = new mongoose.Schema({
     name: {
         type: String,
-        required: true
+        required: true,
     },
     category: {
         type: String,
-        required: true
+        required: true,
     },
     date: {
         type: Date,
-        required: true
+        required: true,
     },
     description: {
         type: String,
-        required: true
+        required: true,
     },
     pdfUrl: {
         type: String,
-        required: true
+        required: true,
     },
     frontPageUrl: {
         type: String,
-        required: true
-    }
+        required: true,
+    },
 });
 
-const Magazine = mongoose.models.Magazine || mongoose.model('Magazine', magazineSchema);
+const Magazine =
+    mongoose.models.Magazine || mongoose.model('Magazine', magazineSchema);
 
 export default Magazine;

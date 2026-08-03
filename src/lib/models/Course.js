@@ -3,20 +3,20 @@ import mongoose from 'mongoose';
 const courseSchema = new mongoose.Schema({
     name: {
         type: String,
-        required: true
+        required: true,
     },
     description: {
         type: String,
-        required: true
+        required: true,
     },
     imageUrl: {
         type: String,
-        required: true
+        required: true,
     },
     pdfUrl: {
         type: String,
-        required: true
-    }
+        required: true,
+    },
 });
 
 const Course = mongoose.models.Course || mongoose.model('Course', courseSchema);

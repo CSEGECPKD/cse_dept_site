@@ -1,4 +1,4 @@
-'use server'
+'use server';
 
 import dbConnect from '@/lib/db';
 import Course from '@/lib/models/Course';
@@ -13,7 +13,7 @@ export async function createCourse({ name, description, imageUrl, pdfUrl }) {
         const newCourse = new Course({ name, description, imageUrl, pdfUrl });
         await newCourse.save();
         return {
-            message: "Course created successfully"
+            message: 'Course created successfully',
         };
     } catch (error) {
         console.error('Failed to create course:', error);

@@ -3,22 +3,23 @@ import mongoose from 'mongoose';
 const generalSchema = new mongoose.Schema({
     hodMessage: {
         type: String,
-        required: true
+        required: true,
     },
     hodImage: {
         type: String,
-        required: true
+        required: true,
     },
     hodName: {
         type: String,
-        required: true
+        required: true,
     },
     hodDesignation: {
         type: String,
-        required: true
-    }
+        required: true,
+    },
 });
 
-const General = mongoose.models.General || mongoose.model('General', generalSchema);
+const General =
+    mongoose.models.General || mongoose.model('General', generalSchema);
 
 export default General;

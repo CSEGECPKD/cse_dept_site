@@ -1,4 +1,4 @@
-'use server'
+'use server';
 
 import dbConnect from '../lib/db';
 import Syllabus from '../lib/models/Syllabus';
@@ -15,23 +15,35 @@ export async function getSyllabi() {
     }
 }
 
-export async function createSyllabus({ course,sem,yearOfScheme,syllabusId, pdfUrl }) {
+export async function createSyllabus({
+    course,
+    sem,
+    yearOfScheme,
+    syllabusId,
+    pdfUrl,
+}) {
     try {
         if (!(await isAuthenticated())) {
             throw new Error('Unauthorized');
         }
         await dbConnect();
-        
+
         // Check if syllabus already exists
         const existingSyllabus = await Syllabus.findOne({ syllabusId });
         if (existingSyllabus) {
             throw new Error('Syllabus with this ID already exists');
         }
 
-        const newSyllabus = new Syllabus({ course,sem,yearOfScheme,syllabusId, pdfUrl });
+        const newSyllabus = new Syllabus({
+            course,
+            sem,
+            yearOfScheme,
+            syllabusId,
+            pdfUrl,
+        });
         await newSyllabus.save();
         return {
-          message: "Success",
+            message: 'Success',
         };
     } catch (error) {
         console.error('Failed to create syllabus:', error);

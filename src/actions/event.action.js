@@ -1,19 +1,33 @@
-'use server'
+'use server';
 
 import dbConnect from '@/lib/db';
 import Event from '@/lib/models/Event';
 import { isAuthenticated } from '@/lib/auth';
 
-export async function createEvent({ name, date, details, mode, posters, regLinks }) {
+export async function createEvent({
+    name,
+    date,
+    details,
+    mode,
+    posters,
+    regLinks,
+}) {
     try {
         if (!(await isAuthenticated())) {
             throw new Error('Unauthorized');
         }
         await dbConnect();
-        const newEvent = new Event({ name, date, details, mode, posters, regLinks });
+        const newEvent = new Event({
+            name,
+            date,
+            details,
+            mode,
+            posters,
+            regLinks,
+        });
         await newEvent.save();
         return {
-            message: "Event created successfully"
+            message: 'Event created successfully',
         };
     } catch (error) {
         console.error('Failed to create event:', error);

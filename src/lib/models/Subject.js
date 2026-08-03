@@ -4,34 +4,35 @@ const subjectSchema = new mongoose.Schema({
     courseId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Course',
-        required: true
+        required: true,
     },
     yearOfScheme: {
         type: String,
-        required: true
+        required: true,
     },
     semester: {
         type: String,
-        required: true
+        required: true,
     },
     subCode: {
         type: String,
-        required: true
+        required: true,
     },
     name: {
         type: String,
-        required: true
+        required: true,
     },
     description: {
         type: String,
-        required: true
+        required: true,
     },
     pdfUrl: {
         type: String,
-        required: true
-    }
+        required: true,
+    },
 });
 
-const Subject = mongoose.models.Subject || mongoose.model('Subject', subjectSchema);
+const Subject =
+    mongoose.models.Subject || mongoose.model('Subject', subjectSchema);
 
 export default Subject;

@@ -4,22 +4,24 @@ const successStorySchema = new mongoose.Schema({
     personType: {
         type: String,
         enum: ['alumni', 'student'],
-        required: true
+        required: true,
     },
     name: {
         type: String,
-        required: true
+        required: true,
     },
     person: {
         type: String,
-        required: true
+        required: true,
     },
     year: {
         type: Number,
-        required: true
-    }
+        required: true,
+    },
 });
 
-const SuccessStory = mongoose.models.SuccessStory || mongoose.model('SuccessStory', successStorySchema);
+const SuccessStory =
+    mongoose.models.SuccessStory ||
+    mongoose.model('SuccessStory', successStorySchema);
 
 export default SuccessStory;

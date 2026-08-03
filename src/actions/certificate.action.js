@@ -1,4 +1,4 @@
-'use server'
+'use server';
 
 import dbConnect from '@/lib/db';
 import Certificate from '@/lib/models/Certificate';
@@ -13,7 +13,7 @@ export async function createCertificate({ name, imageUrl }) {
         const newCertificate = new Certificate({ name, imageUrl });
         await newCertificate.save();
         return {
-            message: "Certificate created successfully"
+            message: 'Certificate created successfully',
         };
     } catch (error) {
         console.error('Failed to create certificate:', error);
@@ -38,7 +38,8 @@ export async function deleteCertificate(certificateId) {
             throw new Error('Unauthorized');
         }
         await dbConnect();
-        const deletedCertificate = await Certificate.findByIdAndDelete(certificateId);
+        const deletedCertificate =
+            await Certificate.findByIdAndDelete(certificateId);
         if (!deletedCertificate) {
             throw new Error('Certificate not found');
         }

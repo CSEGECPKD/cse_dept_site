@@ -3,28 +3,28 @@ import mongoose from 'mongoose';
 const blogSchema = new mongoose.Schema({
     name: {
         type: String,
-        required: true
+        required: true,
     },
     authorName: {
         type: String,
-        required: true
+        required: true,
     },
     type: {
         type: String,
-        required: true
+        required: true,
     },
     authorPosition: {
         type: String,
-        required: true
+        required: true,
     },
     authorImage: {
         type: String,
-        required: true
+        required: true,
     },
     authorLinkedin: {
         type: String,
-        required: true
-    }
+        required: true,
+    },
 });
 
 const Blog = mongoose.models.Blog || mongoose.model('Blog', blogSchema);

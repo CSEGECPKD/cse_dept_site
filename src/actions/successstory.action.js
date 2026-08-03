@@ -1,4 +1,4 @@
-'use server'
+'use server';
 
 import dbConnect from '@/lib/db';
 import SuccessStory from '@/lib/models/SuccessStory';
@@ -10,7 +10,12 @@ export async function createSuccessStory({ personType, name, person, year }) {
             throw new Error('Unauthorized');
         }
         await dbConnect();
-        const newSuccessStory = new SuccessStory({ personType, name, person, year });
+        const newSuccessStory = new SuccessStory({
+            personType,
+            name,
+            person,
+            year,
+        });
         await newSuccessStory.save();
         return newSuccessStory;
     } catch (error) {
@@ -36,7 +41,8 @@ export async function deleteSuccessStory(successStoryId) {
             throw new Error('Unauthorized');
         }
         await dbConnect();
-        const deletedSuccessStory = await SuccessStory.findByIdAndDelete(successStoryId);
+        const deletedSuccessStory =
+            await SuccessStory.findByIdAndDelete(successStoryId);
         if (!deletedSuccessStory) {
             throw new Error('Success story not found');
         }

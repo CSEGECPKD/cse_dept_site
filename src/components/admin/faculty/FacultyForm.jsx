@@ -1,171 +1,156 @@
-"use client";
+'use client';
 
-import React from "react";
-import SubmitButton from "@/components/admin/SubmitButton";
-import Input from "@/components/admin/Input";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { UploadButton } from "@/components/uploadthing";
-import { useMutation } from "@tanstack/react-query";
-import { createFaculty } from "@/actions/faculty.action";
-import { useRouter } from "next/navigation";
-import { toast } from "@/hooks/use-toast";
+import React from 'react';
+import { Loader2 } from 'lucide-react';
+
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useMutation } from '@tanstack/react-query';
+
+import { createFaculty } from '@/actions/faculty.action';
+import { Button } from '@/components/ui/button';
+import FormField from '../ui/FormField';
+import UploadCard from '../ui/UploadCard';
+import { toast } from '@/hooks/use-toast';
 
 const facultyFormSchema = z.object({
-  type: z.string().min(1, { message: "Type is required" }),
-  name: z.string().min(1, { message: "Name is required" }),
-  yearOfJoin: z
-    .string()
-    .refine((val) => /^\d+$/.test(val), {
-      message: "Year of Join must be an integer",
-    })
-    .refine((val) => val.length === 4, {
-      message: "Year of Join must be 4 digits year",
-    }),
-  yearOfDept: z
-    .string()
-    .refine((val) => /^\d+$/.test(val), {
-      message: "Year of Department must be an integer",
-    })
-    .refine((val) => val.length === 4, {
-      message: "Year of Department must be 4 digits year",
-    }),
-  designation: z.string().min(1, { message: "Designation is required" }),
-  emailId: z.string().email({ message: "Invalid email" }),
-  qualification: z.string().min(1, { message: "Qualification is required" }),
-  imageUrl: z.string().min(1, { message: "Image is required" }),
+    name: z.string().min(1, { message: 'Employee name is required' }),
+    designation: z.string().min(1, { message: 'Designation is required' }),
+    employeeType: z.string().min(1, { message: 'Employee type is required' }),
+    dateOfJoining: z
+        .string()
+        .min(1, { message: 'Date of joining is required' }),
+    email: z.string().email({ message: 'Enter a valid email address' }),
+    phone: z.string().min(1, { message: 'Phone number is required' }),
+    imageUrl: z.string(),
 });
 
-const FacultyForm = () => {
-  const router = useRouter();
-  toast
-  const {
-    register,
-    handleSubmit,
-    watch,
-    reset,
-    formState: { errors },
-    setValue,
-  } = useForm({
-    resolver: zodResolver(facultyFormSchema),
-    defaultValues: {
-      imageUrl: "",
-    },
-  });
+const FacultyForm = ({ refreshFaculties }) => {
+    const {
+        register,
+        handleSubmit,
+        watch,
+        reset,
+        formState: { errors },
+        setValue,
+    } = useForm({
+        resolver: zodResolver(facultyFormSchema),
+        defaultValues: {
+            imageUrl: '',
+        },
+    });
 
-  const mutation = useMutation({
-    mutationFn: async (data) => {
-      await createFaculty(data);
-    },
-    onSuccess: () => {
-      reset();
-      router.refresh();
-    },
-    onError: (error) => {
-      toast({
-        description: `Cannot create ${error.message}`
-      })
-    }
-  });
+    const mutation = useMutation({
+        mutationFn: async (data) => createFaculty(data),
+        onSuccess: () => {
+            reset();
+            toast({
+                variant: 'success',
+                title: 'Employee added',
+                description: 'Employee added successfully.',
+            });
+            refreshFaculties?.();
+        },
+        onError: (error) => {
+            toast({
+                variant: 'destructive',
+                title: 'Unable to add employee',
+                description: error?.message || 'Please try again.',
+            });
+        },
+    });
 
-  const onSubmit = (data) => {
-    mutation.mutate(data);
-  };
+    const onSubmit = (data) => {
+        mutation.mutate(data);
+    };
 
-  console.log(errors);
+    const imageUrl = watch('imageUrl');
 
-  const imageUrl = watch("imageUrl");
+    return (
+        <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
+            <div className="grid gap-4 sm:grid-cols-2">
+                <FormField
+                    id="name"
+                    label="Full Name"
+                    type="text"
+                    placeholder="eg. John Doe"
+                    required
+                    error={errors?.name}
+                    {...register('name')}
+                />
+                <FormField
+                    id="designation"
+                    label="Designation"
+                    type="text"
+                    placeholder="eg. Assistant Professor"
+                    required
+                    error={errors?.designation}
+                    {...register('designation')}
+                />
+                <FormField
+                    id="employeeType"
+                    label="Employee Type"
+                    type="text"
+                    placeholder="eg. Teaching / Technical"
+                    required
+                    error={errors?.employeeType}
+                    {...register('employeeType')}
+                />
+                <FormField
+                    id="dateOfJoining"
+                    label="Date of Joining"
+                    type="date"
+                    required
+                    error={errors?.dateOfJoining}
+                    {...register('dateOfJoining')}
+                />
+                <FormField
+                    id="email"
+                    label="Email"
+                    type="email"
+                    placeholder="eg. john.doe@example.com"
+                    required
+                    error={errors?.email}
+                    {...register('email')}
+                />
+                <FormField
+                    id="phone"
+                    label="Phone"
+                    type="tel"
+                    placeholder="eg. 9876543210"
+                    required
+                    error={errors?.phone}
+                    {...register('phone')}
+                />
+            </div>
 
-  return (
-    <form className="space-y-8" onSubmit={handleSubmit(onSubmit)}>
-      <Input
-        label="Type"
-        type="text"
-        placeholder="eg. Professor"
-        name="type"
-        {...register("type")}
-        error={errors?.type}
-      />
-      <Input
-        label="Name"
-        type="text"
-        placeholder="eg. John Doe"
-        name="name"
-        {...register("name")}
-        error={errors?.name}
-      />
-      <Input
-        label="Year of Join"
-        type="text"
-        placeholder="eg. 2010"
-        name="yearOfJoin"
-        {...register("yearOfJoin")}
-        error={errors?.yearOfJoin}
-      />
-      <Input
-        label="Year of Department"
-        type="text"
-        placeholder="eg. 2015"
-        name="yearOfDept"
-        {...register("yearOfDept")}
-        error={errors?.yearOfDept}
-      />
-      <Input
-        label="Designation"
-        type="text"
-        placeholder="eg. Head of Department"
-        name="designation"
-        {...register("designation")}
-        error={errors?.designation}
-      />
-      <Input
-        label="Email ID"
-        type="email"
-        placeholder="eg. john.doe@example.com"
-        name="emailId"
-        {...register("emailId")}
-        error={errors?.emailId}
-      />
-      <Input
-        label="Qualification"
-        type="text"
-        placeholder="eg. Ph.D. in Computer Science"
-        name="qualification"
-        {...register("qualification")}
-        error={errors?.qualification}
-      />
-      <div className="space-y-2">
-        <h3 className="font-medium capitalize text-2xl">Image(JPEG/JPG)</h3>
-        {imageUrl === "" ? (
-          <>
-            <UploadButton
-              endpoint="imageUploader"
-              onClientUploadComplete={(res) => {
-                // Do something with the response
-                console.log("Files: ", res);
-                setValue("imageUrl", res[0].url);
-              }}
-              onUploadError={(error) => {
-                // Do something with the error.
-                alert(`ERROR! ${error.message}`);
-              }}
-            />
-            {errors?.imageUrl && (
-              <p className="text-red-500">{errors.imageUrl.message}</p>
-            )}
-          </>
-        ) : (
-          <img
-            className="w-[200px] border-2 border-black"
-            src={imageUrl}
-            alt=""
-          />
-        )}
-      </div>
-      <SubmitButton label="save" type="submit" />
-    </form>
-  );
+            <div className="space-y-2">
+                <p className="text-sm font-medium">Photo</p>
+                <UploadCard
+                    value={imageUrl}
+                    onChange={(url) => setValue('imageUrl', url)}
+                    label="Photo"
+                />
+                {errors?.imageUrl && (
+                    <p className="text-xs font-medium text-destructive">
+                        {errors.imageUrl.message}
+                    </p>
+                )}
+            </div>
+
+            <Button
+                type="submit"
+                disabled={mutation.isPending}
+                className="w-full gap-2 sm:w-auto"
+            >
+                {mutation.isPending && (
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                )}
+                {mutation.isPending ? 'Saving…' : 'Add Employee'}
+            </Button>
+        </form>
+    );
 };
 
 export default FacultyForm;

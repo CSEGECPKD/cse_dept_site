@@ -1,19 +1,31 @@
-'use server'
+'use server';
 
 import dbConnect from '@/lib/db';
 import AssociationMember from '@/lib/models/AssociationMember';
 import { isAuthenticated } from '@/lib/auth';
 
-export async function createAssociationMember({ name, year, designation, mailId, imageUrl }) {
+export async function createAssociationMember({
+    name,
+    year,
+    designation,
+    mailId,
+    imageUrl,
+}) {
     try {
         if (!(await isAuthenticated())) {
             throw new Error('Unauthorized');
         }
         await dbConnect();
-        const newMember = new AssociationMember({ name, year, designation, mailId, imageUrl });
+        const newMember = new AssociationMember({
+            name,
+            year,
+            designation,
+            mailId,
+            imageUrl,
+        });
         await newMember.save();
         return {
-            message: "Association member created successfully"
+            message: 'Association member created successfully',
         };
     } catch (error) {
         console.error('Failed to create association member:', error);
@@ -38,7 +50,8 @@ export async function deleteAssociationMember(memberId) {
             throw new Error('Unauthorized');
         }
         await dbConnect();
-        const deletedMember = await AssociationMember.findByIdAndDelete(memberId);
+        const deletedMember =
+            await AssociationMember.findByIdAndDelete(memberId);
         if (!deletedMember) {
             throw new Error('Association member not found');
         }

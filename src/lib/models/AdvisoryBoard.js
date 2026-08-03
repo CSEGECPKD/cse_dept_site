@@ -3,22 +3,24 @@ import mongoose from 'mongoose';
 const advisoryBoardSchema = new mongoose.Schema({
     name: {
         type: String,
-        required: true
+        required: true,
     },
     designation: {
         type: String,
-        required: true
+        required: true,
     },
     position: {
         type: String,
-        required: true
+        required: true,
     },
     imageUrl: {
         type: String,
-        required: true
-    }
+        required: true,
+    },
 });
 
-const AdvisoryBoard = mongoose.models.AdvisoryBoard || mongoose.model('AdvisoryBoard', advisoryBoardSchema);
+const AdvisoryBoard =
+    mongoose.models.AdvisoryBoard ||
+    mongoose.model('AdvisoryBoard', advisoryBoardSchema);
 
 export default AdvisoryBoard;

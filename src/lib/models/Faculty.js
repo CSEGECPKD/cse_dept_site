@@ -1,40 +1,40 @@
 import mongoose from 'mongoose';
 
 const facultySchema = new mongoose.Schema({
-    type: {
-        type: String,
-        required: true
-    },
     name: {
         type: String,
-        required: true
-    },
-    yearOfJoin: {
-        type: String,
-        required: true
-    },
-    yearOfDept: {
-        type: String,
-        required: true
+        required: true,
     },
     designation: {
         type: String,
-        required: true
+        required: true,
     },
-    emailId: {
+    employeeType: {
         type: String,
-        required: true
+        required: true,
     },
-    qualification: {
+    dateOfJoining: {
+        type: Date,
+        required: true,
+    },
+    email: {
         type: String,
-        required: true
+        required: true,
+        unique: true,
+        lowercase: true,
+        trim: true,
+    },
+    phone: {
+        type: String,
+        required: true,
     },
     imageUrl: {
         type: String,
-        required: true
-    }
+        default: '',
+    },
 });
 
-const Faculty = mongoose.models.Faculty || mongoose.model('Faculty', facultySchema);
+const Faculty =
+    mongoose.models.Faculty || mongoose.model('Faculty', facultySchema);
 
 export default Faculty;

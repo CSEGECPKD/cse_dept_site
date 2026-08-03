@@ -1,9 +1,9 @@
 // app/activity/student_gp/page.jsx
-"use client";
-import React, { useState } from "react";
-import { data } from "./content";
-import Image from "next/image";
-import ColoredSection from "../../../../components/ColoredSection";
+'use client';
+import React, { useState } from 'react';
+import { data } from './content';
+import Image from 'next/image';
+import ColoredSection from '../../../../components/ColoredSection';
 
 export default function Page() {
     const [selectedItem, setSelectedItem] = useState(null);
@@ -64,12 +64,12 @@ function HoverableItem({ item, onClick }) {
                 <div className="flex mb-3 sm:mb-4 md:mb-5 justify-start flex-row items-end">
                     <span
                         className={`dot w-1 h-1 bg-black mb-1 sm:mb-2 ${
-                            isHover ? "block" : "hidden"
+                            isHover ? 'block' : 'hidden'
                         } transition-opacity duration-400`}
                     ></span>
                     <h1
                         className={`text-xl sm:text-2xl ${
-                            isHover ? "translate-x-2 sm:translate-x-3" : ""
+                            isHover ? 'translate-x-2 sm:translate-x-3' : ''
                         } transition-transform duration-300`}
                     >
                         {item.head}
@@ -78,7 +78,7 @@ function HoverableItem({ item, onClick }) {
                 <p
                     dangerouslySetInnerHTML={{ __html: item.content }}
                     className={`${
-                        isHover ? "text-[#dc856e]" : "text-[#000000]"
+                        isHover ? 'text-[#dc856e]' : 'text-[#000000]'
                     } transition-colors duration-300 text-base sm:text-lg md:text-[20px] text-justify`}
                 ></p>
             </div>
