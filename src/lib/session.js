@@ -32,7 +32,7 @@ export async function createSession(token, userId) {
 }
 
 export const getAuth = cache(async () => {
-    const token = getSessionToken();
+    const token = await getSessionToken();
     if (!token || token?.length === 0) {
         return { user: null, session: null };
     }
@@ -69,8 +69,10 @@ export const validateSessionToken = async (token) => {
 };
 const SESSION_COOKIE_NAME = 'session';
 
-export function setSessionTokenCookie(token, expiresAt) {
-    cookies().set(SESSION_COOKIE_NAME, token, {
+export async function setSessionTokenCookie(token, expiresAt) {
+    const cookieStore = await cookies();
+
+    cookieStore.set(SESSION_COOKIE_NAME, token, {
         httpOnly: true,
         sameSite: 'lax',
         secure: process.env.NODE_ENV === 'production',
@@ -79,8 +81,9 @@ export function setSessionTokenCookie(token, expiresAt) {
     });
 }
 
-export function deleteSessionTokenCookie() {
-    cookies().set(SESSION_COOKIE_NAME, '', {
+export async function deleteSessionTokenCookie() {
+    const cookieStore = await cookies();
+    cookieStore.set(SESSION_COOKIE_NAME, '', {
         httpOnly: true,
         sameSite: 'lax',
         secure: process.env.NODE_ENV === 'production',
@@ -89,6 +92,7 @@ export function deleteSessionTokenCookie() {
     });
 }
 
-export function getSessionToken() {
-    return cookies().get(SESSION_COOKIE_NAME)?.value;
+export async function getSessionToken() {
+    const cookieStore = await cookies();
+    return cookieStore.get(SESSION_COOKIE_NAME)?.value;
 }

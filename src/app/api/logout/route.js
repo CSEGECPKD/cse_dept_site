@@ -4,7 +4,7 @@ import { encodeHexLowerCase } from '@oslojs/encoding';
 import Session from '@/lib/models/Session';
 import dbConnect from '@/lib/db';
 export const GET = async () => {
-    const token = getSessionToken();
+    const token = await getSessionToken();
     if (token && token.length > 0) {
         const sessionId = encodeHexLowerCase(
             sha256(new TextEncoder().encode(token))
@@ -13,7 +13,7 @@ export const GET = async () => {
         await Session.deleteMany({
             _id: sessionId,
         });
-        deleteSessionTokenCookie();
+        await deleteSessionTokenCookie();
     }
 
     return new Response(null, {

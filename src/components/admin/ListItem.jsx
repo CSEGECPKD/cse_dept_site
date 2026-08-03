@@ -1,10 +1,19 @@
 'use client';
 
 import { useMutation } from '@tanstack/react-query';
+import Link from 'next/link';
 import SubmitButton from './SubmitButton';
 import { useRouter } from 'next/navigation';
 
-const ListItem = ({ title, type, remark, handleDelete, onSuccess }) => {
+const ListItem = ({
+    title,
+    subtitle,
+    type,
+    remark,
+    handleDelete,
+    onSuccess,
+    editLink,
+}) => {
     const router = useRouter();
     const mutation = useMutation({
         mutationFn: async () => {
@@ -18,10 +27,20 @@ const ListItem = ({ title, type, remark, handleDelete, onSuccess }) => {
     return (
         <li className="bg-[#E9E9E8] p-4">
             <div className="flex justify-between items-center">
-                <p className="text-lg font-medium text-[#696969]">{title}</p>
+                <div>
+                    <p className="text-lg font-medium text-[#696969]">
+                        {title}
+                    </p>
+                    {subtitle && (
+                        <p className="text-sm text-[#9E9E9E]">{subtitle}</p>
+                    )}
+                </div>
                 <div className="flex gap-2.5">
-                    {/* TODO:EDIT OPTION */}
-                    {/* <SubmitButton label="EDIT" /> */}
+                    {editLink && (
+                        <Link href={editLink}>
+                            <SubmitButton label="EDIT" />
+                        </Link>
+                    )}
                     {type === 'request-status' && (
                         <SubmitButton label="APPROVED" />
                     )}

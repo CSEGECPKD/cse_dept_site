@@ -2,17 +2,29 @@
 
 import React, { useEffect, useRef } from 'react';
 
-// Import CSS files
-import '/public/dflip/css/dflip.min.css';
-import '/public/dflip/css/themify-icons.min.css';
-
 const FlipBook = ({ pdf }) => {
     const flipbookRef = useRef(null);
 
     useEffect(() => {
         let dflipScript;
+        const cssLinks = [];
         const loadScripts = async () => {
             try {
+                const loadCss = (href) => {
+                    return new Promise((resolve) => {
+                        const link = document.createElement('link');
+                        link.rel = 'stylesheet';
+                        link.href = href;
+                        link.onload = resolve;
+                        link.onerror = resolve;
+                        document.head.appendChild(link);
+                        cssLinks.push(link);
+                    });
+                };
+
+                // Load CSS files
+                await loadCss('/dflip/css/dflip.min.css');
+                await loadCss('/dflip/css/themify-icons.min.css');
                 // Load jQuery if not already loaded
                 if (!window.jQuery) {
                     await new Promise((resolve, reject) => {
@@ -61,6 +73,11 @@ const FlipBook = ({ pdf }) => {
             if (dflipScript && dflipScript.parentNode) {
                 dflipScript.parentNode.removeChild(dflipScript);
             }
+            cssLinks.forEach((link) => {
+                if (link.parentNode) {
+                    link.parentNode.removeChild(link);
+                }
+            });
         };
     }, [pdf]);
 

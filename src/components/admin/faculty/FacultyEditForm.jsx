@@ -1,17 +1,19 @@
 'use client';
 
-import React from 'react';
+import React, { useMemo } from 'react';
+import { useRouter } from 'next/navigation';
+import { z } from 'zod';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useMutation } from '@tanstack/react-query';
+
 import SubmitButton from '@/components/admin/SubmitButton';
 import Input from '@/components/admin/Input';
-import { useForm } from 'react-hook-form';
-import { z } from 'zod';
-import { zodResolver } from '@hookform/resolvers/zod';
 import { UploadButton } from '@/components/uploadthing';
-import { useMutation } from '@tanstack/react-query';
-import { createFaculty } from '@/actions/faculty.action';
+import { updateFaculty } from '@/actions/faculty.action';
 import { toast } from '@/hooks/use-toast';
 
-const facultyFormSchema = z.object({
+const facultyEditFormSchema = z.object({
     name: z.string().min(1, { message: 'Name is required' }),
     designation: z.string().min(1, { message: 'Designation is required' }),
     employeeType: z
@@ -25,33 +27,44 @@ const facultyFormSchema = z.object({
     imageUrl: z.string(),
 });
 
-const FacultyForm = ({ refreshFaculties }) => {
+const FacultyEditForm = ({ faculty }) => {
+    const router = useRouter();
     const {
         register,
         handleSubmit,
         watch,
-        reset,
         formState: { errors },
         setValue,
     } = useForm({
-        resolver: zodResolver(facultyFormSchema),
-        defaultValues: {
-            imageUrl: '',
-        },
+        resolver: zodResolver(facultyEditFormSchema),
+        defaultValues: useMemo(
+            () => ({
+                name: faculty.name,
+                designation: faculty.designation,
+                employeeType: faculty.employeeType,
+                dateOfJoining: faculty.dateOfJoining
+                    ? String(faculty.dateOfJoining).slice(0, 10)
+                    : '',
+                email: faculty.email,
+                phone: faculty.phone,
+                imageUrl: faculty.imageUrl || '',
+            }),
+            [faculty]
+        ),
     });
 
     const mutation = useMutation({
-        mutationFn: async (data) => createFaculty(data),
+        mutationFn: async (data) => updateFaculty(faculty._id, data),
         onSuccess: () => {
-            reset();
             toast({
-                description: 'Employee added successfully',
+                description: 'Employee updated successfully',
             });
-            refreshFaculties?.();
+            router.push('/admin/faculty/edit');
+            router.refresh();
         },
         onError: (error) => {
             toast({
-                description: `Cannot create: ${error.message}`,
+                description: `Cannot update: ${error.message}`,
             });
         },
     });
@@ -142,11 +155,11 @@ const FacultyForm = ({ refreshFaculties }) => {
             </div>
             <SubmitButton
                 disabled={mutation.isPending}
-                label="save"
+                label={mutation.isPending ? 'saving...' : 'save'}
                 type="submit"
             />
         </form>
     );
 };
 
-export default FacultyForm;
+export default FacultyEditForm;

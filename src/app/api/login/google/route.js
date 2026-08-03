@@ -6,7 +6,7 @@ import { getSessionToken } from '@/lib/session';
 export async function GET() {
     const state = generateState();
     const codeVerifier = generateCodeVerifier();
-    const token = getSessionToken();
+    const token = await getSessionToken();
 
     if (token && token.length > 0) {
         return new Response(null, {
@@ -20,14 +20,16 @@ export async function GET() {
         scopes: ['profile', 'email'],
     });
 
-    cookies().set('google_oauth_state', state, {
+    const cookieStore = await cookies();
+
+    cookieStore.set('google_oauth_state', state, {
         path: '/',
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
         maxAge: 60 * 10, // 10 minutes
         sameSite: 'lax',
     });
-    cookies().set('google_code_verifier', codeVerifier, {
+    cookieStore.set('google_code_verifier', codeVerifier, {
         path: '/',
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
