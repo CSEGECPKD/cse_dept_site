@@ -143,7 +143,11 @@ export async function importFaculties(rows) {
         };
 
         const emails = rows
-            .map((row) => String(row?.email ?? '').trim().toLowerCase())
+            .map((row) =>
+                String(row?.email ?? '')
+                    .trim()
+                    .toLowerCase()
+            )
             .filter(Boolean);
         const existing = await Faculty.find({
             email: { $in: emails },

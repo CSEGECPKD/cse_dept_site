@@ -1,16 +1,21 @@
-import ListItem from '@/components/admin/ListItem';
-import SavedList from '@/components/admin/saved/SavedList';
 import React from 'react';
+
+import SavedList from '@/components/admin/saved/SavedList';
+import PageHeader from '@/components/admin/ui/PageHeader';
+import SectionCard from '@/components/admin/ui/SectionCard';
 import SubmitAllButton from './SubmitAllButton';
 
 const SavedPage = () => {
     return (
-        <div className="py-20 px-20 space-y-2.5">
-            <div className="flex justify-between items-center">
-                <h1 className="text-3xl font-medium">SAVED REQUESTS</h1>
-                <SubmitAllButton />
-            </div>
-            <SavedList />
+        <div className="space-y-6">
+            <PageHeader
+                title="Saved Requests"
+                description="Requests saved as drafts."
+                actions={<SubmitAllButton />}
+            />
+            <SectionCard title="Drafts" description="Saved but not submitted.">
+                <SavedList />
+            </SectionCard>
         </div>
     );
 };

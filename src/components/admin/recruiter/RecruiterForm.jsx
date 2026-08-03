@@ -1,15 +1,17 @@
 'use client';
 
 import React from 'react';
-import SubmitButton from '@/components/admin/SubmitButton';
-import Input from '@/components/admin/Input';
+import { Loader2 } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { UploadButton } from '@/components/uploadthing';
 import { useMutation } from '@tanstack/react-query';
+
 import { createRecruiter } from '@/actions/recruiter.action';
-import { useToast } from '@/hooks/use-toast';
+import { Button } from '@/components/ui/button';
+import FormField from '../ui/FormField';
+import UploadCard from '../ui/UploadCard';
+import { toast } from '@/hooks/use-toast';
 
 const recruiterFormSchema = z.object({
     companyName: z.string().min(1, { message: 'Company name is required' }),
@@ -17,11 +19,11 @@ const recruiterFormSchema = z.object({
 });
 
 const RecruiterForm = ({ refreshRecruiters }) => {
-    const toast = useToast();
     const {
         register,
         handleSubmit,
         watch,
+        reset,
         formState: { errors },
         setValue,
     } = useForm({
@@ -32,16 +34,21 @@ const RecruiterForm = ({ refreshRecruiters }) => {
     });
 
     const mutation = useMutation({
-        mutationFn: async (data) => {
-            await createRecruiter(data);
-        },
+        mutationFn: async (data) => createRecruiter(data),
         onSuccess: () => {
             reset();
+            toast({
+                variant: 'success',
+                title: 'Recruiter added',
+                description: 'Recruiter added successfully.',
+            });
             refreshRecruiters?.();
         },
         onError: (error) => {
             toast({
-                description: `Cannot create ${error.message}`,
+                variant: 'destructive',
+                title: 'Unable to add recruiter',
+                description: error?.message || 'Please try again.',
             });
         },
     });
@@ -50,55 +57,44 @@ const RecruiterForm = ({ refreshRecruiters }) => {
         mutation.mutate(data);
     };
 
-    console.log(errors);
-
     const companyLogo = watch('companyLogo');
 
     return (
-        <form className="space-y-8" onSubmit={handleSubmit(onSubmit)}>
-            <Input
+        <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
+            <FormField
+                id="companyName"
                 label="Company Name"
                 type="text"
                 placeholder="Enter company name"
-                name="companyName"
-                {...register('companyName')}
+                required
                 error={errors?.companyName}
+                {...register('companyName')}
             />
+
             <div className="space-y-2">
-                <h3 className="font-medium capitalize text-2xl">
-                    Company Logo
-                </h3>
-                {companyLogo === '' ? (
-                    <>
-                        <UploadButton
-                            endpoint="imageUploader"
-                            onClientUploadComplete={(res) => {
-                                console.log('Files: ', res);
-                                setValue('companyLogo', res[0].url);
-                            }}
-                            onUploadError={(error) => {
-                                alert(`ERROR! ${error.message}`);
-                            }}
-                        />
-                        {errors?.companyLogo && (
-                            <p className="text-red-500">
-                                {errors.companyLogo.message}
-                            </p>
-                        )}
-                    </>
-                ) : (
-                    <img
-                        className="w-[200px] border-2 border-black"
-                        src={companyLogo}
-                        alt="Company Logo"
-                    />
+                <p className="text-sm font-medium">Company Logo</p>
+                <UploadCard
+                    value={companyLogo}
+                    onChange={(url) => setValue('companyLogo', url)}
+                    label="Company Logo"
+                />
+                {errors?.companyLogo && (
+                    <p className="text-xs font-medium text-destructive">
+                        {errors.companyLogo.message}
+                    </p>
                 )}
             </div>
-            <SubmitButton
-                disabled={mutation.isPending}
-                label="Save"
+
+            <Button
                 type="submit"
-            />
+                disabled={mutation.isPending}
+                className="w-full gap-2 sm:w-auto"
+            >
+                {mutation.isPending && (
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                )}
+                {mutation.isPending ? 'Saving…' : 'Add Recruiter'}
+            </Button>
         </form>
     );
 };

@@ -1,24 +1,24 @@
 'use client';
 
 import React from 'react';
-import SubmitButton from '@/components/admin/SubmitButton';
-import Input from '@/components/admin/Input';
-import { useForm } from 'react-hook-form';
+import { Loader2 } from 'lucide-react';
+import { useForm, Controller } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation } from '@tanstack/react-query';
-import { createStudent } from '@/actions/student.action';
 import { useRouter } from 'next/navigation';
+
+import { createStudent } from '@/actions/student.action';
+import { Button } from '@/components/ui/button';
+import FormField from '../ui/FormField';
 import {
     Select,
     SelectContent,
-    SelectGroup,
     SelectItem,
-    SelectLabel,
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select';
-import { useToast } from '@/hooks/use-toast';
+import { toast } from '@/hooks/use-toast';
 
 const studentFormSchema = z.object({
     name: z.string().min(1, { message: 'Name is required' }),
@@ -28,29 +28,38 @@ const studentFormSchema = z.object({
     }),
 });
 
-const StudentForm = ({ courses }) => {
+const StudentForm = ({ courses = [], refreshStudents }) => {
     const router = useRouter();
-    const toast = useToast();
     const {
         register,
         handleSubmit,
         reset,
+        control,
         formState: { errors },
     } = useForm({
         resolver: zodResolver(studentFormSchema),
+        defaultValues: {
+            course: '',
+        },
     });
 
     const { mutate, isPending } = useMutation({
-        mutationFn: async (data) => {
-            await createStudent(data);
-        },
+        mutationFn: async (data) => createStudent(data),
         onSuccess: () => {
+            reset({ course: '' });
+            toast({
+                variant: 'success',
+                title: 'Student added',
+                description: 'Student added successfully.',
+            });
+            refreshStudents?.();
             router.refresh();
-            reset();
         },
         onError: (error) => {
             toast({
-                description: `Cannot create ${error.message}`,
+                variant: 'destructive',
+                title: 'Unable to add student',
+                description: error?.message || 'Please try again.',
             });
         },
     });
@@ -60,39 +69,71 @@ const StudentForm = ({ courses }) => {
     };
 
     return (
-        <form className="space-y-8" onSubmit={handleSubmit(onSubmit)}>
-            <Input
+        <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
+            <FormField
+                id="name"
                 label="Name"
                 type="text"
                 placeholder="eg. John Doe"
-                name="name"
-                {...register('name')}
+                required
                 error={errors?.name}
+                {...register('name')}
             />
-            <Select>
-                <SelectTrigger className="w-[180px]">
-                    <SelectValue placeholder="Select a fruit" />
-                </SelectTrigger>
-                <SelectContent>
-                    <SelectGroup>
-                        <SelectLabel>Fruits</SelectLabel>
-                        <SelectItem value="apple">Apple</SelectItem>
-                        <SelectItem value="banana">Banana</SelectItem>
-                        <SelectItem value="blueberry">Blueberry</SelectItem>
-                        <SelectItem value="grapes">Grapes</SelectItem>
-                        <SelectItem value="pineapple">Pineapple</SelectItem>
-                    </SelectGroup>
-                </SelectContent>
-            </Select>
-            <Input
+
+            <div className="space-y-1.5">
+                <label htmlFor="course" className="text-sm font-medium">
+                    Course
+                    <span className="ml-0.5 text-destructive">*</span>
+                </label>
+                <Controller
+                    name="course"
+                    control={control}
+                    render={({ field }) => (
+                        <Select
+                            value={field.value}
+                            onValueChange={field.onChange}
+                        >
+                            <SelectTrigger id="course" className="h-10 w-full">
+                                <SelectValue placeholder="Select a course" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                {courses.map((course) => (
+                                    <SelectItem
+                                        key={course._id}
+                                        value={course._id}
+                                    >
+                                        {course.name}
+                                    </SelectItem>
+                                ))}
+                            </SelectContent>
+                        </Select>
+                    )}
+                />
+                {errors?.course && (
+                    <p className="text-xs font-medium text-destructive">
+                        {errors.course.message}
+                    </p>
+                )}
+            </div>
+
+            <FormField
+                id="batch"
                 label="Batch"
                 type="text"
                 placeholder="eg. 2020-2024"
-                name="batch"
-                {...register('batch')}
+                required
                 error={errors?.batch}
+                {...register('batch')}
             />
-            <SubmitButton disabled={isPending} label="save" type="submit" />
+
+            <Button
+                type="submit"
+                disabled={isPending}
+                className="w-full gap-2 sm:w-auto"
+            >
+                {isPending && <Loader2 className="h-4 w-4 animate-spin" />}
+                {isPending ? 'Saving…' : 'Add Student'}
+            </Button>
         </form>
     );
 };

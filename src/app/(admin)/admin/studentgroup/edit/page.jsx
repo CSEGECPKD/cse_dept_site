@@ -5,8 +5,10 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { getStudentGroups } from '@/actions/studentgroup.action';
 import StudentGroupForm from '@/components/admin/studentgroup/StudentGroupForm';
 import StudentGroupList from '@/components/admin/studentgroup/StudentGroupList';
+import AdminPageLayout from '@/components/admin/ui/AdminPageLayout';
+import SectionCard from '@/components/admin/ui/SectionCard';
 
-const EditAccreditionPage = () => {
+const EditStudentGroupPage = () => {
     const [studentGroupList, setStudentGroupList] = useState([]);
     const [loading, setLoading] = useState(true);
 
@@ -27,19 +29,33 @@ const EditAccreditionPage = () => {
     }, [fetchStudentGroups]);
 
     return (
-        <div className="grid grid-cols-2">
-            <div className="py-20 px-20">
-                <StudentGroupForm refreshStudentGroups={fetchStudentGroups} />
-            </div>
-            <div className="py-20 px-10">
-                <StudentGroupList
-                    studentGroupList={studentGroupList}
-                    loading={loading}
-                    refresh={fetchStudentGroups}
-                />
-            </div>
+        <div className="space-y-6">
+            <AdminPageLayout
+                form={
+                    <SectionCard
+                        title="Add Student Group"
+                        description="Create a new record."
+                    >
+                        <StudentGroupForm
+                            refreshStudentGroups={fetchStudentGroups}
+                        />
+                    </SectionCard>
+                }
+                list={
+                    <SectionCard
+                        title="Student Groups"
+                        description="Manage existing records."
+                    >
+                        <StudentGroupList
+                            studentGroupList={studentGroupList}
+                            loading={loading}
+                            refresh={fetchStudentGroups}
+                        />
+                    </SectionCard>
+                }
+            />
         </div>
     );
 };
 
-export default EditAccreditionPage;
+export default EditStudentGroupPage;

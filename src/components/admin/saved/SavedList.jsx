@@ -1,5 +1,5 @@
 import React from 'react';
-import ListItem from '../ListItem';
+import { Save } from 'lucide-react';
 
 const data = [
     {
@@ -26,11 +26,17 @@ const data = [
 
 const SavedList = () => {
     return (
-        <ul className="space-y-1">
+        <div className="divide-y">
             {data.map((item) => (
-                <ListItem type="saved" key={item.id} title={item.title} />
+                <div
+                    key={item.id}
+                    className="flex items-center gap-3 py-3 first:pt-0 last:pb-0"
+                >
+                    <Save className="h-4 w-4 shrink-0 text-muted-foreground" />
+                    <span className="text-sm font-medium">{item.title}</span>
+                </div>
             ))}
-        </ul>
+        </div>
     );
 };
 

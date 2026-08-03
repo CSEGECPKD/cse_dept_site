@@ -5,8 +5,10 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { getTopperList } from '@/actions/topper.action';
 import TopperForm from '@/components/admin/toppers/TopperForm';
 import TopperList from '@/components/admin/toppers/TopperList';
+import AdminPageLayout from '@/components/admin/ui/AdminPageLayout';
+import SectionCard from '@/components/admin/ui/SectionCard';
 
-const EditAccreditionPage = () => {
+const EditTopperPage = () => {
     const [topperList, setTopperList] = useState([]);
     const [loading, setLoading] = useState(true);
 
@@ -27,19 +29,31 @@ const EditAccreditionPage = () => {
     }, [fetchToppers]);
 
     return (
-        <div className="grid grid-cols-2">
-            <div className="py-20 px-20">
-                <TopperForm refreshToppers={fetchToppers} />
-            </div>
-            <div className="py-20 px-10">
-                <TopperList
-                    topperList={topperList}
-                    loading={loading}
-                    refresh={fetchToppers}
-                />
-            </div>
+        <div className="space-y-6">
+            <AdminPageLayout
+                form={
+                    <SectionCard
+                        title="Add Topper"
+                        description="Create a new record."
+                    >
+                        <TopperForm refreshToppers={fetchToppers} />
+                    </SectionCard>
+                }
+                list={
+                    <SectionCard
+                        title="Toppers"
+                        description="Manage existing records."
+                    >
+                        <TopperList
+                            topperList={topperList}
+                            loading={loading}
+                            refresh={fetchToppers}
+                        />
+                    </SectionCard>
+                }
+            />
         </div>
     );
 };
 
-export default EditAccreditionPage;
+export default EditTopperPage;

@@ -1,5 +1,5 @@
 import React from 'react';
-import ListItem from '../ListItem';
+import { Clock } from 'lucide-react';
 
 const data = [
     {
@@ -27,16 +27,26 @@ const data = [
 
 const RequestStatusList = () => {
     return (
-        <ul className="space-y-1">
+        <div className="divide-y">
             {data.map((item) => (
-                <ListItem
-                    type="request-status"
+                <div
                     key={item.id}
-                    title={item.title}
-                    remark={item.remark}
-                />
+                    className="flex items-center justify-between gap-3 py-3 first:pt-0 last:pb-0"
+                >
+                    <div className="flex items-center gap-3">
+                        <Clock className="h-4 w-4 shrink-0 text-muted-foreground" />
+                        <span className="text-sm font-medium">
+                            {item.title}
+                        </span>
+                    </div>
+                    {item.remark && (
+                        <span className="rounded-md bg-destructive/10 px-2 py-0.5 text-xs font-medium text-destructive">
+                            {item.remark}
+                        </span>
+                    )}
+                </div>
             ))}
-        </ul>
+        </div>
     );
 };
 

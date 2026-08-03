@@ -2,27 +2,26 @@
 
 import React, { useMemo } from 'react';
 import { useRouter } from 'next/navigation';
+import { Loader2 } from 'lucide-react';
 import { z } from 'zod';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation } from '@tanstack/react-query';
 
-import SubmitButton from '@/components/admin/SubmitButton';
-import Input from '@/components/admin/Input';
-import { UploadButton } from '@/components/uploadthing';
+import { Button } from '@/components/ui/button';
 import { updateFaculty } from '@/actions/faculty.action';
+import FormField from '../ui/FormField';
+import UploadCard from '../ui/UploadCard';
 import { toast } from '@/hooks/use-toast';
 
 const facultyEditFormSchema = z.object({
-    name: z.string().min(1, { message: 'Name is required' }),
+    name: z.string().min(1, { message: 'Employee name is required' }),
     designation: z.string().min(1, { message: 'Designation is required' }),
-    employeeType: z
-        .string()
-        .min(1, { message: 'Employee Type is required' }),
+    employeeType: z.string().min(1, { message: 'Employee type is required' }),
     dateOfJoining: z
         .string()
-        .min(1, { message: 'Date of Joining is required' }),
-    email: z.string().email({ message: 'Invalid email' }),
+        .min(1, { message: 'Date of joining is required' }),
+    email: z.string().email({ message: 'Enter a valid email address' }),
     phone: z.string().min(1, { message: 'Phone number is required' }),
     imageUrl: z.string(),
 });
@@ -57,14 +56,18 @@ const FacultyEditForm = ({ faculty }) => {
         mutationFn: async (data) => updateFaculty(faculty._id, data),
         onSuccess: () => {
             toast({
-                description: 'Employee updated successfully',
+                variant: 'success',
+                title: 'Changes saved',
+                description: 'Employee updated successfully.',
             });
             router.push('/admin/faculty/edit');
             router.refresh();
         },
         onError: (error) => {
             toast({
-                description: `Cannot update: ${error.message}`,
+                variant: 'destructive',
+                title: 'Unable to update employee',
+                description: error?.message || 'Please try again.',
             });
         },
     });
@@ -76,88 +79,87 @@ const FacultyEditForm = ({ faculty }) => {
     const imageUrl = watch('imageUrl');
 
     return (
-        <form className="space-y-8" onSubmit={handleSubmit(onSubmit)}>
-            <Input
-                label="Full Name"
-                type="text"
-                placeholder="eg. John Doe"
-                name="name"
-                {...register('name')}
-                error={errors?.name}
-            />
-            <Input
-                label="Designation"
-                type="text"
-                placeholder="eg. Professor"
-                name="designation"
-                {...register('designation')}
-                error={errors?.designation}
-            />
-            <Input
-                label="Employee Type"
-                type="text"
-                placeholder="eg. Permanent / Adhoc"
-                name="employeeType"
-                {...register('employeeType')}
-                error={errors?.employeeType}
-            />
-            <Input
-                label="Date of Joining"
-                type="date"
-                name="dateOfJoining"
-                {...register('dateOfJoining')}
-                error={errors?.dateOfJoining}
-            />
-            <Input
-                label="Email"
-                type="email"
-                placeholder="eg. john.doe@example.com"
-                name="email"
-                {...register('email')}
-                error={errors?.email}
-            />
-            <Input
-                label="Phone"
-                type="text"
-                placeholder="eg. 9876543210"
-                name="phone"
-                {...register('phone')}
-                error={errors?.phone}
-            />
+        <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
+            <div className="grid gap-4 sm:grid-cols-2">
+                <FormField
+                    id="name"
+                    label="Full Name"
+                    type="text"
+                    placeholder="eg. John Doe"
+                    required
+                    error={errors?.name}
+                    {...register('name')}
+                />
+                <FormField
+                    id="designation"
+                    label="Designation"
+                    type="text"
+                    placeholder="eg. Professor"
+                    required
+                    error={errors?.designation}
+                    {...register('designation')}
+                />
+                <FormField
+                    id="employeeType"
+                    label="Employee Type"
+                    type="text"
+                    placeholder="eg. Teaching / Technical"
+                    required
+                    error={errors?.employeeType}
+                    {...register('employeeType')}
+                />
+                <FormField
+                    id="dateOfJoining"
+                    label="Date of Joining"
+                    type="date"
+                    required
+                    error={errors?.dateOfJoining}
+                    {...register('dateOfJoining')}
+                />
+                <FormField
+                    id="email"
+                    label="Email"
+                    type="email"
+                    placeholder="eg. john.doe@example.com"
+                    required
+                    error={errors?.email}
+                    {...register('email')}
+                />
+                <FormField
+                    id="phone"
+                    label="Phone"
+                    type="tel"
+                    placeholder="eg. 9876543210"
+                    required
+                    error={errors?.phone}
+                    {...register('phone')}
+                />
+            </div>
+
             <div className="space-y-2">
-                <h3 className="font-medium capitalize text-2xl">
-                    Photo(JPEG/JPG)
-                </h3>
-                {imageUrl === '' ? (
-                    <>
-                        <UploadButton
-                            endpoint="imageUploader"
-                            onClientUploadComplete={(res) => {
-                                setValue('imageUrl', res[0].url);
-                            }}
-                            onUploadError={(error) => {
-                                alert(`ERROR! ${error.message}`);
-                            }}
-                        />
-                        {errors?.imageUrl && (
-                            <p className="text-red-500">
-                                {errors.imageUrl.message}
-                            </p>
-                        )}
-                    </>
-                ) : (
-                    <img
-                        className="w-[200px] border-2 border-black"
-                        src={imageUrl}
-                        alt=""
-                    />
+                <p className="text-sm font-medium">Photo</p>
+                <UploadCard
+                    value={imageUrl}
+                    onChange={(url) => setValue('imageUrl', url)}
+                    label="Photo"
+                />
+                {errors?.imageUrl && (
+                    <p className="text-xs font-medium text-destructive">
+                        {errors.imageUrl.message}
+                    </p>
                 )}
             </div>
-            <SubmitButton
-                disabled={mutation.isPending}
-                label={mutation.isPending ? 'saving...' : 'save'}
+
+            <Button
                 type="submit"
-            />
+                disabled={mutation.isPending}
+                className="w-full gap-2 sm:w-auto"
+            >
+                {mutation.isPending && (
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                )}
+                {mutation.isPending ? 'Saving…' : 'Save Changes'}
+            </Button>
         </form>
     );
 };

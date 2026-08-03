@@ -5,8 +5,10 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { getCourses } from '@/actions/course.action';
 import CourseForm from '@/components/admin/course/CourseForm';
 import CourseList from '@/components/admin/course/CourseList';
+import AdminPageLayout from '@/components/admin/ui/AdminPageLayout';
+import SectionCard from '@/components/admin/ui/SectionCard';
 
-const EditAccreditionPage = () => {
+const EditCoursePage = () => {
     const [courseList, setCourseList] = useState([]);
     const [loading, setLoading] = useState(true);
 
@@ -27,19 +29,31 @@ const EditAccreditionPage = () => {
     }, [fetchCourses]);
 
     return (
-        <div className="grid grid-cols-2">
-            <div className="py-20 px-20">
-                <CourseForm refreshCourses={fetchCourses} />
-            </div>
-            <div className="py-20 px-10">
-                <CourseList
-                    courseList={courseList}
-                    loading={loading}
-                    refresh={fetchCourses}
-                />
-            </div>
+        <div className="space-y-6">
+            <AdminPageLayout
+                form={
+                    <SectionCard
+                        title="Add Course"
+                        description="Create a new record."
+                    >
+                        <CourseForm refreshCourses={fetchCourses} />
+                    </SectionCard>
+                }
+                list={
+                    <SectionCard
+                        title="Existing Courses"
+                        description="Manage existing records."
+                    >
+                        <CourseList
+                            courseList={courseList}
+                            loading={loading}
+                            refresh={fetchCourses}
+                        />
+                    </SectionCard>
+                }
+            />
         </div>
     );
 };
 
-export default EditAccreditionPage;
+export default EditCoursePage;

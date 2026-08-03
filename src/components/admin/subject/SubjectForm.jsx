@@ -1,15 +1,17 @@
 'use client';
 
 import React from 'react';
-import SubmitButton from '@/components/admin/SubmitButton';
-import Input from '@/components/admin/Input';
+import { Loader2 } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { UploadButton } from '@/components/uploadthing';
 import { useMutation } from '@tanstack/react-query';
+
 import { createSubject } from '@/actions/subject.action';
-import { useToast } from '@/hooks/use-toast';
+import { Button } from '@/components/ui/button';
+import FormField from '../ui/FormField';
+import UploadCard from '../ui/UploadCard';
+import { toast } from '@/hooks/use-toast';
 
 const subjectFormSchema = z.object({
     courseId: z.string().min(1, { message: 'Course ID is required' }),
@@ -22,11 +24,11 @@ const subjectFormSchema = z.object({
 });
 
 const SubjectForm = ({ refreshSubjects }) => {
-    const toast = useToast();
     const {
         register,
         handleSubmit,
         watch,
+        reset,
         formState: { errors },
         setValue,
     } = useForm({
@@ -37,16 +39,21 @@ const SubjectForm = ({ refreshSubjects }) => {
     });
 
     const mutation = useMutation({
-        mutationFn: async (data) => {
-            await createSubject(data);
-        },
+        mutationFn: async (data) => createSubject(data),
         onSuccess: () => {
             reset();
+            toast({
+                variant: 'success',
+                title: 'Subject added',
+                description: 'Subject added successfully.',
+            });
             refreshSubjects?.();
         },
         onError: (error) => {
             toast({
-                description: `Cannot create ${error.message}`,
+                variant: 'destructive',
+                title: 'Unable to add subject',
+                description: error?.message || 'Please try again.',
             });
         },
     });
@@ -55,96 +62,92 @@ const SubjectForm = ({ refreshSubjects }) => {
         mutation.mutate(data);
     };
 
-    console.log(errors);
-
     const pdfUrl = watch('pdfUrl');
 
     return (
-        <form className="space-y-8" onSubmit={handleSubmit(onSubmit)}>
-            <Input
-                label="Course ID"
-                type="text"
-                placeholder="Enter Course ID"
-                name="courseId"
-                {...register('courseId')}
-                error={errors?.courseId}
-            />
-            <Input
-                label="Year of Scheme"
-                type="text"
-                placeholder="Enter Year of Scheme"
-                name="yearOfScheme"
-                {...register('yearOfScheme')}
-                error={errors?.yearOfScheme}
-            />
-            <Input
-                label="Semester"
-                type="text"
-                placeholder="Enter Semester"
-                name="semester"
-                {...register('semester')}
-                error={errors?.semester}
-            />
-            <Input
-                label="Subject Code"
-                type="text"
-                placeholder="Enter Subject Code"
-                name="subCode"
-                {...register('subCode')}
-                error={errors?.subCode}
-            />
-            <Input
-                label="Name"
-                type="text"
-                placeholder="Enter Subject Name"
-                name="name"
-                {...register('name')}
-                error={errors?.name}
-            />
-            <Input
-                label="Description"
-                type="text"
-                placeholder="Enter Subject Description"
-                name="description"
-                {...register('description')}
-                error={errors?.description}
-            />
+        <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
+            <div className="grid gap-4 sm:grid-cols-2">
+                <FormField
+                    id="courseId"
+                    label="Course ID"
+                    type="text"
+                    placeholder="Enter Course ID"
+                    required
+                    error={errors?.courseId}
+                    {...register('courseId')}
+                />
+                <FormField
+                    id="yearOfScheme"
+                    label="Year of Scheme"
+                    type="text"
+                    placeholder="Enter Year of Scheme"
+                    required
+                    error={errors?.yearOfScheme}
+                    {...register('yearOfScheme')}
+                />
+                <FormField
+                    id="semester"
+                    label="Semester"
+                    type="text"
+                    placeholder="Enter Semester"
+                    required
+                    error={errors?.semester}
+                    {...register('semester')}
+                />
+                <FormField
+                    id="subCode"
+                    label="Subject Code"
+                    type="text"
+                    placeholder="Enter Subject Code"
+                    required
+                    error={errors?.subCode}
+                    {...register('subCode')}
+                />
+                <FormField
+                    id="name"
+                    label="Name"
+                    type="text"
+                    placeholder="Enter Subject Name"
+                    required
+                    error={errors?.name}
+                    {...register('name')}
+                />
+                <FormField
+                    id="description"
+                    label="Description"
+                    type="text"
+                    placeholder="Enter Subject Description"
+                    required
+                    error={errors?.description}
+                    {...register('description')}
+                />
+            </div>
+
             <div className="space-y-2">
-                <h3 className="font-medium capitalize text-2xl">PDF File</h3>
-                {pdfUrl === '' ? (
-                    <>
-                        <UploadButton
-                            endpoint="imageUploader"
-                            onClientUploadComplete={(res) => {
-                                console.log('Files: ', res);
-                                setValue('pdfUrl', res[0].url);
-                            }}
-                            onUploadError={(error) => {
-                                alert(`ERROR! ${error.message}`);
-                            }}
-                        />
-                        {errors?.pdfUrl && (
-                            <p className="text-red-500">
-                                {errors.pdfUrl.message}
-                            </p>
-                        )}
-                    </>
-                ) : (
-                    <a
-                        href={pdfUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-blue-500 underline"
-                    >
-                        View Uploaded PDF
-                    </a>
+                <p className="text-sm font-medium">PDF File</p>
+                <UploadCard
+                    value={pdfUrl}
+                    onChange={(url) => setValue('pdfUrl', url)}
+                    label="PDF"
+                    fileName="Uploaded PDF"
+                />
+                {errors?.pdfUrl && (
+                    <p className="text-xs font-medium text-destructive">
+                        {errors.pdfUrl.message}
+                    </p>
                 )}
             </div>
-            <SubmitButton
-                disabled={mutation.isPending}
-                label="Save Subject"
+
+            <Button
                 type="submit"
-            />
+                disabled={mutation.isPending}
+                className="w-full gap-2 sm:w-auto"
+            >
+                {mutation.isPending && (
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                )}
+                {mutation.isPending ? 'Saving…' : 'Add Subject'}
+            </Button>
         </form>
     );
 };

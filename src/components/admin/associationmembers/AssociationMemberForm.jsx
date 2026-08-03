@@ -1,15 +1,17 @@
 'use client';
 
 import React from 'react';
-import SubmitButton from '@/components/admin/SubmitButton';
-import Input from '@/components/admin/Input';
+import { Loader2 } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { UploadButton } from '@/components/uploadthing';
 import { useMutation } from '@tanstack/react-query';
+
 import { createAssociationMember } from '@/actions/associationmembers.action';
-import { useToast } from '@/hooks/use-toast';
+import { Button } from '@/components/ui/button';
+import FormField from '../ui/FormField';
+import UploadCard from '../ui/UploadCard';
+import { toast } from '@/hooks/use-toast';
 
 const associationMemberFormSchema = z.object({
     name: z.string().min(1, { message: 'Name is required' }),
@@ -27,7 +29,6 @@ const associationMemberFormSchema = z.object({
 });
 
 const AssociationMemberForm = ({ refreshAssociationMembers }) => {
-    const toast = useToast();
     const {
         register,
         handleSubmit,
@@ -43,16 +44,21 @@ const AssociationMemberForm = ({ refreshAssociationMembers }) => {
     });
 
     const mutation = useMutation({
-        mutationFn: async (data) => {
-            await createAssociationMember(data);
-        },
+        mutationFn: async (data) => createAssociationMember(data),
         onSuccess: () => {
-            refreshAssociationMembers?.();
             reset();
+            toast({
+                variant: 'success',
+                title: 'Member added',
+                description: 'Member added successfully.',
+            });
+            refreshAssociationMembers?.();
         },
         onError: (error) => {
             toast({
-                description: `Cannot create ${error.message}`,
+                variant: 'destructive',
+                title: 'Unable to add member',
+                description: error?.message || 'Please try again.',
             });
         },
     });
@@ -61,77 +67,73 @@ const AssociationMemberForm = ({ refreshAssociationMembers }) => {
         mutation.mutate(data);
     };
 
-    console.log(errors);
-
     const imageUrl = watch('imageUrl');
 
     return (
-        <form className="space-y-8" onSubmit={handleSubmit(onSubmit)}>
-            <Input
-                label="Name"
-                type="text"
-                placeholder="eg. John Doe"
-                name="name"
-                {...register('name')}
-                error={errors?.name}
-            />
-            <Input
-                label="Year"
-                type="text"
-                placeholder="eg. 2023"
-                name="year"
-                {...register('year')}
-                error={errors?.year}
-            />
-            <Input
-                label="Designation"
-                type="text"
-                placeholder="eg. President"
-                name="designation"
-                {...register('designation')}
-                error={errors?.designation}
-            />
-            <Input
-                label="Email ID"
-                type="email"
-                placeholder="eg. john.doe@example.com"
-                name="mailId"
-                {...register('mailId')}
-                error={errors?.mailId}
-            />
+        <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
+            <div className="grid gap-4 sm:grid-cols-2">
+                <FormField
+                    id="name"
+                    label="Name"
+                    type="text"
+                    placeholder="eg. John Doe"
+                    required
+                    error={errors?.name}
+                    {...register('name')}
+                />
+                <FormField
+                    id="year"
+                    label="Year"
+                    type="text"
+                    placeholder="eg. 2023"
+                    required
+                    error={errors?.year}
+                    {...register('year')}
+                />
+                <FormField
+                    id="designation"
+                    label="Designation"
+                    type="text"
+                    placeholder="eg. President"
+                    required
+                    error={errors?.designation}
+                    {...register('designation')}
+                />
+                <FormField
+                    id="mailId"
+                    label="Email ID"
+                    type="email"
+                    placeholder="eg. john.doe@example.com"
+                    required
+                    error={errors?.mailId}
+                    {...register('mailId')}
+                />
+            </div>
+
             <div className="space-y-2">
-                <h3 className="font-medium capitalize text-2xl">
-                    Image(JPEG/JPG)
-                </h3>
-                {imageUrl === '' ? (
-                    <>
-                        <UploadButton
-                            endpoint="imageUploader"
-                            onClientUploadComplete={(res) => {
-                                // Do something with the response
-                                console.log('Files: ', res);
-                                setValue('imageUrl', res[0].url);
-                            }}
-                            onUploadError={(error) => {
-                                // Do something with the error.
-                                alert(`ERROR! ${error.message}`);
-                            }}
-                        />
-                        {errors?.imageUrl && (
-                            <p className="text-red-500">
-                                {errors.imageUrl.message}
-                            </p>
-                        )}
-                    </>
-                ) : (
-                    <img
-                        className="w-[200px] border-2 border-black"
-                        src={imageUrl}
-                        alt=""
-                    />
+                <p className="text-sm font-medium">Image</p>
+                <UploadCard
+                    value={imageUrl}
+                    onChange={(url) => setValue('imageUrl', url)}
+                    label="Image"
+                />
+                {errors?.imageUrl && (
+                    <p className="text-xs font-medium text-destructive">
+                        {errors.imageUrl.message}
+                    </p>
                 )}
             </div>
-            <SubmitButton label="save" type="submit" />
+
+            <Button
+                type="submit"
+                disabled={mutation.isPending}
+                className="w-full gap-2 sm:w-auto"
+            >
+                {mutation.isPending && (
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                )}
+                {mutation.isPending ? 'Saving…' : 'Add Member'}
+            </Button>
         </form>
     );
 };

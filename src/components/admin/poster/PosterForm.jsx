@@ -1,16 +1,17 @@
 'use client';
 
 import React from 'react';
-import SubmitButton from '@/components/admin/SubmitButton';
-import Input from '@/components/admin/Input';
+import { Loader2 } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { UploadButton } from '@/components/uploadthing';
 import { useMutation } from '@tanstack/react-query';
-import { createFaculty } from '@/actions/faculty.action';
+
 import { createPoster } from '@/actions/poster.action';
-import { useToast } from '@/hooks/use-toast';
+import { Button } from '@/components/ui/button';
+import FormField from '../ui/FormField';
+import UploadCard from '../ui/UploadCard';
+import { toast } from '@/hooks/use-toast';
 
 const posterFormSchema = z.object({
     name: z.string().min(1, { message: 'Name is required' }),
@@ -19,14 +20,13 @@ const posterFormSchema = z.object({
 });
 
 const PosterForm = ({ refreshPosters }) => {
-    const toast = useToast();
     const {
         register,
         handleSubmit,
         watch,
+        reset,
         formState: { errors },
         setValue,
-        reset,
     } = useForm({
         resolver: zodResolver(posterFormSchema),
         defaultValues: {
@@ -35,16 +35,21 @@ const PosterForm = ({ refreshPosters }) => {
     });
 
     const mutation = useMutation({
-        mutationFn: async (data) => {
-            await createPoster(data);
-        },
+        mutationFn: async (data) => createPoster(data),
         onSuccess: () => {
-            refreshPosters?.();
             reset();
+            toast({
+                variant: 'success',
+                title: 'Poster added',
+                description: 'Poster added successfully.',
+            });
+            refreshPosters?.();
         },
         onError: (error) => {
             toast({
-                description: `Cannot create ${error.message}`,
+                variant: 'destructive',
+                title: 'Unable to add poster',
+                description: error?.message || 'Please try again.',
             });
         },
     });
@@ -53,63 +58,55 @@ const PosterForm = ({ refreshPosters }) => {
         mutation.mutate(data);
     };
 
-    console.log(errors);
-
     const imageUrl = watch('imageUrl');
 
     return (
-        <form className="space-y-8" onSubmit={handleSubmit(onSubmit)}>
-            <Input
-                label="Name"
-                type="text"
-                placeholder="Enter poster name"
-                name="name"
-                {...register('name')}
-                error={errors?.name}
-            />
-            <Input
-                label="Description"
-                type="text"
-                placeholder="Enter poster description"
-                name="description"
-                {...register('description')}
-                error={errors?.description}
-            />
+        <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
+            <div className="grid gap-4 sm:grid-cols-2">
+                <FormField
+                    id="name"
+                    label="Name"
+                    type="text"
+                    placeholder="Enter poster name"
+                    required
+                    error={errors?.name}
+                    {...register('name')}
+                />
+                <FormField
+                    id="description"
+                    label="Description"
+                    type="text"
+                    placeholder="Enter poster description"
+                    required
+                    error={errors?.description}
+                    {...register('description')}
+                />
+            </div>
+
             <div className="space-y-2">
-                <h3 className="font-medium capitalize text-2xl">
-                    Image(JPEG/JPG)
-                </h3>
-                {imageUrl === '' ? (
-                    <>
-                        <UploadButton
-                            endpoint="imageUploader"
-                            onClientUploadComplete={(res) => {
-                                console.log('Files: ', res);
-                                setValue('imageUrl', res[0].url);
-                            }}
-                            onUploadError={(error) => {
-                                alert(`ERROR! ${error.message}`);
-                            }}
-                        />
-                        {errors?.imageUrl && (
-                            <p className="text-red-500">
-                                {errors.imageUrl.message}
-                            </p>
-                        )}
-                    </>
-                ) : (
-                    <img
-                        className="w-[200px] border-2 border-black"
-                        src={imageUrl}
-                        alt=""
-                    />
+                <p className="text-sm font-medium">Image</p>
+                <UploadCard
+                    value={imageUrl}
+                    onChange={(url) => setValue('imageUrl', url)}
+                    label="Image"
+                />
+                {errors?.imageUrl && (
+                    <p className="text-xs font-medium text-destructive">
+                        {errors.imageUrl.message}
+                    </p>
                 )}
             </div>
-            <SubmitButton
-                disabled={mutation.isPending}
-                label="save"
+
+            <Button
                 type="submit"
-            />
+                disabled={mutation.isPending}
+                className="w-full gap-2 sm:w-auto"
+            >
+                {mutation.isPending && (
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                )}
+                {mutation.isPending ? 'Saving…' : 'Add Poster'}
+            </Button>
         </form>
     );
 };

@@ -105,28 +105,13 @@ const links = [
         type: 'main',
         href: '/people',
         node: [
-            // {
-            //   label: "Teaching Staffs",
-            //   type: "sub-main",
-            //   href: "/people",
-            // },
-            // {
-            //   label: "Technical Staffs",
-            //   type: "sub-main",
-            //   href: "/people",
-            // },
             {
-                label: 'Association Members',
+                label: 'Teaching Staffs',
                 type: 'sub-main',
                 href: '/people',
             },
             {
-                label: 'Students',
-                type: 'sub-main',
-                href: '/people',
-            },
-            {
-                label: 'Alumni',
+                label: 'Technical Staffs',
                 type: 'sub-main',
                 href: '/people',
             },

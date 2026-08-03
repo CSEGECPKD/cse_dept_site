@@ -1,5 +1,5 @@
 import React from 'react';
-import ListItem from '../ListItem';
+import { BadgeCheck } from 'lucide-react';
 
 const data = [
     {
@@ -26,13 +26,16 @@ const data = [
 
 const AccreditionList = () => {
     return (
-        <div className="space-y-1">
-            <h2 className="text-right text-3xl font-medium">ALREADY ON SITE</h2>
-            <ul className="space-y-1">
-                {data.map((item) => (
-                    <ListItem key={item.id} title={item.title} />
-                ))}
-            </ul>
+        <div className="divide-y">
+            {data.map((item) => (
+                <div
+                    key={item.id}
+                    className="flex items-center gap-3 py-3 first:pt-0 last:pb-0"
+                >
+                    <BadgeCheck className="h-4 w-4 shrink-0 text-primary" />
+                    <span className="text-sm font-medium">{item.title}</span>
+                </div>
+            ))}
         </div>
     );
 };

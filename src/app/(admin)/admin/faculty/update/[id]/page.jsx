@@ -2,9 +2,14 @@
 
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
+import { UserRound } from 'lucide-react';
 
 import { getFacultyById } from '@/actions/faculty.action';
 import FacultyEditForm from '@/components/admin/faculty/FacultyEditForm';
+import SectionCard from '@/components/admin/ui/SectionCard';
+import PageHeader from '@/components/admin/ui/PageHeader';
+import EmptyState from '@/components/admin/ui/EmptyState';
+import { FormSkeleton } from '@/components/admin/ui/LoadingSkeleton';
 
 const UpdateFacultyPage = () => {
     const { id } = useParams();
@@ -18,24 +23,25 @@ const UpdateFacultyPage = () => {
             .finally(() => setLoading(false));
     }, [id]);
 
-    if (loading) {
-        return <p className="py-20 text-center">Loading...</p>;
-    }
-
-    if (!faculty) {
-        return (
-            <p className="py-20 text-center text-red-500">
-                Employee not found
-            </p>
-        );
-    }
-
     return (
-        <div className="mx-auto max-w-2xl px-10 py-20">
-            <h1 className="mb-8 text-right text-3xl font-medium">
-                EDIT EMPLOYEE
-            </h1>
-            <FacultyEditForm faculty={faculty} />
+        <div className="mx-auto max-w-3xl space-y-6">
+            <PageHeader
+                title="Edit Employee"
+                description="Update employee details."
+            />
+            <SectionCard title="Employee Information">
+                {loading ? (
+                    <FormSkeleton fields={6} />
+                ) : !faculty ? (
+                    <EmptyState
+                        icon={UserRound}
+                        title="Employee not found"
+                        subtitle="This employee may have been deleted."
+                    />
+                ) : (
+                    <FacultyEditForm faculty={faculty} />
+                )}
+            </SectionCard>
         </div>
     );
 };

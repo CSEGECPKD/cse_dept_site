@@ -1,9 +1,27 @@
 'use client';
 
 import React, { useCallback, useRef, useState } from 'react';
+import {
+    Download,
+    FileSpreadsheet,
+    Loader2,
+    UploadCloud,
+    CheckCircle2,
+    XCircle,
+    AlertTriangle,
+} from 'lucide-react';
 
 import { importFaculties } from '@/actions/faculty.action';
-import SubmitButton from '@/components/admin/SubmitButton';
+import { Button } from '@/components/ui/button';
+import {
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
+} from '@/components/ui/table';
+import StatusBadge from '../ui/StatusBadge';
 
 const HEADERS = [
     { key: 'name', label: 'Full Name' },
@@ -135,18 +153,29 @@ const FacultyImport = ({ refreshFaculties }) => {
     }, [importRows, importing, refreshFaculties]);
 
     return (
-        <div className="space-y-4">
-            <h2 className="text-3xl font-medium">BULK EMPLOYEE IMPORT</h2>
-
-            <div className="flex gap-2.5">
-                <SubmitButton
-                    label="Download Template"
+        <div className="space-y-6">
+            <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                <div>
+                    <p className="text-sm font-medium">
+                        Import employees in bulk
+                    </p>
+                    <p className="text-sm text-muted-foreground">
+                        Use the provided template to prepare your file.
+                    </p>
+                </div>
+                <Button
+                    type="button"
+                    variant="outline"
                     onClick={downloadTemplate}
-                />
+                    className="gap-2"
+                >
+                    <Download className="h-4 w-4" />
+                    Download Template
+                </Button>
             </div>
 
             <div
-                className="p-8 border-2 border-dashed border-[#696969] text-center cursor-pointer bg-[#E9E9E8]"
+                className="flex cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed bg-muted/30 px-6 py-10 text-center transition-colors hover:border-primary hover:bg-muted/50"
                 onDragOver={(event) => event.preventDefault()}
                 onDrop={onDrop}
                 onClick={() => fileInputRef.current?.click()}
@@ -158,72 +187,107 @@ const FacultyImport = ({ refreshFaculties }) => {
                     className="hidden"
                     onChange={(event) => handleFile(event.target.files?.[0])}
                 />
-                <p className="text-lg font-medium">
-                    Drag and drop your Excel file here, or click to select
+                <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-primary/10 text-primary">
+                    <UploadCloud className="h-6 w-6" />
+                </div>
+                <p className="text-sm font-medium">
+                    Drag and drop your file here, or click to browse
                 </p>
-                <p className="text-sm text-[#696969]">
+                <p className="mt-1 text-xs text-muted-foreground">
                     Supported formats: .xlsx, .csv
                 </p>
                 {fileName && (
-                    <p className="mt-2 text-sm">Selected: {fileName}</p>
+                    <p className="mt-3 inline-flex items-center gap-1.5 text-xs font-medium text-primary">
+                        <FileSpreadsheet className="h-3.5 w-3.5" />
+                        {fileName}
+                    </p>
                 )}
             </div>
 
             {parsing && (
-                <p className="text-center text-[#696969]">
+                <p className="inline-flex items-center gap-2 text-sm text-muted-foreground">
+                    <Loader2 className="h-4 w-4 animate-spin" />
                     Parsing file, please wait...
                 </p>
             )}
 
-            {parseError && <p className="text-red-500">{parseError}</p>}
+            {parseError && (
+                <div className="rounded-lg border border-destructive/30 bg-destructive/10 px-4 py-3 text-sm text-destructive">
+                    {parseError}
+                </div>
+            )}
 
             {rows.length > 0 && !parsing && (
                 <div className="space-y-4">
-                    <div className="overflow-x-auto">
-                        <table className="w-full text-left bg-[#E9E9E8]">
-                            <thead>
-                                <tr>
-                                    <th className="p-2">Row</th>
-                                    {HEADERS.map((header) => (
-                                        <th key={header.key} className="p-2">
-                                            {header.label}
-                                        </th>
-                                    ))}
-                                    <th className="p-2">Errors</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {rows.map((row) => (
-                                    <tr
-                                        key={row.rowNumber}
-                                        className="border-t border-white"
-                                    >
-                                        <td className="p-2">{row.rowNumber}</td>
+                    <div className="overflow-hidden rounded-lg border">
+                        <div className="overflow-x-auto">
+                            <Table className="min-w-full">
+                                <TableHeader className="bg-muted/50">
+                                    <TableRow className="hover:bg-transparent">
+                                        <TableHead className="whitespace-nowrap font-semibold">
+                                            Row
+                                        </TableHead>
                                         {HEADERS.map((header) => (
-                                            <td
+                                            <TableHead
                                                 key={header.key}
-                                                className="p-2"
+                                                className="whitespace-nowrap font-semibold"
                                             >
-                                                {row[header.key]}
-                                            </td>
+                                                {header.label}
+                                            </TableHead>
                                         ))}
-                                        <td className="p-2 text-red-500">
-                                            {row.errors.join('; ')}
-                                        </td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
+                                        <TableHead className="whitespace-nowrap font-semibold">
+                                            Errors
+                                        </TableHead>
+                                    </TableRow>
+                                </TableHeader>
+                                <TableBody>
+                                    {rows.map((row) => (
+                                        <TableRow key={row.rowNumber}>
+                                            <TableCell>
+                                                {row.rowNumber}
+                                            </TableCell>
+                                            {HEADERS.map((header) => (
+                                                <TableCell
+                                                    key={header.key}
+                                                    className="max-w-[200px] truncate"
+                                                >
+                                                    {row[header.key]}
+                                                </TableCell>
+                                            ))}
+                                            <TableCell>
+                                                {row.errors.length > 0 ? (
+                                                    <span className="text-xs font-medium text-destructive">
+                                                        {row.errors.join('; ')}
+                                                    </span>
+                                                ) : (
+                                                    <span className="inline-flex items-center gap-1 text-xs font-medium text-emerald-600">
+                                                        <CheckCircle2 className="h-3.5 w-3.5" />
+                                                        Ready
+                                                    </span>
+                                                )}
+                                            </TableCell>
+                                        </TableRow>
+                                    ))}
+                                </TableBody>
+                            </Table>
+                        </div>
                     </div>
 
-                    <div className="flex items-center gap-2.5">
-                        <SubmitButton
-                            label={importing ? 'Importing...' : 'Import'}
+                    <div className="flex items-center gap-3">
+                        <Button
                             onClick={onImport}
                             disabled={importing}
-                        />
+                            className="gap-2"
+                        >
+                            {importing ? (
+                                <Loader2 className="h-4 w-4 animate-spin" />
+                            ) : (
+                                <UploadCloud className="h-4 w-4" />
+                            )}
+                            {importing ? 'Importing…' : 'Import'}
+                        </Button>
                         {importing && (
-                            <span className="text-[#696969]">
+                            <span className="text-sm text-muted-foreground">
                                 Importing employees, please wait...
                             </span>
                         )}
@@ -232,19 +296,41 @@ const FacultyImport = ({ refreshFaculties }) => {
             )}
 
             {summary && (
-                <div className="p-4 bg-[#E9E9E8] space-y-2">
-                    <h3 className="text-xl font-medium">IMPORT SUMMARY</h3>
-                    <p>Total rows in file: {summary.total}</p>
-                    <p>Employees imported: {summary.imported}</p>
-                    <p>Rows skipped: {summary.skipped}</p>
+                <div className="space-y-4 rounded-lg border bg-muted/20 p-4">
+                    <h3 className="text-sm font-semibold">Import Summary</h3>
+                    <div className="flex flex-wrap gap-3">
+                        <StatusBadge variant="secondary">
+                            Total: {summary.total}
+                        </StatusBadge>
+                        <StatusBadge variant="default">
+                            Imported: {summary.imported}
+                        </StatusBadge>
+                        <StatusBadge variant="outline">
+                            Skipped: {summary.skipped}
+                        </StatusBadge>
+                    </div>
                     {summary.errors.length > 0 && (
-                        <div className="space-y-1">
-                            <p className="font-medium">Errors found:</p>
-                            <ul className="list-disc pl-5 space-y-1">
+                        <div className="space-y-2">
+                            <p className="flex items-center gap-1.5 text-sm font-medium text-destructive">
+                                <AlertTriangle className="h-4 w-4" />
+                                Issues found
+                            </p>
+                            <ul className="max-h-40 space-y-1 overflow-y-auto rounded-md border bg-background p-3 text-xs text-muted-foreground">
                                 {summary.errors.map((error, index) => (
-                                    <li key={index}>
-                                        {error.row > 0 && `Row ${error.row}: `}
-                                        {error.message}
+                                    <li
+                                        key={index}
+                                        className="flex items-start gap-1.5"
+                                    >
+                                        {error.type === 'warning' ? (
+                                            <XCircle className="mt-0.5 h-3.5 w-3.5 shrink-0 text-amber-500" />
+                                        ) : (
+                                            <XCircle className="mt-0.5 h-3.5 w-3.5 shrink-0 text-destructive" />
+                                        )}
+                                        <span>
+                                            {error.row > 0 &&
+                                                `Row ${error.row}: `}
+                                            {error.message}
+                                        </span>
                                     </li>
                                 ))}
                             </ul>

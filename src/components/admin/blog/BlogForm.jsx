@@ -1,15 +1,17 @@
 'use client';
 
 import React from 'react';
-import SubmitButton from '@/components/admin/SubmitButton';
-import Input from '@/components/admin/Input';
+import { Loader2 } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { UploadButton } from '@/components/uploadthing';
 import { useMutation } from '@tanstack/react-query';
+
 import { createBlog } from '@/actions/blog.action';
-import { useToast } from '@/hooks/use-toast';
+import { Button } from '@/components/ui/button';
+import FormField from '../ui/FormField';
+import UploadCard from '../ui/UploadCard';
+import { toast } from '@/hooks/use-toast';
 
 const blogFormSchema = z.object({
     name: z.string().min(1, { message: 'Blog name is required' }),
@@ -23,7 +25,6 @@ const blogFormSchema = z.object({
 });
 
 const BlogForm = ({ refreshBlogs }) => {
-    const toast = useToast();
     const {
         register,
         handleSubmit,
@@ -39,16 +40,21 @@ const BlogForm = ({ refreshBlogs }) => {
     });
 
     const mutation = useMutation({
-        mutationFn: async (data) => {
-            await createBlog(data);
-        },
+        mutationFn: async (data) => createBlog(data),
         onSuccess: () => {
-            refreshBlogs?.();
             reset();
+            toast({
+                variant: 'success',
+                title: 'Blog added',
+                description: 'Blog added successfully.',
+            });
+            refreshBlogs?.();
         },
         onError: (error) => {
             toast({
-                description: `Cannot create ${error.message}`,
+                variant: 'destructive',
+                title: 'Unable to add blog',
+                description: error?.message || 'Please try again.',
             });
         },
     });
@@ -57,83 +63,82 @@ const BlogForm = ({ refreshBlogs }) => {
         mutation.mutate(data);
     };
 
-    console.log(errors);
-
     const authorImage = watch('authorImage');
 
     return (
-        <form className="space-y-8" onSubmit={handleSubmit(onSubmit)}>
-            <Input
-                label="Blog Name"
-                type="text"
-                placeholder="eg. The Future of AI"
-                name="name"
-                {...register('name')}
-                error={errors?.name}
-            />
-            <Input
-                label="Author Name"
-                type="text"
-                placeholder="eg. John Doe"
-                name="authorName"
-                {...register('authorName')}
-                error={errors?.authorName}
-            />
-            <Input
-                label="Blog Type"
-                type="text"
-                placeholder="eg. Technology"
-                name="type"
-                {...register('type')}
-                error={errors?.type}
-            />
-            <Input
-                label="Author Position"
-                type="text"
-                placeholder="eg. Senior Data Scientist"
-                name="authorPosition"
-                {...register('authorPosition')}
-                error={errors?.authorPosition}
-            />
-            <Input
-                label="Author LinkedIn"
-                type="url"
-                placeholder="eg. https://www.linkedin.com/in/johndoe"
-                name="authorLinkedin"
-                {...register('authorLinkedin')}
-                error={errors?.authorLinkedin}
-            />
+        <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
+            <div className="grid gap-4 sm:grid-cols-2">
+                <FormField
+                    id="name"
+                    label="Blog Name"
+                    type="text"
+                    placeholder="eg. The Future of AI"
+                    required
+                    error={errors?.name}
+                    {...register('name')}
+                />
+                <FormField
+                    id="type"
+                    label="Blog Type"
+                    type="text"
+                    placeholder="eg. Technology"
+                    required
+                    error={errors?.type}
+                    {...register('type')}
+                />
+                <FormField
+                    id="authorName"
+                    label="Author Name"
+                    type="text"
+                    placeholder="eg. John Doe"
+                    required
+                    error={errors?.authorName}
+                    {...register('authorName')}
+                />
+                <FormField
+                    id="authorPosition"
+                    label="Author Position"
+                    type="text"
+                    placeholder="eg. Senior Data Scientist"
+                    required
+                    error={errors?.authorPosition}
+                    {...register('authorPosition')}
+                />
+                <FormField
+                    id="authorLinkedin"
+                    label="Author LinkedIn"
+                    type="url"
+                    placeholder="eg. https://www.linkedin.com/in/johndoe"
+                    required
+                    error={errors?.authorLinkedin}
+                    {...register('authorLinkedin')}
+                />
+            </div>
+
             <div className="space-y-2">
-                <h3 className="font-medium capitalize text-2xl">
-                    Author Image(JPEG/JPG)
-                </h3>
-                {authorImage === '' ? (
-                    <>
-                        <UploadButton
-                            endpoint="imageUploader"
-                            onClientUploadComplete={(res) => {
-                                console.log('Files: ', res);
-                                setValue('authorImage', res[0].url);
-                            }}
-                            onUploadError={(error) => {
-                                alert(`ERROR! ${error.message}`);
-                            }}
-                        />
-                        {errors?.authorImage && (
-                            <p className="text-red-500">
-                                {errors.authorImage.message}
-                            </p>
-                        )}
-                    </>
-                ) : (
-                    <img
-                        className="w-[200px] border-2 border-black"
-                        src={authorImage}
-                        alt="Author"
-                    />
+                <p className="text-sm font-medium">Author Image</p>
+                <UploadCard
+                    value={authorImage}
+                    onChange={(url) => setValue('authorImage', url)}
+                    label="Author Image"
+                />
+                {errors?.authorImage && (
+                    <p className="text-xs font-medium text-destructive">
+                        {errors.authorImage.message}
+                    </p>
                 )}
             </div>
-            <SubmitButton label="Save Blog" type="submit" />
+
+            <Button
+                type="submit"
+                disabled={mutation.isPending}
+                className="w-full gap-2 sm:w-auto"
+            >
+                {mutation.isPending && (
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                )}
+                {mutation.isPending ? 'Saving…' : 'Add Blog'}
+            </Button>
         </form>
     );
 };

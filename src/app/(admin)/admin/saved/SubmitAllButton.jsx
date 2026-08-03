@@ -1,10 +1,17 @@
 'use client';
 
-import SubmitButton from '@/components/admin/SubmitButton';
 import React from 'react';
+import { Send } from 'lucide-react';
+
+import { Button } from '@/components/ui/button';
 
 const SubmitAllButton = () => {
-    return <SubmitButton label="Send to Submit" onClick={() => {}} />;
+    return (
+        <Button type="button" variant="default" onClick={() => {}}>
+            <Send className="h-4 w-4" />
+            Send to Submit
+        </Button>
+    );
 };
 
 export default SubmitAllButton;

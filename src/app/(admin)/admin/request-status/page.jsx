@@ -1,12 +1,24 @@
-import RequestStatusList from '@/components/admin/request-status/RequestStatusList';
+import React from 'react';
 
-const SavedPage = () => {
+import RequestStatusList from '@/components/admin/request-status/RequestStatusList';
+import PageHeader from '@/components/admin/ui/PageHeader';
+import SectionCard from '@/components/admin/ui/SectionCard';
+
+const RequestStatusPage = () => {
     return (
-        <div className="py-20 px-20 space-y-2.5">
-            <h1 className="text-3xl font-medium">REQUEST STATUS</h1>
-            <RequestStatusList />
+        <div className="space-y-6">
+            <PageHeader
+                title="Request Status"
+                description="Track the status of submitted requests."
+            />
+            <SectionCard
+                title="Requests"
+                description="Latest status of each request."
+            >
+                <RequestStatusList />
+            </SectionCard>
         </div>
     );
 };
 
-export default SavedPage;
+export default RequestStatusPage;

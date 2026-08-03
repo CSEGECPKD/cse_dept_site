@@ -1,4 +1,4 @@
-import AdminNavbar from '@/components/admin/AdminNavbar';
+import AdminShell from '@/components/admin/AdminShell';
 import { isAuthenticated } from '@/lib/auth';
 import { getAuth } from '@/lib/session';
 import { redirect } from 'next/navigation';
@@ -13,14 +13,7 @@ const AdminLayout = async ({ children }) => {
 
     const auth = await getAuth();
 
-    return (
-        <div className="min-h-screen flex flex-col">
-            <div>
-                <AdminNavbar email={auth?.user?.email} />
-            </div>
-            <div>{children}</div>
-        </div>
-    );
+    return <AdminShell email={auth?.user?.email}>{children}</AdminShell>;
 };
 
 export default AdminLayout;

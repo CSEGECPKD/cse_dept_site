@@ -1,15 +1,17 @@
 'use client';
 
 import React from 'react';
-import SubmitButton from '@/components/admin/SubmitButton';
-import Input from '@/components/admin/Input';
+import { Loader2 } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation } from '@tanstack/react-query';
+
 import { createStudentGroup } from '@/actions/studentgroup.action';
-import { UploadButton } from '@/components/uploadthing';
-import { useToast } from '@/hooks/use-toast';
+import { Button } from '@/components/ui/button';
+import FormField from '../ui/FormField';
+import UploadCard from '../ui/UploadCard';
+import { toast } from '@/hooks/use-toast';
 
 const studentGroupFormSchema = z.object({
     name: z.string().min(1, { message: 'Name is required' }),
@@ -18,7 +20,6 @@ const studentGroupFormSchema = z.object({
 });
 
 const StudentGroupForm = ({ refreshStudentGroups }) => {
-    const toast = useToast();
     const {
         register,
         handleSubmit,
@@ -34,76 +35,76 @@ const StudentGroupForm = ({ refreshStudentGroups }) => {
     });
 
     const { mutate, isPending } = useMutation({
-        mutationFn: async (data) => {
-            await createStudentGroup(data);
-        },
+        mutationFn: async (data) => createStudentGroup(data),
         onSuccess: () => {
-            refreshStudentGroups?.();
             reset();
+            toast({
+                variant: 'success',
+                title: 'Student group added',
+                description: 'Student group added successfully.',
+            });
+            refreshStudentGroups?.();
         },
         onError: (error) => {
             toast({
-                description: `Cannot create ${error.message}`,
+                variant: 'destructive',
+                title: 'Unable to add student group',
+                description: error?.message || 'Please try again.',
             });
         },
     });
+
     const onSubmit = (data) => {
         mutate(data);
     };
 
-    console.log(errors);
-
     const logoUrl = watch('logoUrl');
 
     return (
-        <form className="space-y-8" onSubmit={handleSubmit(onSubmit)}>
-            <Input
-                label="Name"
-                type="text"
-                placeholder="eg. Student Group Name"
-                name="name"
-                {...register('name')}
-                error={errors?.name}
-            />
-            <Input
-                label="Description"
-                type="text"
-                placeholder="eg. Student Group Description"
-                name="description"
-                {...register('description')}
-                error={errors?.description}
-            />
+        <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
+            <div className="grid gap-4 sm:grid-cols-2">
+                <FormField
+                    id="name"
+                    label="Name"
+                    type="text"
+                    placeholder="eg. Student Group Name"
+                    required
+                    error={errors?.name}
+                    {...register('name')}
+                />
+                <FormField
+                    id="description"
+                    label="Description"
+                    type="text"
+                    placeholder="eg. Student Group Description"
+                    required
+                    error={errors?.description}
+                    {...register('description')}
+                />
+            </div>
+
             <div className="space-y-2">
-                <h3 className="font-medium capitalize text-2xl">Logo URL</h3>
-                {logoUrl === '' ? (
-                    <>
-                        <UploadButton
-                            endpoint="imageUploader"
-                            onClientUploadComplete={(res) => {
-                                // Do something with the response
-                                console.log('Files: ', res);
-                                setValue('logoUrl', res[0].url);
-                            }}
-                            onUploadError={(error) => {
-                                // Do something with the error.
-                                alert(`ERROR! ${error.message}`);
-                            }}
-                        />
-                        {errors?.logoUrl && (
-                            <p className="text-red-500">
-                                {errors.logoUrl.message}
-                            </p>
-                        )}
-                    </>
-                ) : (
-                    <img
-                        className="w-[200px] border-2 border-black"
-                        src={logoUrl}
-                        alt=""
-                    />
+                <p className="text-sm font-medium">Logo</p>
+                <UploadCard
+                    value={logoUrl}
+                    onChange={(url) => setValue('logoUrl', url)}
+                    label="Logo"
+                />
+                {errors?.logoUrl && (
+                    <p className="text-xs font-medium text-destructive">
+                        {errors.logoUrl.message}
+                    </p>
                 )}
             </div>
-            <SubmitButton disabled={isPending} label="save" type="submit" />
+
+            <Button
+                type="submit"
+                disabled={isPending}
+                className="w-full gap-2 sm:w-auto"
+            >
+                {isPending && <Loader2 className="h-4 w-4 animate-spin" />}
+                {isPending ? 'Saving…' : 'Add Student Group'}
+            </Button>
         </form>
     );
 };

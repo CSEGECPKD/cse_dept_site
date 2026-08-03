@@ -199,7 +199,10 @@ const Footer = () => {
                             )}
                         </button>
                     </form>
-                    <p className="text-[#656565] hidden sm:block">
+                    <p
+                        className="text-[#656565] hidden sm:block"
+                        suppressHydrationWarning
+                    >
                         © {currentYear} CSE ASSOCIATION
                     </p>
                 </div>
@@ -228,11 +231,14 @@ const Footer = () => {
                         ))}
                     </div>
                     <div className="flex flex-col sm:flex-row  sm:items-center mt-8">
-                        <p className="text-[#656565] block sm:hidden">
+                        <p
+                            className="text-[#656565] block sm:hidden"
+                            suppressHydrationWarning
+                        >
                             © {currentYear} CSE ASSOCIATION
                         </p>
                         <div className="flex items-center justify-between mt-2.5 w-full sm:absolute bottom-0">
-                            <p className="text-[#656565] text-sm">
+                            <div className="text-[#656565] text-sm">
                                 <p>
                                     DESIGN AND POWERED BY{' '}
                                     <Link
@@ -246,7 +252,7 @@ const Footer = () => {
                                     NOT OFFICIALLY AFFILIATED TO CSE DEPARTMENT
                                     OF GEC PALAKKAD.
                                 </p>
-                            </p>
+                            </div>
                             <div className="flex items-center">
                                 <a href="https://www.instagram.com/cse_gecpkd/">
                                     {' '}
