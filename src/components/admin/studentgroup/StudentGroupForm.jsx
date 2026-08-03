@@ -9,7 +9,6 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation } from '@tanstack/react-query';
 import { createStudentGroup } from '@/actions/studentgroup.action';
 import { UploadButton } from '@/components/uploadthing';
-import { useRouter } from 'next/navigation';
 import { useToast } from '@/hooks/use-toast';
 
 const studentGroupFormSchema = z.object({
@@ -18,8 +17,7 @@ const studentGroupFormSchema = z.object({
     logoUrl: z.string().min(1, { message: 'Logo URL is required' }),
 });
 
-const StudentGroupForm = () => {
-    const router = useRouter();
+const StudentGroupForm = ({ refreshStudentGroups }) => {
     const toast = useToast();
     const {
         register,
@@ -40,7 +38,7 @@ const StudentGroupForm = () => {
             await createStudentGroup(data);
         },
         onSuccess: () => {
-            router.refresh();
+            refreshStudentGroups?.();
             reset();
         },
         onError: (error) => {

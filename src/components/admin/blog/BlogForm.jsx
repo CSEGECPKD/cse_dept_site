@@ -9,7 +9,6 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { UploadButton } from '@/components/uploadthing';
 import { useMutation } from '@tanstack/react-query';
 import { createBlog } from '@/actions/blog.action';
-import { useRouter } from 'next/navigation';
 import { useToast } from '@/hooks/use-toast';
 
 const blogFormSchema = z.object({
@@ -23,8 +22,7 @@ const blogFormSchema = z.object({
     authorLinkedin: z.string().url({ message: 'Invalid LinkedIn URL' }),
 });
 
-const BlogForm = () => {
-    const router = useRouter();
+const BlogForm = ({ refreshBlogs }) => {
     const toast = useToast();
     const {
         register,
@@ -45,7 +43,7 @@ const BlogForm = () => {
             await createBlog(data);
         },
         onSuccess: () => {
-            router.refresh();
+            refreshBlogs?.();
             reset();
         },
         onError: (error) => {

@@ -1,19 +1,42 @@
+'use client';
+
+import React, { useCallback, useEffect, useState } from 'react';
+
 import { getStudentGroups } from '@/actions/studentgroup.action';
-import AccreditionList from '@/components/admin/accredition/AccreditionList';
-import FacultyForm from '@/components/admin/faculty/FacultyForm';
 import StudentGroupForm from '@/components/admin/studentgroup/StudentGroupForm';
 import StudentGroupList from '@/components/admin/studentgroup/StudentGroupList';
-import React from 'react';
 
-const EditAccreditionPage = async () => {
-    const studentGroupList = await getStudentGroups();
+const EditAccreditionPage = () => {
+    const [studentGroupList, setStudentGroupList] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    const fetchStudentGroups = useCallback(async () => {
+        try {
+            setLoading(true);
+            const studentGroups = await getStudentGroups();
+            setStudentGroupList(studentGroups);
+        } catch (error) {
+            console.error('Failed to fetch student groups:', error);
+        } finally {
+            setLoading(false);
+        }
+    }, []);
+
+    useEffect(() => {
+        fetchStudentGroups();
+    }, [fetchStudentGroups]);
+
     return (
         <div className="grid grid-cols-2">
             <div className="py-20 px-20">
-                <StudentGroupForm />
+                <StudentGroupForm refreshStudentGroups={fetchStudentGroups} />
             </div>
             <div className="py-20 px-10">
-                <StudentGroupList studentGroupList={studentGroupList} />
+                <StudentGroupList
+                    studentGroupList={studentGroupList}
+                    loading={loading}
+                    refresh={fetchStudentGroups}
+                />
             </div>
         </div>
     );

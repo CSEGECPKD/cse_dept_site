@@ -9,7 +9,6 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { UploadButton } from '@/components/uploadthing';
 import { useMutation } from '@tanstack/react-query';
 import { createEvent } from '@/actions/event.action';
-import { useRouter } from 'next/navigation';
 import { useToast } from '@/hooks/use-toast';
 const eventFormSchema = z.object({
     name: z.string().min(1, { message: 'Name is required' }),
@@ -24,8 +23,7 @@ const eventFormSchema = z.object({
         .min(1, { message: 'At least one registration link is required' }),
 });
 
-const EventForm = () => {
-    const router = useRouter();
+const EventForm = ({ refreshEvents }) => {
     const toast = useToast();
     const {
         register,
@@ -47,7 +45,7 @@ const EventForm = () => {
             await createEvent(data);
         },
         onSuccess: () => {
-            router.refresh();
+            refreshEvents?.();
             reset();
         },
         onError: (error) => {

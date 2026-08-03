@@ -1,20 +1,43 @@
+'use client';
+
+import React, { useCallback, useEffect, useState } from 'react';
+
 import { getAssociationMembers } from '@/actions/associationmembers.action';
-import AccreditionList from '@/components/admin/accredition/AccreditionList';
 import AssociationMemberForm from '@/components/admin/associationmembers/AssociationMemberForm';
 import AssociationMemberList from '@/components/admin/associationmembers/AssociationMemberList';
 
-import React from 'react';
+const EditAccreditionPage = () => {
+    const [associationMemberList, setAssociationMemberList] = useState([]);
+    const [loading, setLoading] = useState(true);
 
-const EditAccreditionPage = async () => {
-    const associationMembers = await getAssociationMembers();
+    const fetchAssociationMembers = useCallback(async () => {
+        try {
+            setLoading(true);
+            const associationMembers = await getAssociationMembers();
+            setAssociationMemberList(associationMembers);
+        } catch (error) {
+            console.error('Failed to fetch association members:', error);
+        } finally {
+            setLoading(false);
+        }
+    }, []);
+
+    useEffect(() => {
+        fetchAssociationMembers();
+    }, [fetchAssociationMembers]);
+
     return (
         <div className="grid grid-cols-2">
             <div className="py-20 px-20">
-                <AssociationMemberForm />
+                <AssociationMemberForm
+                    refreshAssociationMembers={fetchAssociationMembers}
+                />
             </div>
             <div className="py-20 px-10">
                 <AssociationMemberList
-                    associationMemberList={associationMembers}
+                    associationMemberList={associationMemberList}
+                    loading={loading}
+                    refresh={fetchAssociationMembers}
                 />
             </div>
         </div>

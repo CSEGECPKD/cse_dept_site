@@ -1,18 +1,42 @@
+'use client';
+
+import React, { useCallback, useEffect, useState } from 'react';
+
 import { getCertificates } from '@/actions/certificate.action';
-import AccreditionList from '@/components/admin/accredition/AccreditionList';
 import CertificateForm from '@/components/admin/certificate/CertificateForm';
 import CertificateList from '@/components/admin/certificate/certificateList';
-import React from 'react';
 
-const EditAccreditionPage = async () => {
-    const certificateList = await getCertificates();
+const EditAccreditionPage = () => {
+    const [certificateList, setCertificateList] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    const fetchCertificates = useCallback(async () => {
+        try {
+            setLoading(true);
+            const certificates = await getCertificates();
+            setCertificateList(certificates);
+        } catch (error) {
+            console.error('Failed to fetch certificates:', error);
+        } finally {
+            setLoading(false);
+        }
+    }, []);
+
+    useEffect(() => {
+        fetchCertificates();
+    }, [fetchCertificates]);
+
     return (
         <div className="grid grid-cols-2">
             <div className="py-20 px-20">
-                <CertificateForm />
+                <CertificateForm refreshCertificates={fetchCertificates} />
             </div>
             <div className="py-20 px-10">
-                <CertificateList certificateList={certificateList} />
+                <CertificateList
+                    certificateList={certificateList}
+                    loading={loading}
+                    refresh={fetchCertificates}
+                />
             </div>
         </div>
     );

@@ -9,7 +9,6 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { UploadButton } from '@/components/uploadthing';
 import { useMutation } from '@tanstack/react-query';
 import { createMagazine } from '@/actions/magazine.action';
-import { useRouter } from 'next/navigation';
 import { useToast } from '@/hooks/use-toast';
 
 const magazineFormSchema = z.object({
@@ -21,8 +20,7 @@ const magazineFormSchema = z.object({
     frontPageUrl: z.string().min(1, { message: 'Front Page URL is required' }),
 });
 
-const MagazineForm = () => {
-    const router = useRouter();
+const MagazineForm = ({ refreshMagazines }) => {
     const toast = useToast();
     const {
         register,
@@ -46,7 +44,7 @@ const MagazineForm = () => {
         },
         onSuccess: () => {
             reset();
-            router.refresh();
+            refreshMagazines?.();
         },
         onError: (error) => {
             toast({

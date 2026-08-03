@@ -10,7 +10,6 @@ import { UploadButton } from '@/components/uploadthing';
 import { useMutation } from '@tanstack/react-query';
 import { createFaculty } from '@/actions/faculty.action';
 import { createAdvisoryBoardMember } from '@/actions/advisoryboard.action';
-import { useRouter } from 'next/navigation';
 import { useToast } from '@/hooks/use-toast';
 const advisorBoundFormSchema = z.object({
     name: z.string().min(1, { message: 'Name is required' }),
@@ -19,8 +18,7 @@ const advisorBoundFormSchema = z.object({
     imageUrl: z.string().min(1, { message: 'Image is required' }),
 });
 
-const AdvisorBoundForm = () => {
-    const router = useRouter();
+const AdvisorBoundForm = ({ refreshAdvisors }) => {
     const toast = useToast();
     const {
         register,
@@ -41,7 +39,7 @@ const AdvisorBoundForm = () => {
             await createAdvisoryBoardMember(data);
         },
         onSuccess: () => {
-            router.refresh();
+            refreshAdvisors?.();
             reset();
         },
         onError: (error) => {

@@ -9,7 +9,6 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { UploadButton } from '@/components/uploadthing';
 import { useMutation } from '@tanstack/react-query';
 import { createAssociationMember } from '@/actions/associationmembers.action';
-import { useRouter } from 'next/navigation';
 import { useToast } from '@/hooks/use-toast';
 
 const associationMemberFormSchema = z.object({
@@ -27,8 +26,7 @@ const associationMemberFormSchema = z.object({
     imageUrl: z.string().min(1, { message: 'Image is required' }),
 });
 
-const AssociationMemberForm = () => {
-    const router = useRouter();
+const AssociationMemberForm = ({ refreshAssociationMembers }) => {
     const toast = useToast();
     const {
         register,
@@ -49,7 +47,7 @@ const AssociationMemberForm = () => {
             await createAssociationMember(data);
         },
         onSuccess: () => {
-            router.refresh();
+            refreshAssociationMembers?.();
             reset();
         },
         onError: (error) => {

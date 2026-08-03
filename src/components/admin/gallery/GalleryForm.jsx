@@ -9,7 +9,6 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { UploadButton } from '@/components/uploadthing';
 import { useMutation } from '@tanstack/react-query';
 import { createGallery } from '@/actions/gallery.action';
-import { useRouter } from 'next/navigation';
 import { useToast } from '@/hooks/use-toast';
 
 const galleryFormSchema = z.object({
@@ -20,8 +19,7 @@ const galleryFormSchema = z.object({
         .min(1, { message: 'Image Description is required' }),
 });
 
-const GalleryForm = () => {
-    const router = useRouter();
+const GalleryForm = ({ refreshGalleries }) => {
     const toast = useToast();
     const {
         register,
@@ -44,7 +42,7 @@ const GalleryForm = () => {
         },
         onSuccess: () => {
             reset();
-            router.refresh();
+            refreshGalleries?.();
         },
         onError: (error) => {
             toast({

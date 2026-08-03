@@ -4,7 +4,7 @@ import { useMutation } from '@tanstack/react-query';
 import SubmitButton from './SubmitButton';
 import { useRouter } from 'next/navigation';
 
-const ListItem = ({ title, type, remark, handleDelete }) => {
+const ListItem = ({ title, type, remark, handleDelete, onSuccess }) => {
     const router = useRouter();
     const mutation = useMutation({
         mutationFn: async () => {
@@ -12,6 +12,7 @@ const ListItem = ({ title, type, remark, handleDelete }) => {
         },
         onSuccess: () => {
             router.refresh();
+            onSuccess?.();
         },
     });
     return (

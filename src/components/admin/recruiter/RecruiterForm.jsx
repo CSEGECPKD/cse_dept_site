@@ -10,15 +10,13 @@ import { UploadButton } from '@/components/uploadthing';
 import { useMutation } from '@tanstack/react-query';
 import { createRecruiter } from '@/actions/recruiter.action';
 import { useToast } from '@/hooks/use-toast';
-import { useRouter } from 'next/navigation';
 
 const recruiterFormSchema = z.object({
     companyName: z.string().min(1, { message: 'Company name is required' }),
     companyLogo: z.string().min(1, { message: 'Company logo is required' }),
 });
 
-const RecruiterForm = () => {
-    const router = useRouter();
+const RecruiterForm = ({ refreshRecruiters }) => {
     const toast = useToast();
     const {
         register,
@@ -39,7 +37,7 @@ const RecruiterForm = () => {
         },
         onSuccess: () => {
             reset();
-            router.refresh();
+            refreshRecruiters?.();
         },
         onError: (error) => {
             toast({

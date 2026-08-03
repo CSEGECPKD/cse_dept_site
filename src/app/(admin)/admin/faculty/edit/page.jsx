@@ -1,18 +1,39 @@
+'use client';
+
+import React, { useCallback, useEffect, useState } from 'react';
+
 import { getFaculties } from '@/actions/faculty.action';
-import AccreditionList from '@/components/admin/accredition/AccreditionList';
 import FacultyForm from '@/components/admin/faculty/FacultyForm';
 import FacultyList from '@/components/admin/faculty/FacultyList';
-import React from 'react';
 
-const EditAccreditionPage = async () => {
-    const faculties = await getFaculties();
+const EditAccreditionPage = () => {
+    const [faculties, setFaculties] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    const fetchFaculties = useCallback(async () => {
+        try {
+            setLoading(true);
+            const facultiesData = await getFaculties();
+            setFaculties(facultiesData);
+        } catch (error) {
+            console.error('Failed to fetch faculties:', error);
+        } finally {
+            setLoading(false);
+        }
+    }, []);
+
+    useEffect(() => {
+        fetchFaculties();
+    }, [fetchFaculties]);
+
     return (
         <div className="grid grid-cols-2">
             <div className="py-20 px-20">
-                <FacultyForm />
+                <FacultyForm refreshFaculties={fetchFaculties} />
             </div>
+
             <div className="py-20 px-10">
-                <FacultyList facultyList={faculties} />
+                <FacultyList facultyList={faculties} loading={loading} />
             </div>
         </div>
     );

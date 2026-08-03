@@ -10,7 +10,6 @@ import { UploadButton } from '@/components/uploadthing';
 import { useMutation } from '@tanstack/react-query';
 import { createFaculty } from '@/actions/faculty.action';
 import { createCourse } from '@/actions/course.action';
-import { useRouter } from 'next/navigation';
 import { useToast } from '@/hooks/use-toast';
 
 const courseFormSchema = z.object({
@@ -20,8 +19,7 @@ const courseFormSchema = z.object({
     pdfUrl: z.string().min(1, { message: 'PDF is required' }),
 });
 
-const CourseForm = () => {
-    const router = useRouter();
+const CourseForm = ({ refreshCourses }) => {
     const toast = useToast();
     const {
         register,
@@ -43,7 +41,7 @@ const CourseForm = () => {
             await createCourse(data);
         },
         onSuccess: () => {
-            router.refresh();
+            refreshCourses?.();
             reset();
         },
         onError: (error) => {

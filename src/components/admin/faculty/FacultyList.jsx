@@ -4,10 +4,22 @@ import React from 'react';
 import ListItem from '../ListItem';
 import { deleteFaculty } from '@/actions/faculty.action';
 
-const FacultyList = ({ facultyList }) => {
+const FacultyList = ({ facultyList, loading }) => {
+    if (loading) {
+        return (
+            <div className="space-y-1">
+                <h2 className="text-right text-3xl font-medium">
+                    FACULTY LIST
+                </h2>
+                <p className="text-center">Loading...</p>
+            </div>
+        );
+    }
+
     return (
         <div className="space-y-1">
             <h2 className="text-right text-3xl font-medium">FACULTY LIST</h2>
+
             <ul className="space-y-1">
                 {facultyList.map((item) => (
                     <ListItem
@@ -18,6 +30,7 @@ const FacultyList = ({ facultyList }) => {
                         }}
                     />
                 ))}
+
                 {facultyList.length === 0 && (
                     <p className="text-center text-red-500">No Data</p>
                 )}

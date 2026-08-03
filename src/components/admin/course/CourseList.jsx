@@ -4,7 +4,18 @@ import React from 'react';
 import ListItem from '../ListItem';
 import { deleteCourse } from '@/actions/course.action';
 
-const CourseList = ({ courseList }) => {
+const CourseList = ({ courseList, loading, refresh }) => {
+    if (loading) {
+        return (
+            <div className="space-y-1">
+                <h2 className="text-right text-3xl font-medium">
+                    ALREADY ON SITE
+                </h2>
+                <p className="text-center">Loading...</p>
+            </div>
+        );
+    }
+
     return (
         <div className="space-y-1">
             <h2 className="text-right text-3xl font-medium">ALREADY ON SITE</h2>
@@ -13,6 +24,7 @@ const CourseList = ({ courseList }) => {
                     <ListItem
                         key={item._id}
                         title={item.name}
+                        onSuccess={refresh}
                         handleDelete={async () => {
                             await deleteCourse(item._id);
                         }}

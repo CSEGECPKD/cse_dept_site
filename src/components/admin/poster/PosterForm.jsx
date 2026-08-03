@@ -10,7 +10,6 @@ import { UploadButton } from '@/components/uploadthing';
 import { useMutation } from '@tanstack/react-query';
 import { createFaculty } from '@/actions/faculty.action';
 import { createPoster } from '@/actions/poster.action';
-import { useRouter } from 'next/navigation';
 import { useToast } from '@/hooks/use-toast';
 
 const posterFormSchema = z.object({
@@ -19,8 +18,7 @@ const posterFormSchema = z.object({
     description: z.string().min(1, { message: 'Description is required' }),
 });
 
-const PosterForm = () => {
-    const router = useRouter();
+const PosterForm = ({ refreshPosters }) => {
     const toast = useToast();
     const {
         register,
@@ -41,7 +39,7 @@ const PosterForm = () => {
             await createPoster(data);
         },
         onSuccess: () => {
-            router.refresh();
+            refreshPosters?.();
             reset();
         },
         onError: (error) => {

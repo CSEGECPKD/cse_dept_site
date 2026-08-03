@@ -4,7 +4,18 @@ import React from 'react';
 import ListItem from '../ListItem';
 import { deleteGallery } from '@/actions/gallery.action';
 
-const GalleryList = ({ galleryList }) => {
+const GalleryList = ({ galleryList, loading, refresh }) => {
+    if (loading) {
+        return (
+            <div className="space-y-1">
+                <h2 className="text-right text-3xl font-medium">
+                    GALLERY LIST
+                </h2>
+                <p className="text-center">Loading...</p>
+            </div>
+        );
+    }
+
     return (
         <div className="space-y-1">
             <h2 className="text-right text-3xl font-medium">GALLERY LIST</h2>
@@ -13,6 +24,7 @@ const GalleryList = ({ galleryList }) => {
                     <ListItem
                         key={item._id}
                         title={item.name}
+                        onSuccess={refresh}
                         handleDelete={async () => {
                             await deleteGallery(item._id);
                         }}

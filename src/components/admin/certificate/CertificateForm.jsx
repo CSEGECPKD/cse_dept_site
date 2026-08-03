@@ -10,7 +10,6 @@ import { UploadButton } from '@/components/uploadthing';
 import { useMutation } from '@tanstack/react-query';
 import { createFaculty } from '@/actions/faculty.action';
 import { createCertificate } from '@/actions/certificate.action';
-import { useRouter } from 'next/navigation';
 import { useToast } from '@/hooks/use-toast';
 
 const certificateFormSchema = z.object({
@@ -18,8 +17,7 @@ const certificateFormSchema = z.object({
     imageUrl: z.string().min(1, { message: 'Image is required' }),
 });
 
-const CertificateForm = () => {
-    const router = useRouter();
+const CertificateForm = ({ refreshCertificates }) => {
     const toast = useToast();
     const {
         register,
@@ -40,7 +38,7 @@ const CertificateForm = () => {
             await createCertificate(data);
         },
         onSuccess: () => {
-            router.refresh();
+            refreshCertificates?.();
             reset();
         },
         onError: (error) => {

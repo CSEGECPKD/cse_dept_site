@@ -10,7 +10,6 @@ import { UploadButton } from '@/components/uploadthing';
 import { useMutation } from '@tanstack/react-query';
 import { createSubject } from '@/actions/subject.action';
 import { useToast } from '@/hooks/use-toast';
-import { useRouter } from 'next/navigation';
 
 const subjectFormSchema = z.object({
     courseId: z.string().min(1, { message: 'Course ID is required' }),
@@ -22,8 +21,7 @@ const subjectFormSchema = z.object({
     pdfUrl: z.string().min(1, { message: 'PDF is required' }),
 });
 
-const SubjectForm = () => {
-    const router = useRouter();
+const SubjectForm = ({ refreshSubjects }) => {
     const toast = useToast();
     const {
         register,
@@ -44,7 +42,7 @@ const SubjectForm = () => {
         },
         onSuccess: () => {
             reset();
-            router.refresh();
+            refreshSubjects?.();
         },
         onError: (error) => {
             toast({

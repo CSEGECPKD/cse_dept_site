@@ -9,7 +9,6 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { UploadButton } from '@/components/uploadthing';
 import { useMutation } from '@tanstack/react-query';
 import { createSyllabus } from '@/actions/syllabus.action';
-import { useRouter } from 'next/navigation';
 import { useToast } from '@/hooks/use-toast';
 
 const syllabusFormSchema = z.object({
@@ -25,8 +24,7 @@ const syllabusFormSchema = z.object({
     pdfUrl: z.string().min(1, { message: 'PDF URL is required' }),
 });
 
-const SyllabusForm = () => {
-    const router = useRouter();
+const SyllabusForm = ({ refreshSyllabi }) => {
     const toast = useToast();
     const {
         register,
@@ -47,7 +45,7 @@ const SyllabusForm = () => {
             await createSyllabus(data);
         },
         onSuccess: () => {
-            router.refresh();
+            refreshSyllabi?.();
             reset();
         },
         onError: (error) => {

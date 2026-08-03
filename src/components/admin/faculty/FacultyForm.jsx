@@ -37,8 +37,7 @@ const facultyFormSchema = z.object({
     imageUrl: z.string().min(1, { message: 'Image is required' }),
 });
 
-const FacultyForm = () => {
-    const router = useRouter();
+const FacultyForm = ({ refreshFaculties }) => {
     toast;
     const {
         register,
@@ -55,16 +54,14 @@ const FacultyForm = () => {
     });
 
     const mutation = useMutation({
-        mutationFn: async (data) => {
-            await createFaculty(data);
-        },
+        mutationFn: async (data) => createFaculty(data),
         onSuccess: () => {
             reset();
-            router.refresh();
+            refreshFaculties?.();
         },
         onError: (error) => {
             toast({
-                description: `Cannot create ${error.message}`,
+                description: `Cannot create: ${error.message}`,
             });
         },
     });

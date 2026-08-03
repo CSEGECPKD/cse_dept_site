@@ -9,7 +9,6 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { UploadButton } from '@/components/uploadthing';
 import { useMutation } from '@tanstack/react-query';
 import { createTopper } from '@/actions/topper.action'; // Changed from createTopper to createAchiever
-import { useRouter } from 'next/navigation';
 import { useToast } from '@/hooks/use-toast';
 
 const achieverFormSchema = z.object({
@@ -32,8 +31,7 @@ const achieverFormSchema = z.object({
     imageUrl: z.string().min(1, { message: 'Image is required' }),
 });
 
-const TopperForm = () => {
-    const router = useRouter();
+const TopperForm = ({ refreshToppers }) => {
     const toast = useToast();
     const {
         register,
@@ -55,7 +53,7 @@ const TopperForm = () => {
         },
         onSuccess: () => {
             reset();
-            router.refresh();
+            refreshToppers?.();
         },
         onError: (error) => {
             toast({
