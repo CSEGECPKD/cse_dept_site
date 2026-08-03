@@ -1,18 +1,18 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 
 const certificateSchema = new mongoose.Schema({
-  name: {
-    type: String,
-    required: true,
-  },
-  imageUrl: {
-    type: String,
-    required: true,
-  },
+    name: {
+        type: String,
+        required: true,
+    },
+    imageUrl: {
+        type: String,
+        required: true,
+    },
 });
 
 const Certificate =
-  mongoose.models.Certificate ||
-  mongoose.model("Certificate", certificateSchema);
+    mongoose.models.Certificate ||
+    mongoose.model('Certificate', certificateSchema);
 
 export default Certificate;

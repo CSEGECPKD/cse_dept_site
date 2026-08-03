@@ -1,17 +1,17 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 
 const recruiterSchema = new mongoose.Schema({
-  companyName: {
-    type: String,
-    required: true,
-  },
-  companyLogo: {
-    type: String,
-    required: true,
-  },
+    companyName: {
+        type: String,
+        required: true,
+    },
+    companyLogo: {
+        type: String,
+        required: true,
+    },
 });
 
 const Recruiter =
-  mongoose.models.Recruiter || mongoose.model("Recruiter", recruiterSchema);
+    mongoose.models.Recruiter || mongoose.model('Recruiter', recruiterSchema);
 
 export default Recruiter;
