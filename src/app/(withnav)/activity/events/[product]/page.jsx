@@ -1,23 +1,39 @@
 "use client";
-import { useParams, useRouter } from "next/navigation";
-import { upcomingEvents, pastEvents } from "../eventsData";
+import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
+import { getEventById } from "@/actions/event.action";
 import ColoredSection from "../../../../../components/ColoredSection";
 
 export default function EventDetails() {
-  const router = useRouter();
   const { product } = useParams();
   const [event, setEvent] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (product) {
-      const allEvents = [...upcomingEvents, ...pastEvents];
-      const eventDetails = allEvents.find((e) => e.id === parseInt(product));
-      setEvent(eventDetails);
+      (async () => {
+        try {
+          const e = await getEventById(product);
+          setEvent({
+            _id: e._id,
+            title: e.name,
+            description: e.details,
+            mode: e.mode,
+            date: e.date,
+            image: e.posters?.[0] || "/placeholder-image.jpg",
+            registrationLink: e.regLinks?.[0] || null,
+          });
+        } catch (error) {
+          console.error("Error fetching event:", error);
+        } finally {
+          setLoading(false);
+        }
+      })();
     }
   }, [product]);
 
-  if (!event) return <p>Loading...</p>;
+  if (loading) return <p className="text-center py-20">Loading...</p>;
+  if (!event) return <p className="text-center py-20">Event not found</p>;
 
   return (
     <ColoredSection color="BLACK">
@@ -40,20 +56,27 @@ export default function EventDetails() {
         <div className="w-full h-full flex flex-col lg:flex-row mt-8">
           <div className="w-full lg:w-[40%] h-full flex justify-center items-center mb-6 lg:mb-0">
             <img
-              src={event.image || "https://via.placeholder.com/600x400"}
+              src={event.image}
               alt={event.title}
               className="w-[80%] md:w-[70%] h-auto object-cover bg-cover bg-no-repeat "
             />
           </div>
           <div className="w-full lg:w-[50%] h-[300px] overflow-y-auto text-justify pr-4 scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100">
             <p className="text-black text-base md:text-lg">
-              {event.descriptions}
+              {event.description}
             </p>
           </div>
         </div>
-        <button className="w-full md:w-[90%] lg:w-[88%]  h-auto p-3 mt-8 mx-auto bg-[#696969] text-white hover:border-red-500 hover:border-2 hover:bg-white hover:text-red-500 transition-all duration-300 flex justify-center items-center">
-          <p className="uppercase text-sm font-semibold">register now</p>
-        </button>
+        {event.registrationLink && (
+          <a
+            href={event.registrationLink}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="w-full md:w-[90%] lg:w-[88%] h-auto p-3 mt-8 mx-auto bg-[#696969] text-white hover:border-red-500 hover:border-2 hover:bg-white hover:text-red-500 transition-all duration-300 flex justify-center items-center"
+          >
+            <p className="uppercase text-sm font-semibold">register now</p>
+          </a>
+        )}
       </div>
     </ColoredSection>
   );

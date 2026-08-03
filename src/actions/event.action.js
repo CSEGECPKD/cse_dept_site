@@ -4,13 +4,13 @@ import dbConnect from '@/lib/db';
 import Event from '@/lib/models/Event';
 import { isAuthenticated } from '@/lib/auth';
 
-export async function createEvent({ name, date, details, posters, regLinks }) {
+export async function createEvent({ name, date, details, mode, posters, regLinks }) {
     try {
         if (!(await isAuthenticated())) {
             throw new Error('Unauthorized');
         }
         await dbConnect();
-        const newEvent = new Event({ name, date, details, posters, regLinks });
+        const newEvent = new Event({ name, date, details, mode, posters, regLinks });
         await newEvent.save();
         return {
             message: "Event created successfully"
@@ -29,6 +29,18 @@ export async function getEvents() {
     } catch (error) {
         console.error('Failed to fetch events:', error);
         throw new Error('Failed to fetch events');
+    }
+}
+
+export async function getEventById(id) {
+    try {
+        await dbConnect();
+        const event = await Event.findById(id);
+        if (!event) throw new Error('Event not found');
+        return JSON.parse(JSON.stringify(event));
+    } catch (error) {
+        console.error('Failed to fetch event:', error);
+        throw new Error('Failed to fetch event');
     }
 }
 
