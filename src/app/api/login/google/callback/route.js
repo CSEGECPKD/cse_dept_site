@@ -11,13 +11,10 @@ import dbConnect from '@/lib/db';
 import { generateRandomString, alphabet } from 'oslo/crypto';
 import { NextResponse } from 'next/server';
 
-const emails = [
-    'mohdhashique10@gmail.com',
-    'viswajithviswa715@gmail.com',
-    'jeraldjoyson21@gmail.com',
-    'sabarisanthosh45@gmail.com',
-    'mofahadkundupuzhakkal@gmail.com',
-];
+const emails =
+    process.env.AUTHORIZED_EMAILS?.split(',')
+        .map((email) => email.trim().toLowerCase())
+        .filter(Boolean) ?? [];
 
 export async function GET(request) {
     const url = new URL(request.url);
@@ -60,9 +57,9 @@ export async function GET(request) {
         }
     );
     const claims = await response.json();
-    const email = claims.email;
+    const email = claims.email?.toLowerCase();
 
-    if (!emails.includes(email)) {
+    if (!email || !emails.includes(email)) {
         return new Response(
             `<html><body>This email ${email} is not authorized <a href="/">Go To Home</a></body></html>`,
             {
