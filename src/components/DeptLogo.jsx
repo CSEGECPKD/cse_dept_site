@@ -111,7 +111,7 @@ const DeptLogo = () => {
         <ColoredSection color="BLACK">
             <div
                 ref={containerRef}
-                className="flex flex-col px-12 md:px-20 py-8 justify-center items-center min-h-screen"
+                className="flex flex-col px-12 md:px-20 py-8 md:py-0 justify-center items-center min-h-screen"
                 id="mission"
             >
                 <div className="flex justify-center align-items-center relative px-5 md:px-0">
@@ -153,8 +153,8 @@ const DeptLogo = () => {
                     >
                         <Image
                             src="/Vision.png"
-                            width={400}
-                            height={400}
+                            width={800}
+                            height={800}
                             alt="vision"
                             className="w-full"
                         />
@@ -172,8 +172,8 @@ const DeptLogo = () => {
                         <div className="flex flex-col items-end">
                             <Image
                                 src="/Mission.png"
-                                width={400}
-                                height={400}
+                                width={800}
+                                height={800}
                                 alt="mission"
                                 className="w-full"
                             />
@@ -185,12 +185,12 @@ const DeptLogo = () => {
                 </div>
 
                 <div
-                    className="overflow-hidden flex  flex-row items-center w-screen h-min  "
+                    className="overflow-hidden flex flex-row items-center w-screen h-min pt-12 md:pt-20"
                     onMouseEnter={handleMouseEnter}
                     onMouseLeave={handleMouseLeave}
                 >
                     <div
-                        className="flex items-center whitespace-nowrap gap-5 h-[100px]  max-w-screen "
+                        className="flex items-center whitespace-nowrap gap-5 h-[100px] max-w-screen "
                         ref={item1}
                     >
                         <p className=" lg:text-4xl text-2xl text-[#9E9E9E] font-extrabold font-bebasneue pl-5">
@@ -252,18 +252,6 @@ const DeptLogo = () => {
                         </div>
                     </div>
                 </div>
-                {/* <div className=" flex items-center whitespace-nowrap gap-5 h-[100px] w-screen lg:hidden  justify-center"   >
-          <p className=" text-2xl text-[#9E9E9E] font-extrabold font-bebasneue" >
-            NATIONAL BOARD OF ACCREDITATION ACCREDITED
-          </p>
-          <div className="border-x-4 border-[#9E9E9E] border-solid px-2">
-            <img
-              src="./nba.svg"
-              alt="Description"
-              className="  text-[#9E9E9E] min-w-[33px] min-h-[33px]"
-            />
-          </div>
-        </div> */}
             </div>
         </ColoredSection>
     );

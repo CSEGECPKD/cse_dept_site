@@ -1,10 +1,10 @@
 export const hodData = [
     {
-        name: 'DR. SABITHA S',
+        name: 'Helen K J',
         designation: 'HOD, CSE',
         image: '/hodImage.jpg',
         message:
-            'Lorem ipsum dolor sit amet consectetur. Turpis consequat nec et suscipit in urna rhoncus. Ut amet ut arcu in ornare urna blandit. Sollicitudin sit est a odio. Eros vulputate etiam euismod risus augue feugiat in quis. Est molestie tristique feugiat faucibus tortor.Tortor nibh nunc congue consequat. Eleifend mauris magna egestas ultrices porta adipiscing turpis nunc praesent. Tortor phasellus diam arcu a massa. Cras lacus nec tellus nulla consectetur rhoncus tristique pellentesque montes. Dictumst sit vel faucibus egestas. Vehicula consectetur nisl in nulla venenatis.',
+            'Our department has always been committed to fostering the all-round development of students, enabling them to thrive in the fast-evolving digital world. The driving force behind our progress is the energy and enthusiasm of our students, supported by a team of dedicated young faculty members. With a strong emphasis on quality teaching and active involvement in research, our faculty members inspire students to take up innovative and research-oriented projects. This academic environment equips our students to pursue meaningful, enjoyable, and successful careers in both industry and academia. Beyond academics, our college encourages participation in co-curricular and social initiatives such as the NSS and various student clubs, nurturing responsible, socially committed individuals.',
     },
 ];
 const studentsByCategory = {

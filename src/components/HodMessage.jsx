@@ -24,7 +24,7 @@ const HodMessage = () => {
                 </div>
                 <div className="grid md:grid-cols-[330px_auto] grid-cols-1 gap-[8px] md:gap-[70px] md:flex-row md:justify-between w-full h-auto md:p-5 md:pl-0 xl:p-10 xl:pl-0">
                     {/* Image of HOD and designation */}
-                    <div className="w-full pt-5 md:pt-0 grid grid-cols-2 md:grid-cols-1">
+                    <div className="w-full pt-5 md:pt-0 grid grid-cols-1">
                         <div className="w-full">
                             <Image
                                 src={hod.image}
@@ -36,10 +36,10 @@ const HodMessage = () => {
                             />
                         </div>
                         <div className="w-full flex flex-col justify-center items-center">
-                            <p className="mt-2 text-base lg:text-xl font-normal w-auto h-auto">
+                            <p className="mt-2 text-2xl font-normal w-auto h-auto font-bebasneue">
                                 {hod.name}
                             </p>
-                            <p className="text-gray-500 text-[15px] w-auto h-auto">
+                            <p className="text-gray-500 text-[20px] w-auto h-auto font-bebasneue">
                                 {hod.designation}
                             </p>
                         </div>
