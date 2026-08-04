@@ -80,10 +80,11 @@ export default function References() {
             .to(items2.current, { opacity: 100 })
             .to(item1.current, { opacity: 100 });
     }, []);
+
     return (
         <ColoredSection color="BLACK">
             <div
-                className="text-black lg:max-w-screen overflow-x-hidden md:mt-40"
+                className="text-black lg:max-w-screen overflow-x-hidden md:mt-40 md:pb-10"
                 ref={animatedRef}
             >
                 <div className="lg:flex-row flex flex-col-reverse lg:10 xl:px-20 justify-between">
@@ -96,7 +97,17 @@ export default function References() {
                         </h1>
                         <div
                             ref={comp}
-                            className="grid lg:grid-cols-[repeat(3,150px)] lg:grid-rows-[repeat(3,150px)] grid-cols-[repeat(3,30%)] grid-rows-[repeat(3,100px)] md:grid-rows-[repeat(3,150px)] gap-[24px] grid-flow-row lg:w-min w-full px-10 lg:px-0"
+                            className="
+                                grid
+                                grid-cols-[repeat(3,30%)] grid-rows-[repeat(3,100px)]
+                                gap-6
+                                w-full
+                                px-10
+                                md:grid-cols-[repeat(3,150px)]
+                                md:grid-rows-[repeat(3,150px)]
+                                lg:grid-cols-[repeat(9,100px)]
+                                lg:grid-rows-[repeat(1,100px)]
+                            "
                         >
                             {imag.map((sr, index) => (
                                 <a
@@ -116,131 +127,6 @@ export default function References() {
                                     />
                                 </a>
                             ))}
-                        </div>
-                    </div>
-                    <div className="lg:w-[60%] px-5 lg:px-0  min-[1023px]:ml-9">
-                        <div ref={text2} className="flex lg:justify-end">
-                            <p className="text-[56px] font-bebasneue mt-[1rem] mb-[1rem] font-bold">
-                                .NEW POSTS
-                            </p>
-                        </div>
-                        <div className="flex gap-[2rem]">
-                            <div className="w-[100%]">
-                                <div className="flex flex-row flex-wrap lg:flex-nowrap gap-[0.8rem] lg:w-auto justify-center w-[100%]">
-                                    <div
-                                        ref={item1}
-                                        className="group lg:basis-auto basis-full relative lg:h-[500px] h-[350px] lg:w-[30rem] hover:w-[45rem] w-[100%] opacity-0 overflow-hidden transition-all duration-[1s] rounded-xl"
-                                    >
-                                        <div className="absolute bg-gradient-to-b from-[rgba(-1,-1,-1,0.7)] to-[rgba(0,0,0,0)] inset-x-0 z-1 w-full h-[50%]"></div>
-                                        <div className="absolute bg-gradient-to-t from-[rgba(-1,-1,-1,0.7)] to-[rgba(0,0,0,0)] inset-x-0 bottom-0 z-1 w-full h-[50%]"></div>
-                                        <img
-                                            className="h-full w-full object-cover transition-all"
-                                            src="../blog/image1.jpeg"
-                                            alt=""
-                                        />
-                                        <div className="absolute inset-0">
-                                            <p className="absolute inset-x-5 top-6 text-white font-montserrat text-4xl font-bold">
-                                                Project showcase
-                                            </p>
-                                            <div className="absolute inset-x-5 bottom-6">
-                                                <div className="text-white">
-                                                    <style>
-                                                        {`.parent:hover svg {
-                        fill: black;
-                        transform: scaleX(2.5);
-                        transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-                        duration: 1s;
-                      }
-                      .parent:hover {
-                        width: 12rem;
-                        gap: 20px;
-                      }`}
-                                                    </style>
-                                                    <div className="parent mt-[7px] cursor-pointer hover:bg-white duration-[0.8s] hover:text-black bg-black font-bold w-[9rem] flex justify-center gap-[0.8rem]">
-                                                        READ MORE
-                                                        <svg
-                                                            className="w-[20px] fill-white hover:fill-black"
-                                                            xmlns="http://www.w3.org/2000/svg"
-                                                            viewBox="0 0 25 25"
-                                                        >
-                                                            <path
-                                                                d="m17.5 5.999-.707.707 5.293 5.293H1v1h21.086l-5.294 5.295.707.707L24 12.499l-6.5-6.5z"
-                                                                data-name="Right"
-                                                            />
-                                                        </svg>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div
-                                        ref={items2}
-                                        className="group lg:basis-auto basis-1/3 opacity-0 lg:hover:w-[45rem] relative lg:h-[500px] h-[350px] min-w-[47%] sm:min-w-[48%] lg:w-[20rem] lg:min-w-min overflow-hidden transition-all duration-[1s] rounded-xl"
-                                    >
-                                        <div className="absolute bg-gradient-to-b from-[rgba(-1,-1,-1,0.7)] to-[rgba(0,0,0,0)] inset-x-0 z-1 w-full h-[50%]"></div>
-                                        <div className="absolute bg-gradient-to-t from-[rgba(-1,-1,-1,0.7)] to-[rgba(0,0,0,0)] inset-x-0 bottom-0 z-1 w-full h-[50%]"></div>
-                                        <img
-                                            className="h-full w-full object-cover transition-all"
-                                            src="../blog/image2.jpeg"
-                                            alt=""
-                                        />
-                                        <div className="absolute inset-0">
-                                            <div className="absolute text-white font-montserrat text-4xl font-bold inset-x-5 top-6">
-                                                World Map
-                                            </div>
-                                            <div className="absolute inset-x-5 bottom-6 text-white">
-                                                <p className="text-gray-300"></p>
-                                                <div className="parent mt-[7px] cursor-pointer hover:bg-white duration-[0.8s] hover:text-black bg-black font-bold w-[9rem] flex justify-center gap-[0.8rem]">
-                                                    READ MORE
-                                                    <svg
-                                                        className="w-[20px] fill-white hover:fill-black"
-                                                        xmlns="http://www.w3.org/2000/svg"
-                                                        viewBox="0 0 25 25"
-                                                    >
-                                                        <path
-                                                            d="m17.5 5.999-.707.707 5.293 5.293H1v1h21.086l-5.294 5.295.707.707L24 12.499l-6.5-6.5z"
-                                                            data-name="Right"
-                                                        />
-                                                    </svg>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div
-                                        ref={item3}
-                                        className="group lg:basis-auto basis-1/3 lg:hover:w-[45rem] relative lg:h-[500px] h-[350px] min-w-[48%] lg:w-[20rem] lg:min-w-min opacity-0 overflow-hidden transition-all duration-[1s] rounded-xl"
-                                    >
-                                        <div className="absolute bg-gradient-to-b from-[rgba(-1,-1,-1,0.7)] to-[rgba(0,0,0,0)] inset-x-0 z-1 w-full h-[50%]"></div>
-                                        <div className="absolute bg-gradient-to-t from-[rgba(-1,-1,-1,0.7)] to-[rgba(0,0,0,0)] inset-x-0 bottom-0 z-1 w-full h-[50%]"></div>
-                                        <img
-                                            className="h-full w-full object-cover transition-all"
-                                            src="../blog/image3.jpeg"
-                                            alt=""
-                                        />
-                                        <div className="absolute inset-0">
-                                            <div className="absolute text-white font-bold font-montserrat text-4xl inset-x-5 top-6">
-                                                Attitude Probe
-                                            </div>
-                                            <div className="absolute inset-x-5 bottom-6 text-white">
-                                                <p className="text-gray-300"></p>
-                                                <div className="parent mt-[7px] cursor-pointer hover:bg-white duration-[0.5s] hover:text-black bg-black font-bold w-[9rem] flex justify-center gap-[0.8rem]">
-                                                    READ MORE
-                                                    <svg
-                                                        className="w-[20px] fill-white hover:fill-black"
-                                                        xmlns="http://www.w3.org/2000/svg"
-                                                        viewBox="0 0 25 25"
-                                                    >
-                                                        <path
-                                                            d="m17.5 5.999-.707.707 5.293 5.293H1v1h21.086l-5.294 5.295.707.707L24 12.499l-6.5-6.5z"
-                                                            data-name="Right"
-                                                        />
-                                                    </svg>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>

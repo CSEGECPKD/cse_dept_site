@@ -7,42 +7,12 @@ import 'aos/dist/aos.css';
 import ColoredSection from '../../../components/ColoredSection';
 
 function Home() {
-    const [isHover, setIsHover] = useState(false);
-    const [isVisible, setIsVisible] = useState(false);
-    const notificationRef = useRef(null);
     const [isVideoLoaded, setIsVideoLoaded] = useState(false);
-    const [hasAutoOpened, setHasAutoOpened] = useState(false);
 
     useEffect(() => {
         AOS.init({ duration: 1000 });
     }, []);
 
-    useEffect(() => {
-        const handleClickOutside = (event) => {
-            if (
-                notificationRef.current &&
-                !notificationRef.current.contains(event.target)
-            ) {
-                setIsVisible(false);
-            }
-        };
-
-        document.addEventListener('mousedown', handleClickOutside);
-
-        return () => {
-            document.removeEventListener('mousedown', handleClickOutside);
-        };
-    }, [notificationRef]);
-
-    useEffect(() => {
-        if (!hasAutoOpened) {
-            setIsVisible(true);
-            setHasAutoOpened(true);
-            setTimeout(() => {
-                setIsVisible(false);
-            }, 3000);
-        }
-    }, [hasAutoOpened]);
     useEffect(() => {
         const video = document.getElementById('backgroundVideo');
         video.addEventListener('loadeddata', () => {
@@ -55,10 +25,6 @@ function Home() {
             });
         };
     }, []);
-
-    const handleClick = () => {
-        setIsVisible((prev) => !prev);
-    };
 
     return (
         <ColoredSection color="WHITE">
@@ -99,46 +65,6 @@ function Home() {
                             isVideoLoaded ? 'opacity-100' : 'opacity-0'
                         }`}
                     />
-
-                    <div
-                        ref={notificationRef}
-                        onClick={handleClick}
-                        onMouseEnter={() => setIsHover(true)}
-                        onMouseLeave={() => setIsHover(false)}
-                        className="absolute bottom-48 right-0 mt-48 box-content px-3 py-2 w-12 rounded-sm  cursor-pointer"
-                        style={{
-                            background: 'rgba(255, 255, 255, 0.10)',
-                            backdropFilter: 'blur(30px)',
-                        }}
-                        data-aos="fade-left"
-                    >
-                        <MdOutlineNotifications
-                            style={{ color: '#FFFFFF' }}
-                            size={26}
-                        />
-                    </div>
-
-                    {isVisible && (
-                        <div
-                            style={{
-                                background: 'rgba(255, 255, 255, 0.10)',
-                                backdropFilter: 'blur(30px)',
-                            }}
-                            className="text-white h-24 bottom-48 absolute mt-48 right-5 box-content px-3 py-2 rounded-sm cursor-pointer"
-                        >
-                            <div className="flex gap-3 mb-3">
-                                <h2 className="text-[20px]">NOTIFICATION</h2>
-                                <MdOutlineNotifications
-                                    style={{ color: '#FFFFFF' }}
-                                    size={26}
-                                />
-                            </div>
-                            <div>
-                                <p>SERIES EXAM STARTS IN DECEMBER</p>
-                                <p>20 2023 FOR S3 AND S5 STUDENTS</p>
-                            </div>
-                        </div>
-                    )}
                 </div>
             </div>
         </ColoredSection>
