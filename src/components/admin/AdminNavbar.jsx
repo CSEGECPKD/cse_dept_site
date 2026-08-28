@@ -61,11 +61,6 @@ const links = [
     id: "toppers",
   },
   {
-    label: "Blog",
-    href: "/admin/blog/edit",
-    id: "blog",
-  },
-  {
     label: "Association Members",
     href: "/admin/associationmembers/edit",
     id: "associationmembers",
