@@ -138,6 +138,11 @@ const links = [
         href: "/activity/events",
       },
       {
+        label: "Blogs",
+        type: "sub-main",
+        href: "/activity/blog",
+      },
+      {
         label: "Magazine/Newsletter",
         type: "sub-main",
         href: "/activity/magazine",
@@ -165,6 +170,11 @@ const links = [
         href: "/placements",
       },
     ],
+  },
+  {
+    label: "Notifications",
+    type: "main",
+    href: "/notifications",
   },
 ];
 
