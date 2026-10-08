@@ -27,7 +27,7 @@
         "@radix-ui/react-toast": "^1.2.2",
         "@rooks/use-boundingclientrect": "^4.11.2",
         "@tanstack/react-query": "^5.59.15",
-        "@uploadthing/react": "^6.6.0",
+        "@uploadthing/react": "^7.3.3",
         "aos": "^2.3.4",
         "arctic": "^1.9.2",
         "chart.js": "^4.4.3",
@@ -65,6 +65,7 @@
         "tailwind-merge": "^2.5.2",
         "tailwindcss-animate": "^1.0.7",
         "typewriter-effect": "^2.21.0",
+        "uploadthing": "^7.7.4",
         "zod": "^3.23.8"
     },
     "devDependencies": {

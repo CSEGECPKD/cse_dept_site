@@ -16,23 +16,23 @@ const HodMessage = () => {
 
     return (
         <ColoredSection color="BLACK">
-            <div className="bg-white container mx-auto py-20 px-4 h-full md:h-[70vh]">
+            <div className="bg-white container mx-auto py-20 px-4 h-full md:min-h-[70vh]">
                 <div className="w-full h-auto text-right">
                     <h1 className="text-black w-auto h-auto text-4xl lg:text-5xl font-semibold font-bebasneue">
                         . HOD MESSAGE
                     </h1>
                 </div>
-                <div className="grid md:grid-cols-[330px_auto] grid-cols-1 gap-[8px] md:gap-[70px] md:flex-row md:justify-between w-full h-auto md:pt-5 md:pl-0 xl:pl-0">
+                <div className="grid md:grid-cols-[250px_auto] grid-cols-1 gap-[20px] md:gap-[50px] md:flex-row md:justify-between w-full h-auto md:pt-5 md:pl-0 xl:pl-0">
                     {/* Image of HOD and designation */}
-                    <div className="w-full pt-5 md:pt-0 grid grid-cols-1">
-                        <div className="w-full">
+                    <div className="w-full pt-5 md:pt-0 flex flex-col justify-start items-center gap-4">
+                        <div className="w-[150px] sm:w-[180px] md:w-full max-w-[250px] mx-auto">
                             <Image
                                 src={hod.image}
                                 alt="HOD Image"
                                 layout="responsive"
                                 width={300}
                                 height={400}
-                                className="p-10 lg:p-0 w-full object-cover transition duration-300 ease-in-out"
+                                className="w-full object-cover transition duration-300 ease-in-out"
                             />
                         </div>
                         <div className="w-full flex flex-col justify-center items-center">
@@ -46,7 +46,7 @@ const HodMessage = () => {
                     </div>
                     {/* Message of HOD */}
                     <div className="flex-auto justify-start w-full pt-5 md:pt-0 md:pl-5">
-                        <p className="text-gray-500 text-[16px] sm:text-[17px] lg:text-[20px] leading-[28px] md:leading-[30px] lg:leading-[185%] transition duration-300 ease-in-out text-justify">
+                        <p className="whitespace-pre-line text-gray-500 text-[16px] sm:text-[17px] lg:text-[20px] leading-[28px] md:leading-[30px] lg:leading-[185%] transition duration-300 ease-in-out text-justify">
                             {hod.message}
                         </p>
                     </div>
