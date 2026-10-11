@@ -13,7 +13,7 @@ const HodMessage = () => {
             <div className="bg-white container mx-auto py-20 px-4 h-full md:min-h-[70vh]">
                 <div className="w-full h-auto text-right">
                     <h2 className="text-black w-auto h-auto text-4xl lg:text-5xl font-semibold font-bebasneue">
-                        HOD MESSAGE
+                        . HOD MESSAGE
                     </h2>
                 </div>
                 <div className="grid md:grid-cols-[250px_auto] grid-cols-1 gap-[20px] md:gap-[50px] md:flex-row md:justify-between w-full h-auto md:pt-5 md:pl-0 xl:pl-0">

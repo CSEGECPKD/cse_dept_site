@@ -93,7 +93,7 @@ export default function References() {
               ref={text1}
               className="self-start lg:block lg:px-0 px-10 font-bold mt-[1rem] mb-[1rem] font-bebasneue text-[56px]"
             >
-              REFERENCES
+              .REFERENCES
             </h2>
             <div
               ref={comp}

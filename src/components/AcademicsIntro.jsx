@@ -11,7 +11,7 @@ const SectionTitle = ({ children, align = 'left' }) => (
     text-left ${align === 'right' ? 'md:text-right' : ''}
   `}
     >
-        {children}
+        . {children}
     </h1>
 );
 

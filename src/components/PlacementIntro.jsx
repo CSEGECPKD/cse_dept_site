@@ -10,7 +10,7 @@ const PlacementIntro = () => {
             <div className="bg-white container mx-auto py-32 md:py-32 px-4 h-full md:min-h-[70vh]">
                 <div className="w-full h-auto mb-8 md:mb-12">
                     <h1 className="text-black w-auto h-auto text-3xl md:text-4xl lg:text-5xl font-semibold font-bebasneue">
-                        TRAINING & PLACEMENT
+                        . TRAINING & PLACEMENT
                     </h1>
                 </div>
                 <div className="grid md:grid-cols-[330px_auto] grid-cols-1 gap-8 md:gap-[70px] w-full h-auto">

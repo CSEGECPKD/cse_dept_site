@@ -26,7 +26,7 @@ const MoreAchievers = ({ studentsByCategory }) => {
             <section className="flex overflow-hidden flex-col justify-center py-14 w-full max-md:px-5 max-md:max-w-full">
                 <div className="flex flex-col w-full max-md:max-w-full">
                     <h1 className="self-end text-black font-bold font-bebasneue lg:text-5xl text-4xl">
-                        ACHIEVERS
+                        . ACHIEVERS
                     </h1>
                     <p className="flex-1 shrink mt-8 w-full text-xl leading-10 text-neutral-400 max-md:max-w-full">
                         Lorem ipsum dolor sit amet consectetur. Turpis consequat

@@ -81,7 +81,7 @@ const Gallery = () => {
         <ColoredSection color="WHITE" id="gallery">
             <div className="bg-[#f5f5f5] py-12 sm:py-20 md:py-28 px-4 sm:px-8 md:px-16 lg:px-24 xl:px-32 h-auto">
                 <h1 className="text-black text-3xl md:text-4xl lg:text-[56px] font-semibold font-bebasneue mb-2">
-                    GALLERY
+                    .GALLERY
                 </h1>
                 <p className="text-gray-500 text-base mb-8">
                     A glimpse into life at the CSE Department, GEC Palakkad.
