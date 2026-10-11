@@ -7,11 +7,11 @@ import { isAuthenticated } from '../lib/auth';
 export async function getFacilities() {
     try {
         await dbConnect();
-        const facilities = await Facility.find({});
+        const facilities = await Facility.find({}).lean();
         return JSON.parse(JSON.stringify(facilities));
     } catch (error) {
         console.error('Failed to fetch facilities:', error);
-        throw new Error('Failed to fetch facilities');
+        throw new Error(error.message || 'Failed to fetch facilities');
     }
 }
 
@@ -28,7 +28,7 @@ export async function createFacility({ name, description, pdfUrl }) {
         };
     } catch (error) {
         console.error('Failed to create facility:', error);
-        throw new Error('Failed to create facility');
+        throw new Error(error.message || 'Failed to create facility');
     }
 }
 
@@ -45,6 +45,6 @@ export async function deleteFacility(facilityId) {
         return { message: 'Facility deleted successfully' };
     } catch (error) {
         console.error('Failed to delete facility:', error);
-        throw new Error('Failed to delete facility');
+        throw new Error(error.message || 'Failed to delete facility');
     }
 }

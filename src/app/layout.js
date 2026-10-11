@@ -16,9 +16,12 @@ const bebasNeue = Bebas_Neue({
 });
 
 export const metadata = {
-    title: 'CSE GECPKD Website',
+    title: {
+        default: 'CSE Department | GEC Palakkad',
+        template: '%s | CSE GEC Palakkad',
+    },
     description:
-        'Welcome to the official website of the Computer Science and Engineering Department of Government Engineering College, Palakkad.',
+        'Official website of the Department of Computer Science and Engineering, Government Engineering College Palakkad. Explore academic programs, faculty, placements, research labs, events, and student achievements.',
 };
 
 export default function RootLayout({ children }) {

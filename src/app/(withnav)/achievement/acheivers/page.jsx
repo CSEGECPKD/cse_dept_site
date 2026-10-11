@@ -46,7 +46,7 @@ const CategoryCarousel = ({ category, students }) => {
                     <div key={index} className="mx-auto">
                         <div className="h-auto w-full">
                             <div className="flex flex-col bg-white justify-start items-center h-auto w-full max-w-[280px] mx-auto shadow-md rounded-lg overflow-hidden">
-                                <div className="stud-image w-full h-[220px] transition-all duration-[1s]">
+                                <div className="stud-image w-full h-[220px] transition-all duration-1000">
                                     <img
                                         src={student.image}
                                         alt={student.name}

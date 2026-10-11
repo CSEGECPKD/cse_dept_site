@@ -7,48 +7,48 @@ import ColoredSection from './ColoredSection';
 export default function References() {
   let imag = [
     {
-      org: '../images/1.jpg',
-      hvr: '../images/1h.svg',
+      org: '/images/1.jpg',
+      hvr: '/images/1h.svg',
       link: 'http://gecskp.ac.in',
     },
     {
-      org: '../images/2.jpg',
-      hvr: '../images/2h.svg',
+      org: '/images/2.jpg',
+      hvr: '/images/2h.svg',
       link: 'https://digipay.dtekerala.gov.in',
     },
     {
-      org: '../images/3.jpg',
-      hvr: '../images/3h.svg',
+      org: '/images/3.jpg',
+      hvr: '/images/3h.svg',
       link: 'https://ktu.edu.in/',
     },
     {
-      org: '../images/4.png',
-      hvr: '../images/4h.png',
+      org: '/images/4.png',
+      hvr: '/images/4h.png',
       link: 'https://www.ktunotes.in/ktu-2019-scheme-question-papers/',
     },
     {
-      org: '../images/5.jpg',
-      hvr: '../images/5h.svg',
+      org: '/images/5.jpg',
+      hvr: '/images/5h.svg',
       link: 'https://ktu.edu.in/academics/scheme',
     },
     {
-      org: '../images/6.jpg',
-      hvr: '../images/6h.svg',
+      org: '/images/6.jpg',
+      hvr: '/images/6h.svg',
       link: 'https://ktu.edu.in/academics/scheme',
     },
     {
-      org: '../images/7.jpg',
-      hvr: '../images/7h.svg',
+      org: '/images/7.jpg',
+      hvr: '/images/7h.svg',
       link: 'https://digipay.dtekerala.gov.in/',
     },
     {
-      org: '../images/8.jpg',
-      hvr: '../images/8h.svg',
+      org: '/images/8.jpg',
+      hvr: '/images/8h.svg',
       link: 'https://gecskp.etlab.in/',
     },
     {
-      org: '../images/9.jpg',
-      hvr: '../images/9h.svg',
+      org: '/images/9.jpg',
+      hvr: '/images/9h.svg',
       link: 'https://gecskp.etlab.in/',
     },
   ];
@@ -89,12 +89,12 @@ export default function References() {
       >
         <div className="lg:flex-row flex flex-col-reverse lg:10 xl:px-20 justify-between">
           <div className="lg:flex-none flex flex-col justify-center items-center">
-            <h1
+            <h2
               ref={text1}
               className="self-start lg:block lg:px-0 px-10 font-bold mt-[1rem] mb-[1rem] font-bebasneue text-[56px]"
             >
               .REFERENCES
-            </h1>
+            </h2>
             <div
               ref={comp}
               className="
@@ -121,7 +121,7 @@ export default function References() {
                     alt=""
                   />
                   <img
-                    className="absolute inset-0 h-full w-full opacity-100 hover:duration-[0.5s] transition-all lg:hover:opacity-0"
+                    className="absolute inset-0 h-full w-full opacity-100 hover:duration-500 transition-all lg:hover:opacity-0"
                     src={sr.org}
                     alt=""
                   />

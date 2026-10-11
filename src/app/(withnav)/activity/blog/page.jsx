@@ -2,7 +2,10 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
-import { getBlogs } from '@/actions/blog.action'; // Import the server action
+import { getBlogs } from '@/actions/blog.action';
+import EmptyState from '@/components/ui/EmptyState';
+import { SkeletonList } from '@/components/ui/SkeletonCard';
+import { MdArticle } from 'react-icons/md';
 
 export default function Page() {
     const [data, setData] = useState([]);
@@ -35,13 +38,13 @@ export default function Page() {
             </div>
 
             {loading ? (
-                <div className="container mx-auto py-20 text-center">
-                    <p className="text-xl">Loading blogs...</p>
-                </div>
+                <SkeletonList variant="blog" count={3} />
             ) : data.length === 0 ? (
-                <div className="container mx-auto py-20 text-center">
-                    <p className="text-xl">No blogs found</p>
-                </div>
+                <EmptyState
+                    icon={<MdArticle size={64} />}
+                    title="No blogs yet"
+                    description="Check back soon — new articles and posts are on their way."
+                />
             ) : (
                 data.map((item) => <HoverableItem key={item._id} item={item} />)
             )}
@@ -82,13 +85,13 @@ function HoverableItem({ item }) {
                                 isHover ? 'block' : 'hidden'
                             } transition-opacity duration-400`}
                         ></span>
-                        <h1
+                        <h2
                             className={`text-xl md:text-2xl ${
                                 isHover ? 'translate-x-3' : ''
-                            } transition-transform duration-300`}
+                            } transition-transform duration-300 font-semibold`}
                         >
                             {item.name}
-                        </h1>
+                        </h2>
                     </div>
                     <pre
                         className={`${
@@ -113,9 +116,9 @@ function HoverableItem({ item }) {
                                 {item.type.charAt(0).toUpperCase()}
                             </div>
                             <div className="mt-3">
-                                <h1 className="text-sm md:text-base">
+                                <p className="text-sm md:text-base font-medium">
                                     {item.authorName}
-                                </h1>
+                                </p>
                                 <p
                                     className={`${
                                         isHover

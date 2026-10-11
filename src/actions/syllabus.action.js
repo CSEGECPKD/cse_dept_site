@@ -7,11 +7,11 @@ import { isAuthenticated } from '../lib/auth';
 export async function getSyllabi() {
     try {
         await dbConnect();
-        const syllabi = await Syllabus.find({}).populate('course');
+        const syllabi = await Syllabus.find({}).populate('course').lean();
         return JSON.parse(JSON.stringify(syllabi));
     } catch (error) {
         console.error('Failed to fetch syllabi:', error);
-        throw new Error('Failed to fetch syllabi');
+        throw new Error(error.message || 'Failed to fetch syllabi');
     }
 }
 
@@ -47,7 +47,7 @@ export async function createSyllabus({
         };
     } catch (error) {
         console.error('Failed to create syllabus:', error);
-        throw new Error('Failed to create syllabus: ' + error.message);
+        throw new Error(error.message || 'Failed to create syllabus');
     }
 }
 
@@ -64,6 +64,6 @@ export async function deleteSyllabus(syllabusId) {
         return { message: 'Syllabus deleted successfully' };
     } catch (error) {
         console.error('Failed to delete syllabus:', error);
-        throw new Error('Failed to delete syllabus');
+        throw new Error(error.message || 'Failed to delete syllabus');
     }
 }

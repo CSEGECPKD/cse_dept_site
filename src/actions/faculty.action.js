@@ -5,61 +5,51 @@ import { UTApi, UTFile } from 'uploadthing/server';
 import dbConnect from '../lib/db';
 import Faculty from '../lib/models/Faculty';
 import { isAuthenticated } from '../lib/auth';
+import { facultySchema } from '../lib/validations';
+import { isSafeUrl } from '../lib/security';
 
 const utapi = new UTApi();
 
 export async function getFaculties() {
     try {
         await dbConnect();
-        const faculties = await Faculty.find({});
+        const faculties = await Faculty.find({}, { phone: 0 }).lean();
         return JSON.parse(JSON.stringify(faculties));
     } catch (error) {
         console.error('Failed to fetch faculties:', error);
-        throw new Error('Failed to fetch faculties');
+        throw new Error(error.message || 'Failed to fetch faculties');
     }
 }
 
 export async function getFacultyById(facultyId) {
     try {
         await dbConnect();
-        const faculty = await Faculty.findById(facultyId);
+        const faculty = await Faculty.findById(facultyId).lean();
         if (!faculty) {
             throw new Error('Employee not found');
         }
         return JSON.parse(JSON.stringify(faculty));
     } catch (error) {
         console.error('Failed to fetch employee:', error);
-        throw new Error('Failed to fetch employee');
+        throw new Error(error.message || 'Failed to fetch employee');
     }
 }
 
-export async function createFaculty({
-    name,
-    designation,
-    employeeType,
-    dateOfJoining,
-    email,
-    phone,
-    imageUrl,
-}) {
+export async function createFaculty(data) {
     try {
         if (!(await isAuthenticated())) {
             throw new Error('Unauthorized');
         }
+        const validated = facultySchema.parse(data);
         await dbConnect();
-        const normalizedEmail = email.trim().toLowerCase();
+        const normalizedEmail = validated.email.trim().toLowerCase();
         const duplicate = await Faculty.findOne({ email: normalizedEmail });
         if (duplicate) {
             throw new Error('An employee with this email already exists');
         }
         const newFaculty = new Faculty({
-            name,
-            designation,
-            employeeType,
-            dateOfJoining,
+            ...validated,
             email: normalizedEmail,
-            phone,
-            imageUrl: imageUrl || '',
         });
         await newFaculty.save();
         return {
@@ -67,20 +57,18 @@ export async function createFaculty({
         };
     } catch (error) {
         console.error('Failed to create faculty:', error);
-        throw new Error('Failed to create faculty');
+        throw new Error(error.message || 'Failed to create faculty');
     }
 }
 
-export async function updateFaculty(
-    facultyId,
-    { name, designation, employeeType, dateOfJoining, email, phone, imageUrl }
-) {
+export async function updateFaculty(facultyId, data) {
     try {
         if (!(await isAuthenticated())) {
             throw new Error('Unauthorized');
         }
+        const validated = facultySchema.parse(data);
         await dbConnect();
-        const normalizedEmail = email.trim().toLowerCase();
+        const normalizedEmail = validated.email.trim().toLowerCase();
         const duplicate = await Faculty.findOne({
             email: normalizedEmail,
             _id: { $ne: facultyId },
@@ -91,13 +79,8 @@ export async function updateFaculty(
         const updatedFaculty = await Faculty.findByIdAndUpdate(
             facultyId,
             {
-                name,
-                designation,
-                employeeType,
-                dateOfJoining,
+                ...validated,
                 email: normalizedEmail,
-                phone,
-                imageUrl: imageUrl || '',
             },
             { new: true }
         );
@@ -107,7 +90,7 @@ export async function updateFaculty(
         return { message: 'Updated successfully' };
     } catch (error) {
         console.error('Failed to update faculty:', error);
-        throw new Error('Failed to update faculty');
+        throw new Error(error.message || 'Failed to update faculty');
     }
 }
 
@@ -124,7 +107,7 @@ export async function deleteFaculty(facultyId) {
         return { message: 'Faculty deleted successfully' };
     } catch (error) {
         console.error('Failed to delete faculty:', error);
-        throw new Error('Failed to delete faculty');
+        throw new Error(error.message || 'Failed to delete faculty');
     }
 }
 
@@ -132,6 +115,12 @@ export async function importFaculties(rows) {
     try {
         if (!(await isAuthenticated())) {
             throw new Error('Unauthorized');
+        }
+        if (!Array.isArray(rows) || rows.length === 0) {
+            throw new Error('No rows provided for import');
+        }
+        if (rows.length > 500) {
+            throw new Error('Import exceeds maximum limit of 500 records');
         }
         await dbConnect();
 
@@ -220,7 +209,7 @@ export async function importFaculties(rows) {
         return summary;
     } catch (error) {
         console.error('Failed to import faculties:', error);
-        throw new Error('Failed to import faculties');
+        throw new Error(error.message || 'Failed to import faculties');
     }
 }
 
@@ -274,6 +263,8 @@ function extractDriveId(url) {
     return null;
 }
 
+const MAX_IMAGE_BYTES = 5 * 1024 * 1024; // 5MB
+
 async function downloadDriveImage(url) {
     const id = extractDriveId(url);
     const candidates = id
@@ -281,18 +272,46 @@ async function downloadDriveImage(url) {
               `https://drive.google.com/thumbnail?id=${id}&sz=w2000`,
               `https://drive.google.com/uc?export=download&id=${id}`,
           ]
-        : [url];
+        : isSafeUrl(url)
+          ? [url]
+          : [];
+
+    if (candidates.length === 0) {
+        throw new Error('Invalid or disallowed image URL');
+    }
 
     for (const candidate of candidates) {
         try {
-            const response = await fetch(candidate, { redirect: 'follow' });
+            if (!isSafeUrl(candidate)) continue;
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 8000);
+
+            const response = await fetch(candidate, {
+                redirect: 'follow',
+                signal: controller.signal,
+            });
+            clearTimeout(timeoutId);
+
             if (!response.ok) continue;
+
             const contentType = response.headers.get('content-type') || '';
             if (!contentType.startsWith('image/')) continue;
+
+            const contentLength = parseInt(
+                response.headers.get('content-length') || '0',
+                10
+            );
+            if (contentLength > MAX_IMAGE_BYTES) {
+                throw new Error('Image exceeds 5MB limit');
+            }
+
             const buffer = Buffer.from(await response.arrayBuffer());
-            if (buffer.length === 0) continue;
+            if (buffer.length === 0 || buffer.length > MAX_IMAGE_BYTES) continue;
             return { buffer, contentType };
         } catch (error) {
+            if (error.name === 'AbortError') {
+                console.warn('Image download timed out for candidate');
+            }
             continue;
         }
     }

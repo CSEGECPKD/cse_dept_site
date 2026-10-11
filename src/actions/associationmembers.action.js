@@ -29,18 +29,18 @@ export async function createAssociationMember({
         };
     } catch (error) {
         console.error('Failed to create association member:', error);
-        throw new Error('Failed to create association member');
+        throw new Error(error.message || 'Failed to create association member');
     }
 }
 
 export async function getAssociationMembers() {
     try {
         await dbConnect();
-        const members = await AssociationMember.find({});
+        const members = await AssociationMember.find({}).lean();
         return JSON.parse(JSON.stringify(members));
     } catch (error) {
         console.error('Failed to fetch association members:', error);
-        throw new Error('Failed to fetch association members');
+        throw new Error(error.message || 'Failed to fetch association members');
     }
 }
 
@@ -58,6 +58,6 @@ export async function deleteAssociationMember(memberId) {
         return { message: 'Association member deleted successfully' };
     } catch (error) {
         console.error('Failed to delete association member:', error);
-        throw new Error('Failed to delete association member');
+        throw new Error(error.message || 'Failed to delete association member');
     }
 }

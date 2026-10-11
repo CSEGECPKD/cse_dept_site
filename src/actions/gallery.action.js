@@ -7,11 +7,11 @@ import { isAuthenticated } from '../lib/auth';
 export async function getGalleries() {
     try {
         await dbConnect();
-        const galleries = await Gallery.find({});
+        const galleries = await Gallery.find({}).lean();
         return JSON.parse(JSON.stringify(galleries));
     } catch (error) {
         console.error('Failed to fetch galleries:', error);
-        throw new Error('Failed to fetch galleries');
+        throw new Error(error.message || 'Failed to fetch galleries');
     }
 }
 
@@ -28,7 +28,7 @@ export async function createGallery({ name, image, imgDescription }) {
         };
     } catch (error) {
         console.error('Failed to create gallery:', error);
-        throw new Error('Failed to create gallery');
+        throw new Error(error.message || 'Failed to create gallery');
     }
 }
 
@@ -45,6 +45,6 @@ export async function deleteGallery(galleryId) {
         return { message: 'Gallery deleted successfully' };
     } catch (error) {
         console.error('Failed to delete gallery:', error);
-        throw new Error('Failed to delete gallery');
+        throw new Error(error.message || 'Failed to delete gallery');
     }
 }

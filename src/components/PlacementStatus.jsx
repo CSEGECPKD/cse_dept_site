@@ -34,7 +34,7 @@ const ExpandableCards = ({ title }) => {
             <div
                 style={{ width: cardWidth }}
                 onClick={toggleExpand}
-                className={`flex flex-col justify-center transition-all duration-[1s] ease-in-out bg-[#E9E9E8] p-3 sm:p-5 ${
+                className={`flex flex-col justify-center transition-all duration-1000 ease-in-out bg-[#E9E9E8] p-3 sm:p-5 ${
                     isExpanded ? 'mb-5' : ''
                 }`}
             >
@@ -65,13 +65,13 @@ const ExpandableCards = ({ title }) => {
                         onClick={toggleExpand}
                         className={`transition-transform opacity-0 group-hover:opacity-100 cursor-pointer ${
                             isExpanded ? 'rotate-180 opacity-100' : ''
-                        } duration-[1s] ease-in-out z-10`}
+                        } duration-1000 ease-in-out z-10`}
                     >
                         <MdKeyboardArrowDown className="w-6 h-6 md:w-8 md:h-8 lg:w-10 lg:h-8 text-[#9E9E9E]" />
                     </div>
                 </div>
                 <div
-                    className={`transition-all duration-[1s] h-auto overflow-hidden ${
+                    className={`transition-all duration-1000 h-auto overflow-hidden ${
                         isExpanded
                             ? 'opacity-100 max-h-screen'
                             : 'opacity-0 max-h-0'
@@ -82,7 +82,7 @@ const ExpandableCards = ({ title }) => {
                     </div>
                     <div className="flex flex-col md:flex-row justify-between items-start md:items-center">
                         <div className="pb-2 pl-2 md:pl-5 text-[#696969] text-xs md:text-sm lg:text-base">
-                            Year &nbsp; 2027 &nbsp; Batch
+                            Year &nbsp; 2024 &nbsp; Batch
                         </div>
                         <button className="w-full md:w-[151.19px] h-[38px] py-2 px-4 text-white bg-[#696969] text-xs md:text-sm lg:text-base mt-2 md:mt-0">
                             Download
@@ -100,18 +100,18 @@ const ExpandableCards = ({ title }) => {
                             <tbody className="text-[#696969] text-center">
                                 <tr>
                                     <td className="p-2">1</td>
-                                    <td className="p-2">Company A</td>
-                                    <td className="p-2">5</td>
+                                    <td className="p-2">TCS</td>
+                                    <td className="p-2">12</td>
                                 </tr>
                                 <tr>
                                     <td className="p-2">2</td>
-                                    <td className="p-2">Company B</td>
-                                    <td className="p-2">10</td>
+                                    <td className="p-2">Cognizant</td>
+                                    <td className="p-2">8</td>
                                 </tr>
                                 <tr>
                                     <td className="p-2">3</td>
-                                    <td className="p-2">Company C</td>
-                                    <td className="p-2">8</td>
+                                    <td className="p-2">QBurst</td>
+                                    <td className="p-2">5</td>
                                 </tr>
                             </tbody>
                         </table>

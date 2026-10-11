@@ -289,17 +289,19 @@ export function SidebarContent({ email, collapsed = false, onNavigate }) {
                         </div>
                     )}
                 </div>
-                <Link
-                    href="/api/logout"
-                    aria-label="Logout"
-                    className={cn(
-                        'flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium text-muted-foreground transition-colors duration-200 hover:bg-destructive/10 hover:text-destructive',
-                        collapsed && 'justify-center px-0'
-                    )}
-                >
-                    <LogOut className="h-4 w-4 shrink-0" />
-                    {!collapsed && 'Logout'}
-                </Link>
+                <form action="/api/logout" method="POST">
+                    <button
+                        type="submit"
+                        aria-label="Logout"
+                        className={cn(
+                            'flex w-full items-center gap-3 rounded-md px-3 py-2 text-sm font-medium text-muted-foreground transition-colors duration-200 hover:bg-destructive/10 hover:text-destructive',
+                            collapsed && 'justify-center px-0'
+                        )}
+                    >
+                        <LogOut className="h-4 w-4 shrink-0" />
+                        {!collapsed && 'Logout'}
+                    </button>
+                </form>
             </div>
         </div>
     );

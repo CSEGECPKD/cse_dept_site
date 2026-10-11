@@ -41,18 +41,18 @@ export async function createSubject({
         };
     } catch (error) {
         console.error('Failed to create subject:', error);
-        throw new Error('Failed to create subject');
+        throw new Error(error.message || 'Failed to create subject');
     }
 }
 
 export async function getSubjects() {
     try {
         await dbConnect();
-        const subjects = await Subject.find({}).populate('courseId');
+        const subjects = await Subject.find({}).populate('courseId').lean();
         return JSON.parse(JSON.stringify(subjects));
     } catch (error) {
         console.error('Failed to fetch subjects:', error);
-        throw new Error('Failed to fetch subjects');
+        throw new Error(error.message || 'Failed to fetch subjects');
     }
 }
 
@@ -69,6 +69,6 @@ export async function deleteSubject(subjectId) {
         return { message: 'Subject deleted successfully' };
     } catch (error) {
         console.error('Failed to delete subject:', error);
-        throw new Error('Failed to delete subject');
+        throw new Error(error.message || 'Failed to delete subject');
     }
 }

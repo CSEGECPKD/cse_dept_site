@@ -3,10 +3,10 @@
 import React, { useRef } from 'react';
 import useBoundingclientrect from '@rooks/use-boundingclientrect';
 import Image from 'next/image';
-import { AcadamicsLabsDataForCard } from '@/constants/contents';
+import { AcademicsLabsDataForCard } from '@/constants/contents';
 import ColoredSection from '@/components/ColoredSection';
 
-const AcadamicsPrograms = () => {
+const AcademicsPrograms = () => {
     const ref = useRef(null);
     const boundingClientRect = useBoundingclientrect(ref);
 
@@ -45,7 +45,7 @@ const AcadamicsPrograms = () => {
                         </div>
                         <div className="flex justify-center lg:justify-end z-1 mt-8 lg:mt-0">
                             <div className="space-y-8 lg:space-y-[113px]">
-                                {AcadamicsLabsDataForCard.map((item, i) => (
+                                {AcademicsLabsDataForCard.map((item, i) => (
                                     <div
                                         ref={i === 6 ? ref : undefined}
                                         key={i}
@@ -81,4 +81,4 @@ const AcadamicsPrograms = () => {
     );
 };
 
-export default AcadamicsPrograms;
+export default AcademicsPrograms;

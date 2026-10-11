@@ -1,14 +1,13 @@
 import { generateState, generateCodeVerifier } from 'arctic';
-import { google } from '@/lib/auth';
+import { google, isAuthenticated } from '@/lib/auth';
 import { cookies } from 'next/headers';
-import { getSessionToken } from '@/lib/session';
+import {
+    deleteSessionTokenCookie,
+    getSessionToken,
+} from '@/lib/session';
 
 export async function GET() {
-    const state = generateState();
-    const codeVerifier = generateCodeVerifier();
-    const token = await getSessionToken();
-
-    if (token && token.length > 0) {
+    if (await isAuthenticated()) {
         return new Response(null, {
             status: 302,
             headers: {
@@ -16,6 +15,14 @@ export async function GET() {
             },
         });
     }
+
+    const staleToken = await getSessionToken();
+    if (staleToken) {
+        await deleteSessionTokenCookie();
+    }
+
+    const state = generateState();
+    const codeVerifier = generateCodeVerifier();
     const url = await google.createAuthorizationURL(state, codeVerifier, {
         scopes: ['profile', 'email'],
     });

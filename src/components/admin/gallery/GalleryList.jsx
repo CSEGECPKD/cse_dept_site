@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { Image } from 'lucide-react';
+import { Image as ImageIcon } from 'lucide-react';
 
 import DataTable from '../ui/DataTable';
 import RowActions from '../ui/RowActions';
@@ -15,15 +15,14 @@ const GalleryList = ({ galleryList, loading, refresh }) => {
             cell: (item) => (
                 <div className="h-10 w-10 overflow-hidden rounded-lg border bg-muted">
                     {item.image ? (
-                        // eslint-disable-next-line @next/next/no-img-element
                         <img
                             src={item.image}
-                            alt=""
+                            alt={item.name || 'Gallery item'}
                             className="h-full w-full object-cover"
                         />
                     ) : (
                         <div className="flex h-full w-full items-center justify-center text-muted-foreground">
-                            <Image className="h-5 w-5" />
+                            <ImageIcon className="h-5 w-5" />
                         </div>
                     )}
                 </div>

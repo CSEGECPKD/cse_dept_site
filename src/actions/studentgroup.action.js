@@ -9,7 +9,6 @@ export async function createStudentGroup({ name, description, logoUrl }) {
         if (!(await isAuthenticated())) {
             throw new Error('Unauthorized');
         }
-        // throw new Error("Test Error");
         await dbConnect();
         const newStudentGroup = new StudentGroup({
             name,
@@ -22,18 +21,18 @@ export async function createStudentGroup({ name, description, logoUrl }) {
         };
     } catch (error) {
         console.error('Failed to create student group:', error);
-        throw new Error('Failed to create student group');
+        throw new Error(error.message || 'Failed to create student group');
     }
 }
 
 export async function getStudentGroups() {
     try {
         await dbConnect();
-        const studentGroups = await StudentGroup.find({});
+        const studentGroups = await StudentGroup.find({}).lean();
         return JSON.parse(JSON.stringify(studentGroups));
     } catch (error) {
         console.error('Failed to fetch student groups:', error);
-        throw new Error('Failed to fetch student groups');
+        throw new Error(error.message || 'Failed to fetch student groups');
     }
 }
 
@@ -51,6 +50,6 @@ export async function deleteStudentGroup(studentGroupId) {
         return { message: 'Student group deleted successfully' };
     } catch (error) {
         console.error('Failed to delete student group:', error);
-        throw new Error('Failed to delete student group');
+        throw new Error(error.message || 'Failed to delete student group');
     }
 }

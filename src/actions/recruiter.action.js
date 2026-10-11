@@ -17,18 +17,18 @@ export async function createRecruiter({ companyName, companyLogo }) {
         };
     } catch (error) {
         console.error('Failed to create recruiter:', error);
-        throw new Error('Failed to create recruiter');
+        throw new Error(error.message || 'Failed to create recruiter');
     }
 }
 
 export async function getRecruiters() {
     try {
         await dbConnect();
-        const recruiters = await Recruiter.find({});
+        const recruiters = await Recruiter.find({}).lean();
         return JSON.parse(JSON.stringify(recruiters));
     } catch (error) {
         console.error('Failed to fetch recruiters:', error);
-        throw new Error('Failed to fetch recruiters');
+        throw new Error(error.message || 'Failed to fetch recruiters');
     }
 }
 
@@ -45,6 +45,6 @@ export async function deleteRecruiter(recruiterId) {
         return { message: 'Recruiter deleted successfully' };
     } catch (error) {
         console.error('Failed to delete recruiter:', error);
-        throw new Error('Failed to delete recruiter');
+        throw new Error(error.message || 'Failed to delete recruiter');
     }
 }

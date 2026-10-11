@@ -27,18 +27,18 @@ export async function createAdvisoryBoardMember({
         };
     } catch (error) {
         console.error('Failed to create advisory board member:', error);
-        throw new Error('Failed to create advisory board member');
+        throw new Error(error.message || 'Failed to create advisory board member');
     }
 }
 
 export async function getAdvisoryBoardMembers() {
     try {
         await dbConnect();
-        const members = await AdvisoryBoard.find({});
+        const members = await AdvisoryBoard.find({}).lean();
         return JSON.parse(JSON.stringify(members));
     } catch (error) {
         console.error('Failed to fetch advisory board members:', error);
-        throw new Error('Failed to fetch advisory board members');
+        throw new Error(error.message || 'Failed to fetch advisory board members');
     }
 }
 
@@ -55,6 +55,6 @@ export async function deleteAdvisoryBoardMember(memberId) {
         return { message: 'Advisory board member deleted successfully' };
     } catch (error) {
         console.error('Failed to delete advisory board member:', error);
-        throw new Error('Failed to delete advisory board member');
+        throw new Error(error.message || 'Failed to delete advisory board member');
     }
 }

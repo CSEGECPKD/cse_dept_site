@@ -2,6 +2,12 @@ import React from 'react';
 import Cardpeople from '@/components/Cardpeople';
 import ColoredSection from '@/components/ColoredSection';
 
+export const metadata = {
+    title: 'People',
+    description:
+        'Meet the distinguished faculty members, technical staff, and department heads of Computer Science & Engineering at GEC Palakkad.',
+};
+
 function page() {
     return (
         <ColoredSection color="BLACK">

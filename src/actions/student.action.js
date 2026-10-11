@@ -13,7 +13,7 @@ export async function createStudent({ course, batch, name }) {
         const newStudent = new Student({ course, batch, name });
         await newStudent.save();
         return {
-            message: 'Created sucessfully',
+            message: 'Created successfully',
         };
     } catch (error) {
         console.error('Failed to create student:', error);
@@ -24,8 +24,8 @@ export async function createStudent({ course, batch, name }) {
 export async function getStudents() {
     try {
         await dbConnect();
-        const students = await Student.find({}).populate('course');
-        return students;
+        const students = await Student.find({}).populate('course').lean();
+        return JSON.parse(JSON.stringify(students));
     } catch (error) {
         console.error('Failed to fetch students:', error);
         throw new Error('Failed to fetch students');

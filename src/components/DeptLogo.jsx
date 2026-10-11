@@ -223,7 +223,7 @@ const DeptLogo = () => {
                         </p>
                         <div className="border-x-4 border-[#9E9E9E] border-solid px-2">
                             <img
-                                src="./nba.svg"
+                                src="/nba.svg"
                                 alt="Description"
                                 className="  text-[#9E9E9E] min-w-[33px] min-h-[33px]"
                             />
@@ -239,7 +239,7 @@ const DeptLogo = () => {
                         </p>
                         <div className="border-x-4 border-[#9E9E9E] border-solid px-2">
                             <img
-                                src="./nba.svg"
+                                src="/nba.svg"
                                 alt="Description"
                                 className="  text-[#9E9E9E] min-w-[33px] min-h-[33px]"
                             />
@@ -254,7 +254,7 @@ const DeptLogo = () => {
                         </p>
                         <div className="border-x-4 border-[#9E9E9E] border-solid px-2">
                             <img
-                                src="./nba.svg"
+                                src="/nba.svg"
                                 alt="Description"
                                 className="  text-[#9E9E9E] min-w-[33px] min-h-[33px]"
                             />
@@ -270,7 +270,7 @@ const DeptLogo = () => {
                         </p>
                         <div className="border-x-4 border-[#9E9E9E] border-solid px-2">
                             <img
-                                src="./nba.svg"
+                                src="/nba.svg"
                                 alt="Description"
                                 className="  text-[#9E9E9E] min-w-[33px] min-h-[33px]"
                             />

@@ -7,11 +7,11 @@ import { isAuthenticated } from '../lib/auth';
 export async function getMagazines() {
     try {
         await dbConnect();
-        const magazines = await Magazine.find({}).sort({ date: -1 });
+        const magazines = await Magazine.find({}).sort({ date: -1 }).lean();
         return JSON.parse(JSON.stringify(magazines));
     } catch (error) {
         console.error('Failed to fetch magazines:', error);
-        throw new Error('Failed to fetch magazines');
+        throw new Error(error.message || 'Failed to fetch magazines');
     }
 }
 
@@ -27,14 +27,17 @@ export async function createMagazine({
         if (!(await isAuthenticated())) {
             throw new Error('Unauthorized');
         }
+        if (!name || !category || !date) {
+            throw new Error('Name, category, and date are required');
+        }
         await dbConnect();
         const newMagazine = new Magazine({
             name,
             category,
             date: new Date(date),
-            description,
-            pdfUrl,
-            frontPageUrl,
+            description: description || '',
+            pdfUrl: pdfUrl || '',
+            frontPageUrl: frontPageUrl || '',
         });
         await newMagazine.save();
         return {
@@ -42,7 +45,7 @@ export async function createMagazine({
         };
     } catch (error) {
         console.error('Failed to create magazine:', error);
-        throw new Error('Failed to create magazine');
+        throw new Error(error.message || 'Failed to create magazine');
     }
 }
 
@@ -59,17 +62,17 @@ export async function deleteMagazine(magazineId) {
         return { message: 'Magazine deleted successfully' };
     } catch (error) {
         console.error('Failed to delete magazine:', error);
-        throw new Error('Failed to delete magazine');
+        throw new Error(error.message || 'Failed to delete magazine');
     }
 }
 
 export async function getMagazinesByCategory(category) {
     try {
         await dbConnect();
-        const magazines = await Magazine.find({ category }).sort({ date: -1 });
-        return magazines;
+        const magazines = await Magazine.find({ category }).sort({ date: -1 }).lean();
+        return JSON.parse(JSON.stringify(magazines));
     } catch (error) {
         console.error('Failed to fetch magazines by category:', error);
-        throw new Error('Failed to fetch magazines by category');
+        throw new Error(error.message || 'Failed to fetch magazines by category');
     }
 }

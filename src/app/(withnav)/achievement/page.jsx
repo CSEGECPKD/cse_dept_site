@@ -119,7 +119,7 @@ const ExpandableCards = ({ title, placements }) => {
             <div
                 style={{ width: cardWidth }}
                 onClick={toggleExpand}
-                className={`flex flex-col justify-center transition-all duration-[1s] ease-in-out bg-[#E9E9E8] p-4 sm:p-6 rounded-lg ${
+                className={`flex flex-col justify-center transition-all duration-1000 ease-in-out bg-[#E9E9E8] p-4 sm:p-6 rounded-lg ${
                     isExpanded ? 'mb-5' : ''
                 }`}
             >
@@ -150,13 +150,13 @@ const ExpandableCards = ({ title, placements }) => {
                         onClick={toggleExpand}
                         className={`transition-transform opacity-0 group-hover:opacity-100 cursor-pointer ${
                             isExpanded ? 'rotate-180 opacity-100' : ''
-                        } duration-[1s] ease-in-out z-10`}
+                        } duration-1000 ease-in-out z-10`}
                     >
                         <MdKeyboardArrowDown className="w-6 h-6 md:w-8 md:h-8 lg:w-10 lg:h-8 text-[#9E9E9E]" />
                     </div>
                 </div>
                 <div
-                    className={`transition-all duration-[1s] h-auto overflow-hidden ${
+                    className={`transition-all duration-1000 h-auto overflow-hidden ${
                         isExpanded
                             ? 'opacity-100 max-h-screen'
                             : 'opacity-0 max-h-0'

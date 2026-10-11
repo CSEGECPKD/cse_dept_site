@@ -3,7 +3,7 @@
 import React, { useRef } from 'react';
 import useBoundingclientrect from '@rooks/use-boundingclientrect';
 import Image from 'next/image';
-import { AcadamicsDataForCard } from '@/constants/contents';
+import { AcademicsDataForCard } from '@/constants/contents';
 import ColoredSection from '../components/ColoredSection';
 
 const CourseOfferedSection = () => {
@@ -48,7 +48,7 @@ const CourseOfferedSection = () => {
                         </div>
                         <div className="flex justify-center lg:justify-end z-10 mt-8 lg:mt-0">
                             <div className="space-y-8 lg:space-y-[113px]">
-                                {AcadamicsDataForCard.map((item, i) => (
+                                {AcademicsDataForCard.map((item, i) => (
                                     <div
                                         ref={i === 6 ? ref : undefined}
                                         key={i}

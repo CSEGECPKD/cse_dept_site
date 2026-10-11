@@ -17,18 +17,18 @@ export async function createCourse({ name, description, imageUrl, pdfUrl }) {
         };
     } catch (error) {
         console.error('Failed to create course:', error);
-        throw new Error('Failed to create course');
+        throw new Error(error.message || 'Failed to create course');
     }
 }
 
 export async function getCourses() {
     try {
         await dbConnect();
-        const courses = await Course.find({});
+        const courses = await Course.find({}).lean();
         return JSON.parse(JSON.stringify(courses));
     } catch (error) {
         console.error('Failed to fetch courses:', error);
-        throw new Error('Failed to fetch courses');
+        throw new Error(error.message || 'Failed to fetch courses');
     }
 }
 
@@ -45,6 +45,6 @@ export async function deleteCourse(courseId) {
         return { message: 'Course deleted successfully' };
     } catch (error) {
         console.error('Failed to delete course:', error);
-        throw new Error('Failed to delete course');
+        throw new Error(error.message || 'Failed to delete course');
     }
 }

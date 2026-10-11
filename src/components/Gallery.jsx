@@ -5,64 +5,49 @@ import { ImageGallery } from 'react-image-grid-gallery';
 
 const imagesArray = [
     {
-        alt: "Image1's alt text",
-        caption: "Image1's description",
-        src: '/1.jpg',
+        alt: 'Department activity — campus event',
+        caption: 'Department Activity',
+        src: '/gallery/1.jpg',
     },
     {
-        alt: "Image2's alt text",
-        caption: "Image2's description",
-        src: '/2.jpg',
+        alt: 'Students at a college event',
+        caption: 'College Event',
+        src: '/gallery/2.jpg',
     },
     {
-        alt: "Image3's alt text",
-        caption: "Image3's description",
-        src: '/3.jpg',
+        alt: 'Lab session and technical activities',
+        caption: 'Lab Session',
+        src: '/gallery/3.jpg',
     },
     {
-        alt: "Image1's alt text",
-        caption: "Image1's description",
-        src: '/4.jpg',
+        alt: 'Workshop and hands-on session',
+        caption: 'Workshop',
+        src: '/gallery/4.jpg',
     },
     {
-        alt: "Image2's alt text",
-        caption: "Image2's description",
-        src: '/5.jpg',
+        alt: 'Campus gathering and cultural activities',
+        caption: 'Campus Life',
+        src: '/gallery/5.jpg',
     },
     {
-        alt: "Image3's alt text",
-        caption: "Image3's description",
-        src: '/gallery3.jpg',
+        alt: 'Department seminar and presentations',
+        caption: 'Seminar',
+        src: '/gallery/6.jpg',
     },
     {
-        alt: "Image1's alt text",
-        caption: "Image1's description",
-        src: '/gallery2.png',
-    },
-    {
-        alt: "Image2's alt text",
-        caption: "Image2's description",
-        src: '/gallery3.png',
-    },
-    {
-        alt: "Image3's alt text",
-        caption: "Image3's description",
+        alt: 'Annual fest and student activities',
+        caption: 'Annual Fest',
         src: '/gallery1.png',
     },
     {
-        alt: "Image1's alt text",
-        caption: "Image1's description",
+        alt: 'Technical symposium and project expo',
+        caption: 'Tech Symposium',
         src: '/gallery2.png',
     },
     {
-        alt: "Image2's alt text",
-        caption: "Image2's description",
+        alt: 'Graduation ceremony',
+        caption: 'Graduation Day',
         src: '/gallery3.png',
-    },
-    {
-        alt: "Image3's alt text",
-        caption: "Image3's description",
-        src: '/gallery1.png',
     },
 ];
 
@@ -94,11 +79,14 @@ const Gallery = () => {
 
     return (
         <ColoredSection color="WHITE" id="gallery">
-            <div className="bg-black py-12 sm:py-20 md:py-32 lg:py-56 px-4 sm:px-8 md:px-16 lg:px-32 xl:px-96 h-auto">
-                <h1 className="text-white text-3xl md:text-4xl lg:text-[56px] font-semibold font-bebasneue">
+            <div className="bg-[#f5f5f5] py-12 sm:py-20 md:py-28 px-4 sm:px-8 md:px-16 lg:px-24 xl:px-32 h-auto">
+                <h1 className="text-black text-3xl md:text-4xl lg:text-[56px] font-semibold font-bebasneue mb-2">
                     .GALLERY
                 </h1>
-                <div className="py-8 sm:py-12 md:py-16 lg:py-20 flex justify-center">
+                <p className="text-gray-500 text-base mb-8">
+                    A glimpse into life at the CSE Department, GEC Palakkad.
+                </p>
+                <div className="py-4 flex justify-center">
                     <ImageGallery
                         imagesInfoArray={imagesArray}
                         columnCount={columnCount}

@@ -13,14 +13,14 @@ const DeptInfo = ({ isAboutPage = false }) => {
                 <div className="nav-md:pt-20">
                     <div className="w-full relative">
                         <div className="">
-                            <h1
+                            <h2
                                 className={`font-semibold text-3xl sm:text-4xl md:text-4xl block`}
                             >
                                 The Department of Computer Science and
                                 Engineering
-                            </h1>
+                            </h2>
                             <p
-                                className="text-gray-400  sm:text-xl pt-4 text-xl nav-md:text-xl"
+                                className="text-gray-600 sm:text-xl pt-4 text-xl nav-md:text-xl"
                                 // style={{ paddingTop: showDivs ? "" : `${paddingVal * 2}px` }}
                             >
                                 {DeptConstants.desc}

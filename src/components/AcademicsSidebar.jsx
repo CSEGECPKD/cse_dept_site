@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 
-const AcadamicsSidebar = () => {
+const AcademicsSidebar = () => {
     const [open, setOpen] = useState(false);
     const [isMobile, setIsMobile] = useState(false);
 
@@ -65,4 +65,4 @@ const AcadamicsSidebar = () => {
         </div>
     );
 };
-export default AcadamicsSidebar;
+export default AcademicsSidebar;

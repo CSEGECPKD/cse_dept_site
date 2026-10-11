@@ -96,3 +96,17 @@ export async function getSessionToken() {
     const cookieStore = await cookies();
     return cookieStore.get(SESSION_COOKIE_NAME)?.value;
 }
+
+export async function invalidateCurrentSession() {
+    const token = await getSessionToken();
+    if (token && token.length > 0) {
+        const sessionId = encodeHexLowerCase(
+            sha256(new TextEncoder().encode(token))
+        );
+        await dbConnect();
+        await Session.deleteMany({
+            _id: sessionId,
+        });
+    }
+    await deleteSessionTokenCookie();
+}

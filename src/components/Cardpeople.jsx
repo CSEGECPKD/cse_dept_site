@@ -8,6 +8,9 @@ import { ImCross } from 'react-icons/im';
 import '@/components/nooverflow.css';
 import { cn } from '@/lib/utils';
 import { getFaculties } from '@/actions/faculty.action';
+import EmptyState from '@/components/ui/EmptyState';
+import { SkeletonList } from '@/components/ui/SkeletonCard';
+import { MdPeople } from 'react-icons/md';
 
 const ExpandableCards = ({ title, item }) => {
     const [isExpanded, setIsExpanded] = useState(false);
@@ -26,7 +29,7 @@ const ExpandableCards = ({ title, item }) => {
         <div className="w-screen flex justify-center overflow-hidden">
             <div
                 className={cn(
-                    'group w-[90%] flex flex-col justify-center transition-all duration-[1s] ease-in-out bg-[#E9E9E8] p-3',
+                    'group w-[90%] flex flex-col justify-center transition-all duration-1000 ease-in-out bg-[#E9E9E8] p-3',
                     { 'mb-5 mt-5': isExpanded }
                 )}
             >
@@ -66,7 +69,7 @@ const ExpandableCards = ({ title, item }) => {
 
                 <div
                     className={cn(
-                        'transition-all duration-[1s] h-auto overflow-hidden',
+                        'transition-all duration-1000 h-auto overflow-hidden',
                         {
                             'opacity-100': isExpanded,
                             'opacity-0 max-h-0': !isExpanded,
@@ -76,7 +79,7 @@ const ExpandableCards = ({ title, item }) => {
                     <div className="flex pb-3">
                         <div
                             className={cn(
-                                'no-scrollbar flex flex-wrap flex-initial max-h-full overflow-auto justify-items-start w-full transition-all duration-[1s] ease-in-out gap-3 mb-3 px-5'
+                                'no-scrollbar flex flex-wrap flex-initial max-h-full overflow-auto justify-items-start w-full transition-all duration-1000 ease-in-out gap-3 mb-3 px-5'
                             )}
                         >
                             {item.map((data, key) => (
@@ -102,9 +105,9 @@ const ExpandableCards = ({ title, item }) => {
                                             alt={data.name}
                                         />
                                         <div className="p-3 leading-3">
-                                            <h1 className="text-xl font-bold group-hover/items:text-white">
+                                            <h3 className="text-xl font-bold group-hover/items:text-white">
                                                 {data.name}
-                                            </h1>
+                                            </h3>
                                             <p className="text-[#9E9E9E] group-hover/items:text-white">
                                                 {isHover
                                                     ? 'Click to know more'
@@ -113,11 +116,11 @@ const ExpandableCards = ({ title, item }) => {
                                         </div>
                                     </div>
                                     {isDescVisible === key && (
-                                        <div className="fixed w-screen h-screen top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] flex justify-center items-center z-10">
-                                            <motion.div className="flex gap-5 relative w-[80%] h-[30%] lg:w-2/5 p-5 lg:h-2/4 border-solid z-10 bg-white bg-opacity-20 shadow-[0_8px_32px_0_rgba(31,38,135,0.37)] backdrop-blur-lg">
+                                        <div className="fixed w-screen h-screen top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] flex justify-center items-center z-[60]">
+                                            <motion.div className="flex gap-5 relative w-[80%] h-[30%] lg:w-2/5 p-5 lg:h-2/4 border-solid z-[60] bg-white bg-opacity-20 shadow-[0_8px_32px_0_rgba(31,38,135,0.37)] backdrop-blur-lg">
                                                 <div
                                                     className="absolute top-[-30px] gap-2 right-0 w-auto flex items-center cursor-pointer bg-white/60 p-1"
-                                                    onClick={toggleVisible}
+                                                    onClick={() => setIsDescVisible(null)}
                                                 >
                                                     <span>Close</span>
                                                     <ImCross className="" />
@@ -142,15 +145,17 @@ const ExpandableCards = ({ title, item }) => {
                                                         <div className="lg:text-[0.8rem] text-[0.3rem] text-[#696969] w-full">
                                                             {data.email}
                                                         </div>
-                                                        <div className="lg:text-[0.8rem] text-[0.3rem] text-[#696969] w-full">
-                                                            {data.phone}
-                                                        </div>
+                                                        {data.phone ? (
+                                                            <div className="lg:text-[0.8rem] text-[0.3rem] text-[#696969] w-full">
+                                                                {data.phone}
+                                                            </div>
+                                                        ) : null}
                                                     </div>
                                                 </div>
                                                 <div className="pl-3 no-scrollbar overflow-y-auto w-2/3">
-                                                    <h1 className="lg:text-[1.25rem] text-[0.65rem]">
+                                                    <h3 className="lg:text-[1.25rem] text-[0.65rem] font-semibold">
                                                         Employee Details
-                                                    </h1>
+                                                    </h3>
                                                     <ul className="list-disc py-2">
                                                         <li className="lg:text-[0.8rem] text-[0.3rem] leading-8 text-[#696969]">
                                                             {data.employeeType}
@@ -185,7 +190,7 @@ const ExpandableCards = ({ title, item }) => {
     );
 };
 
-function cardpeople() {
+function Cardpeople() {
     const [faculties, setFaculties] = useState([]);
     const [loading, setLoading] = useState(true);
 
@@ -211,15 +216,17 @@ function cardpeople() {
     }, {});
 
     return (
-        <div className="flex flex-col overflow-hidden min-h-[400px] mt-[15rem]">
+        <div className="flex flex-col overflow-hidden min-h-[400px] mt-24">
             {loading ? (
-                <div className="container mx-auto py-20 text-center">
-                    <p className="text-xl">Loading faculties...</p>
+                <div className="flex flex-wrap gap-3 px-5 py-10">
+                    <SkeletonList variant="person" count={6} />
                 </div>
             ) : Object.keys(groups).length === 0 ? (
-                <div className="container mx-auto py-20 text-center">
-                    <p className="text-xl">No faculties found</p>
-                </div>
+                <EmptyState
+                    icon={<MdPeople size={64} />}
+                    title="No faculty members found"
+                    description="Faculty information will appear here once it has been added."
+                />
             ) : (
                 <div className="w-full">
                     {Object.keys(groups).map((type) => (
@@ -235,4 +242,4 @@ function cardpeople() {
     );
 }
 
-export default cardpeople;
+export default Cardpeople;

@@ -17,21 +17,21 @@ export async function createSuccessStory({ personType, name, person, year }) {
             year,
         });
         await newSuccessStory.save();
-        return newSuccessStory;
+        return JSON.parse(JSON.stringify(newSuccessStory));
     } catch (error) {
         console.error('Failed to create success story:', error);
-        throw new Error('Failed to create success story');
+        throw new Error(error.message || 'Failed to create success story');
     }
 }
 
 export async function getSuccessStories() {
     try {
         await dbConnect();
-        const successStories = await SuccessStory.find({});
+        const successStories = await SuccessStory.find({}).lean();
         return JSON.parse(JSON.stringify(successStories));
     } catch (error) {
         console.error('Failed to fetch success stories:', error);
-        throw new Error('Failed to fetch success stories');
+        throw new Error(error.message || 'Failed to fetch success stories');
     }
 }
 
@@ -49,6 +49,6 @@ export async function deleteSuccessStory(successStoryId) {
         return { message: 'Success story deleted successfully' };
     } catch (error) {
         console.error('Failed to delete success story:', error);
-        throw new Error('Failed to delete success story');
+        throw new Error(error.message || 'Failed to delete success story');
     }
 }

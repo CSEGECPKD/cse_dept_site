@@ -96,7 +96,7 @@ const links = [
             {
                 label: 'Library',
                 type: 'sub-main',
-                href: '/academics#history',
+                href: '/academics',
             },
         ],
     },
@@ -175,7 +175,7 @@ function Navbar() {
     const bgBlur = isWhite === 'WHITE' ? 'bg-black/80' : 'bg-white/80';
 
     return (
-        <div className="z-10 fixed w-screen isolate">
+        <div className="z-50 fixed w-screen isolate">
             <div
                 className={twMerge(
                     'w-full nav-lg:w-[90%] 2xl:w-[80%] max-w-[1400px]  nav-lg:mt-[1.875rem]  mx-auto flex justify-between items-center  relative px-4 py-2 nav-md:py-0 font-bebasneue',
@@ -190,13 +190,13 @@ function Navbar() {
                         alt="logo"
                     />
                     {!open && (
-                        <h1 className={twMerge('text-sm h-fit', color)}>
+                        <span className={twMerge('text-sm h-fit leading-tight', color)}>
                             COMPUTER SCIENCE <br /> AND ENGINEERING
-                        </h1>
+                        </span>
                     )}
                 </div>
                 {/* Desktop links */}
-                <nav className="hidden nav-md:block" id="desktop-nav">
+                <nav className="hidden nav-md:block" id="desktop-nav" aria-label="Main navigation">
                     <ul className="flex nav-lg:gap-8 gap-4">
                         {links.map((link) => (
                             <li key={link.label}>
@@ -208,6 +208,9 @@ function Navbar() {
                 {/* Mobile Menu Button */}
                 <div className="block nav-md:hidden" id="mobile-nav">
                     <button
+                        type="button"
+                        aria-expanded={open}
+                        aria-label={open ? 'Close navigation menu' : 'Open navigation menu'}
                         className={twMerge(
                             'p-2 font-montserrat outline-none',
                             btnColor,
@@ -233,7 +236,7 @@ function Navbar() {
                     }}
                     className="fixed w-screen top-0 left-0 h-screen overflow-auto  bg-white z-[-1] "
                 >
-                    <nav className="flex flex-col justify-between  min-h-screen pt-20 px-5">
+                    <nav className="flex flex-col justify-between  min-h-screen pt-20 px-5" aria-label="Mobile navigation">
                         <ul className="flex-1">
                             {links.map((link) => (
                                 <li key={link.label}>
@@ -248,7 +251,7 @@ function Navbar() {
                         </ul>
                         <div className="w-full flex items-end justify-between py-5 font-bebasneue text-gray-600">
                             <div>
-                                <p>&copy;2024 CSE ASSOSIATION</p>
+                                <p>&copy; {new Date().getFullYear()} CSE ASSOCIATION</p>
                                 <p className=" text-sm h-fit">
                                     DESIGN AND POWERED BY{' '}
                                     <Link

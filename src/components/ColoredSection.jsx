@@ -14,7 +14,6 @@ const ColoredSection = ({ children, color = 'WHITE', ...props }) => {
     useEffect(() => {
         if (isInView) {
             setNavbarColor(color);
-            console.log('color changed');
         }
     }, [isInView, setNavbarColor, color]);
     return (

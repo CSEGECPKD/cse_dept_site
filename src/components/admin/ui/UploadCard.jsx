@@ -1,6 +1,6 @@
 'use client';
 
-import { RefreshCw, Trash2, UploadCloud } from 'lucide-react';
+import { RefreshCw, Trash2, UploadCloud, FileText } from 'lucide-react';
 
 import { UploadDropzone } from '@/components/uploadthing';
 import { Button } from '@/components/ui/button';
@@ -13,11 +13,15 @@ export default function UploadCard({
     label = 'Image',
     hint = 'PNG, JPG. Max 4 MB.',
     fileName,
+    endpoint = 'imageUploader',
+    isPdf = false,
 }) {
+    const isPdfFile = isPdf || endpoint === 'pdfUploader' || (typeof value === 'string' && value.endsWith('.pdf'));
+
     const handleError = (error) => {
         toast({
             variant: 'destructive',
-            title: 'Unable to upload image',
+            title: `Unable to upload ${isPdfFile ? 'PDF' : 'image'}`,
             description: error?.message || 'Please try again.',
         });
     };
@@ -25,29 +29,47 @@ export default function UploadCard({
     if (value) {
         return (
             <div className="flex flex-col gap-3 sm:flex-row sm:items-start">
-                <div className="relative h-28 w-full max-w-[160px] overflow-hidden rounded-lg border bg-muted">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                        src={value}
-                        alt="Upload preview"
-                        className="h-full w-full object-cover"
-                    />
+                <div className="relative h-28 w-full max-w-[160px] overflow-hidden rounded-lg border bg-muted flex items-center justify-center">
+                    {isPdfFile ? (
+                        <div className="flex flex-col items-center justify-center gap-1 p-2 text-center text-muted-foreground">
+                            <FileText className="h-8 w-8 text-primary" />
+                            <span className="text-[10px] font-semibold uppercase tracking-wider">PDF</span>
+                        </div>
+                    ) : (
+                        <img
+                            src={value}
+                            alt="Upload preview"
+                            className="h-full w-full object-cover"
+                        />
+                    )}
                 </div>
                 <div className="min-w-0 flex-1 space-y-2">
                     <p className="truncate text-sm font-medium">
-                        {fileName || 'Uploaded image'}
+                        {fileName || (isPdfFile ? 'Uploaded PDF document' : 'Uploaded image')}
                     </p>
                     <p className="text-xs text-muted-foreground">
                         Uploaded successfully.
                     </p>
                     <div className="flex flex-wrap gap-2">
+                        {isPdfFile && (
+                            <Button
+                                type="button"
+                                variant="secondary"
+                                size="sm"
+                                asChild
+                            >
+                                <a href={value} target="_blank" rel="noopener noreferrer">
+                                    View File
+                                </a>
+                            </Button>
+                        )}
                         <Button
                             type="button"
                             variant="outline"
                             size="sm"
                             onClick={() => onChange('')}
                         >
-                            <RefreshCw className="h-3.5 w-3.5" />
+                            <RefreshCw className="h-3.5 w-3.5 mr-1" />
                             Replace
                         </Button>
                         <Button
@@ -57,7 +79,7 @@ export default function UploadCard({
                             className="text-destructive hover:bg-destructive/10 hover:text-destructive"
                             onClick={() => onChange('')}
                         >
-                            <Trash2 className="h-3.5 w-3.5" />
+                            <Trash2 className="h-3.5 w-3.5 mr-1" />
                             Remove
                         </Button>
                     </div>
@@ -74,13 +96,13 @@ export default function UploadCard({
             )}
         >
             <UploadDropzone
-                endpoint="imageUploader"
+                endpoint={endpoint}
                 onClientUploadComplete={(res) => {
                     onChange(res[0].url);
                     toast({
                         variant: 'success',
                         title: 'Upload complete',
-                        description: 'Your image has been uploaded.',
+                        description: `Your ${isPdfFile ? 'PDF' : 'image'} has been uploaded.`,
                     });
                 }}
                 onUploadError={handleError}

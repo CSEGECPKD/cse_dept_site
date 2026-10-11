@@ -130,6 +130,9 @@ const SubjectForm = ({ refreshSubjects }) => {
                     onChange={(url) => setValue('pdfUrl', url)}
                     label="PDF"
                     fileName="Uploaded PDF"
+                    endpoint="pdfUploader"
+                    hint="PDF file. Max 16 MB."
+                    isPdf={true}
                 />
                 {errors?.pdfUrl && (
                     <p className="text-xs font-medium text-destructive">

@@ -7,11 +7,11 @@ import { isAuthenticated } from '../lib/auth';
 export async function getPosters() {
     try {
         await dbConnect();
-        const posters = await Poster.find({});
+        const posters = await Poster.find({}).lean();
         return JSON.parse(JSON.stringify(posters));
     } catch (error) {
         console.error('Failed to fetch posters:', error);
-        throw new Error('Failed to fetch posters');
+        throw new Error(error.message || 'Failed to fetch posters');
     }
 }
 
@@ -28,7 +28,7 @@ export async function createPoster({ name, imageUrl, description }) {
         };
     } catch (error) {
         console.error('Failed to create poster:', error);
-        throw new Error('Failed to create poster');
+        throw new Error(error.message || 'Failed to create poster');
     }
 }
 
@@ -45,6 +45,6 @@ export async function deletePoster(posterId) {
         return { message: 'Poster deleted successfully' };
     } catch (error) {
         console.error('Failed to delete poster:', error);
-        throw new Error('Failed to delete poster');
+        throw new Error(error.message || 'Failed to delete poster');
     }
 }

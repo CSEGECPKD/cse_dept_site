@@ -17,18 +17,18 @@ export async function createCertificate({ name, imageUrl }) {
         };
     } catch (error) {
         console.error('Failed to create certificate:', error);
-        throw new Error('Failed to create certificate');
+        throw new Error(error.message || 'Failed to create certificate');
     }
 }
 
 export async function getCertificates() {
     try {
         await dbConnect();
-        const certificates = await Certificate.find({});
+        const certificates = await Certificate.find({}).lean();
         return JSON.parse(JSON.stringify(certificates));
     } catch (error) {
         console.error('Failed to fetch certificates:', error);
-        throw new Error('Failed to fetch certificates');
+        throw new Error(error.message || 'Failed to fetch certificates');
     }
 }
 
@@ -46,6 +46,6 @@ export async function deleteCertificate(certificateId) {
         return { message: 'Certificate deleted successfully' };
     } catch (error) {
         console.error('Failed to delete certificate:', error);
-        throw new Error('Failed to delete certificate');
+        throw new Error(error.message || 'Failed to delete certificate');
     }
 }

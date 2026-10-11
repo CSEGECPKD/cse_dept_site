@@ -1,31 +1,30 @@
-const { createUploadthing } = require('uploadthing/next');
-const { UploadThingError } = require('uploadthing/server');
+import { createUploadthing } from 'uploadthing/next';
+import { UploadThingError } from 'uploadthing/server';
 import { getAuth } from '@/lib/session';
 
 const f = createUploadthing();
 
-// FileRouter for your app, can contain multiple FileRoutes
+const authMiddleware = async () => {
+    const auth = await getAuth();
+    const user = auth?.user;
+
+    if (!user) {
+        throw new UploadThingError('Unauthorized');
+    }
+
+    return { userId: user._id?.toString() || user.id };
+};
+
 export const ourFileRouter = {
-    // Define as many FileRoutes as you like, each with a unique routeSlug
     imageUploader: f({ image: { maxFileSize: '4MB' } })
-        // Set permissions and file types for this FileRoute
-        .middleware(async ({ req }) => {
-            // This code runs on your server before upload
-            const { user } = await getAuth();
-
-            // If you throw, the user will not be able to upload
-            if (!user) throw new UploadThingError('Unauthorized');
-
-            // Whatever is returned here is accessible in onUploadComplete as `metadata`
-            return { userId: user.id };
-        })
+        .middleware(authMiddleware)
         .onUploadComplete(async ({ metadata, file }) => {
-            // This code RUNS ON YOUR SERVER after upload
-            console.log('Upload complete for userId:', metadata.userId);
+            return { uploadedBy: metadata.userId, url: file.url };
+        }),
 
-            console.log('file url', file.url);
-
-            // !!! Whatever is returned here is sent to the clientside `onClientUploadComplete` callback
-            return { uploadedBy: metadata.userId };
+    pdfUploader: f({ pdf: { maxFileSize: '16MB' } })
+        .middleware(authMiddleware)
+        .onUploadComplete(async ({ metadata, file }) => {
+            return { uploadedBy: metadata.userId, url: file.url };
         }),
 };

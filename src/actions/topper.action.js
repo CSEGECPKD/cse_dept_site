@@ -36,7 +36,7 @@ export const deleteTopper = async (id) => {
 export const getTopperList = async () => {
     try {
         await dbConnect();
-        const toppers = await Topper.find().exec();
+        const toppers = await Topper.find().lean().exec();
         return JSON.parse(JSON.stringify(toppers));
     } catch (error) {
         throw error;

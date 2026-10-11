@@ -100,14 +100,12 @@ const Footer = () => {
                 templateParams,
                 process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY
             );
-            console.log(result.text);
             toast({
                 title: 'Success',
                 description: 'Message sent successfully!',
             });
             setFormData({ name: '', email: '', subject: '', message: '' });
         } catch (error) {
-            console.log(error.text);
             toast({
                 title: 'Error',
                 description: 'Failed to send message, please try again.',
@@ -139,7 +137,7 @@ const Footer = () => {
                         onSubmit={handleSubmit}
                         className="mb-4"
                     >
-                        <h3 className="text-xl font-semibold mb-2 text-[#BDBDBD]">
+                        <h3 className="text-xl font-semibold mb-2 text-[#6B7280]">
                             SEND YOUR MESSAGES
                         </h3>
                         {[
@@ -208,7 +206,7 @@ const Footer = () => {
                 </div>
 
                 <div className="relative isolate">
-                    <h3 className="text-xl font-semibold mb-2 text-[#BDBDBD] sm:px-5">
+                    <h3 className="text-xl font-semibold mb-2 text-[#6B7280] sm:px-5">
                         QUICK LINKS
                     </h3>
 

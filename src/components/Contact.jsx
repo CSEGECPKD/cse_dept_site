@@ -50,9 +50,9 @@ export default function Contact() {
                             width="400"
                             height="400"
                             style={{ border: 0 }}
-                            allowfullscreen=""
+                            allowFullScreen
                             loading="lazy"
-                            referrerpolicy="no-referrer-when-downgrade"
+                            referrerPolicy="no-referrer-when-downgrade"
                             className="border-0 w-full h-full"
                         ></iframe>
                     </div>
@@ -63,9 +63,9 @@ export default function Contact() {
                             width="400"
                             height="400"
                             style={{ border: 0 }}
-                            allowfullscreen=""
+                            allowFullScreen
                             loading="lazy"
-                            referrerpolicy="no-referrer-when-downgrade"
+                            referrerPolicy="no-referrer-when-downgrade"
                             className="border-0 w-full h-full"
                         ></iframe>
                     </div>

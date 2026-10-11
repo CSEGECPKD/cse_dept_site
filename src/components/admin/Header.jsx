@@ -1,6 +1,5 @@
 'use client';
 
-import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Menu, Search, Bell, LogOut, ChevronDown } from 'lucide-react';
 
@@ -69,10 +68,15 @@ export default function Header({ email, onOpenMobile }) {
                             </DropdownMenuLabel>
                             <DropdownMenuSeparator />
                             <DropdownMenuItem asChild>
-                                <Link href="/api/logout">
-                                    <LogOut className="h-4 w-4" />
-                                    Logout
-                                </Link>
+                                <form action="/api/logout" method="POST">
+                                    <button
+                                        type="submit"
+                                        className="flex w-full items-center gap-2"
+                                    >
+                                        <LogOut className="h-4 w-4" />
+                                        Logout
+                                    </button>
+                                </form>
                             </DropdownMenuItem>
                         </DropdownMenuContent>
                     </DropdownMenu>

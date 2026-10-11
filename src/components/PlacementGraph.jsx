@@ -60,7 +60,7 @@ const PlacementGraph = () => {
             >
                 <div className="flex items-center mb-5">
                     <FaSquareFull className="text-[3px] md:text-[4px] lg:text-[5px] mr-1 md:mr-2 text-[#696969]" />
-                    <h1
+                    <h2
                         className="text-black py-3 sm:py-5 font-bebas-neue font-normal leading-tight text-[1.5rem]"
                         style={{
                             fontFamily: 'Bebas Neue',
@@ -69,7 +69,7 @@ const PlacementGraph = () => {
                         }}
                     >
                         YEAR WISE PLACEMENT OFFERS
-                    </h1>
+                    </h2>
                 </div>
 
                 <div className="w-full flex justify-center items-center my-5">

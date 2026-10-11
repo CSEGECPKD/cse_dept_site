@@ -47,7 +47,7 @@ const studentsByCategory = {
             image: '/student-1.jpg',
         },
         {
-            name: 'Viswajith vp',
+            name: 'Viswajith VP',
             batch: '2021-25',
             cgpa: 9.3,
             desc: 'Semester 1',
@@ -61,7 +61,7 @@ const studentsByCategory = {
             image: '/student-1.jpg',
         },
         {
-            name: 'Viswajith vp',
+            name: 'Viswajith VP',
             batch: '2021-25',
             cgpa: 9.3,
             desc: 'Semester 3',
@@ -135,7 +135,7 @@ const studentsByCategory = {
     ],
     'Scholars And Interns': [
         {
-            name: 'viswajith',
+            name: 'Viswajith VP',
             batch: '2021-25',
             desc: 'description',
             image: '/student-1.jpg',
@@ -147,7 +147,7 @@ const studentsByCategory = {
             image: '/student-1.jpg',
         },
         {
-            name: 'viswajith',
+            name: 'Viswajith VP',
             batch: '2021-25',
             desc: 'description',
             image: '/student-1.jpg',
@@ -189,7 +189,7 @@ const studentsByCategory = {
 
 export default studentsByCategory;
 
-export const AcadamicsDataForCard = [
+export const AcademicsDataForCard = [
     {
         title: 'B.Tech in Computer Science and Engineering',
         description:
@@ -213,7 +213,7 @@ export const AcadamicsDataForCard = [
     },
 ];
 
-export const AcadamicsLabsDataForCard = [
+export const AcademicsLabsDataForCard = [
     {
         title: 'Smart Class Rooms',
         description:
