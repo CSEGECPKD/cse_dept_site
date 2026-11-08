@@ -22,6 +22,10 @@ const nextConfig = {
                 protocol: 'https',
                 hostname: 'drive.google.com',
             },
+            {
+                protocol: 'https',
+                hostname: 'gecskp.etlab.in',
+            },
         ],
     },
     async headers() {
