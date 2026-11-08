@@ -7,6 +7,15 @@ const departmentMagazine = [
         image: "/quanta'22.png",
         pdf: '/pdf/Quanta22.pdf',
     },
+    {
+        id: 2,
+        title: 'CSE Association Events Report 2025-26',
+        description:
+            'Official summary report of technical workshops, seminars, hackathons, and student initiatives',
+        date: 'September 2026',
+        image: '/cse-association-execom-2026-27.jpg',
+        pdf: '/pdf/cse-association-report-2025-26.pdf',
+    },
     //   {
     //     id: 2,
     //     title: "QUANTA'23",
