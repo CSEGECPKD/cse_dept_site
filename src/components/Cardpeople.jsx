@@ -218,20 +218,18 @@ const AssociationCards = ({ members }) => {
             return (startB || 0) - (startA || 0);
         });
 
-    const [selectedYear, setSelectedYear] = useState(years[0] || '2025-26');
-
-    useEffect(() => {
-        if (years.length > 0 && !years.includes(selectedYear)) {
-            setSelectedYear(years[0]);
-        }
-    }, [years, selectedYear]);
+    const [activeYear, setActiveYear] = useState('');
+    const currentYear =
+        activeYear && years.includes(activeYear)
+            ? activeYear
+            : years[0] || '2025-26';
 
     const handleYear = (yr) => {
-        setSelectedYear(yr);
+        setActiveYear(yr);
         setIsOpen(false);
     };
 
-    const currentMembers = members.filter((m) => m.year === selectedYear);
+    const currentMembers = members.filter((m) => m.year === currentYear);
 
     if (!members || members.length === 0) return null;
 
@@ -298,7 +296,7 @@ const AssociationCards = ({ members }) => {
                                     onClick={toggleOpen}
                                     className="flex items-center gap-1 bg-white px-3 py-1 rounded border border-gray-300 text-black font-medium hover:border-black transition-colors"
                                 >
-                                    <span>{selectedYear}</span>
+                                    <span>{currentYear}</span>
                                     <MdKeyboardArrowDown
                                         className={cn(
                                             'transition-transform duration-300',
@@ -316,7 +314,7 @@ const AssociationCards = ({ members }) => {
                                                     'px-3 py-1 cursor-pointer hover:bg-[#DD846E] hover:text-white transition-colors text-sm',
                                                     {
                                                         'font-bold bg-gray-100':
-                                                            yr === selectedYear,
+                                                            yr === currentYear,
                                                     }
                                                 )}
                                             >
