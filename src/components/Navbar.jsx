@@ -115,6 +115,11 @@ const links = [
                 type: 'sub-main',
                 href: '/people',
             },
+            {
+                label: 'Association Members',
+                type: 'sub-main',
+                href: '/people',
+            },
         ],
     },
     {

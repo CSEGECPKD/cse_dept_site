@@ -3,6 +3,7 @@
 import dbConnect from '@/lib/db';
 import AssociationMember from '@/lib/models/AssociationMember';
 import { isAuthenticated } from '@/lib/auth';
+import { ALL_ASSOCIATION_MEMBERS } from '@/data/association';
 
 export async function createAssociationMember({
     name,
@@ -35,12 +36,20 @@ export async function createAssociationMember({
 
 export async function getAssociationMembers() {
     try {
-        await dbConnect();
-        const members = await AssociationMember.find({}).lean();
-        return JSON.parse(JSON.stringify(members));
+        const conn = await dbConnect();
+        if (conn) {
+            const members = await AssociationMember.find({}).lean();
+            if (members && members.length > 0) {
+                return JSON.parse(JSON.stringify(members));
+            }
+        }
+        return ALL_ASSOCIATION_MEMBERS;
     } catch (error) {
-        console.error('Failed to fetch association members:', error);
-        throw new Error(error.message || 'Failed to fetch association members');
+        console.error(
+            'Failed to fetch association members from db, using fallback:',
+            error
+        );
+        return ALL_ASSOCIATION_MEMBERS;
     }
 }
 
