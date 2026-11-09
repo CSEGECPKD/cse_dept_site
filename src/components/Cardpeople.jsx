@@ -218,7 +218,7 @@ const AssociationCards = ({ members }) => {
             return (startB || 0) - (startA || 0);
         });
 
-    const [selectedYear, setSelectedYear] = useState(years[0] || '2026-2027');
+    const [selectedYear, setSelectedYear] = useState(years[0] || '2025-26');
 
     useEffect(() => {
         if (years.length > 0 && !years.includes(selectedYear)) {
