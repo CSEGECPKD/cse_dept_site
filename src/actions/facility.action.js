@@ -32,6 +32,30 @@ export async function createFacility({ name, description, pdfUrl }) {
     }
 }
 
+export async function updateFacility(
+    facilityId,
+    { name, description, pdfUrl }
+) {
+    try {
+        if (!(await isAuthenticated())) {
+            throw new Error('Unauthorized');
+        }
+        await dbConnect();
+        const updatedFacility = await Facility.findByIdAndUpdate(
+            facilityId,
+            { name, description, pdfUrl },
+            { new: true }
+        );
+        if (!updatedFacility) {
+            throw new Error('Facility not found');
+        }
+        return { message: 'Facility updated successfully' };
+    } catch (error) {
+        console.error('Failed to update facility:', error);
+        throw new Error(error.message || 'Failed to update facility');
+    }
+}
+
 export async function deleteFacility(facilityId) {
     try {
         if (!(await isAuthenticated())) {

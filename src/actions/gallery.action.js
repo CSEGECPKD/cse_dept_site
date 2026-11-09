@@ -32,6 +32,30 @@ export async function createGallery({ name, image, imgDescription }) {
     }
 }
 
+export async function updateGallery(
+    galleryId,
+    { name, image, imgDescription }
+) {
+    try {
+        if (!(await isAuthenticated())) {
+            throw new Error('Unauthorized');
+        }
+        await dbConnect();
+        const updatedGallery = await Gallery.findByIdAndUpdate(
+            galleryId,
+            { name, image, imgDescription },
+            { new: true }
+        );
+        if (!updatedGallery) {
+            throw new Error('Gallery not found');
+        }
+        return { message: 'Gallery updated successfully' };
+    } catch (error) {
+        console.error('Failed to update gallery:', error);
+        throw new Error(error.message || 'Failed to update gallery');
+    }
+}
+
 export async function deleteGallery(galleryId) {
     try {
         if (!(await isAuthenticated())) {

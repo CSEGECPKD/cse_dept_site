@@ -7,7 +7,7 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation } from '@tanstack/react-query';
 
-import { createSubject } from '@/actions/subject.action';
+import { createSubject, updateSubject } from '@/actions/subject.action';
 import { Button } from '@/components/ui/button';
 import FormField from '../ui/FormField';
 import UploadCard from '../ui/UploadCard';
@@ -23,7 +23,13 @@ const subjectFormSchema = z.object({
     pdfUrl: z.string().min(1, { message: 'PDF is required' }),
 });
 
-const SubjectForm = ({ refreshSubjects }) => {
+const SubjectForm = ({
+    initialData,
+    onSuccess,
+    onCancel,
+    refreshSubjects,
+}) => {
+    const isEditing = Boolean(initialData?._id);
     const {
         register,
         handleSubmit,
@@ -34,25 +40,42 @@ const SubjectForm = ({ refreshSubjects }) => {
     } = useForm({
         resolver: zodResolver(subjectFormSchema),
         defaultValues: {
-            pdfUrl: '',
+            courseId:
+                initialData?.courseId?._id || initialData?.courseId || '',
+            yearOfScheme: initialData?.yearOfScheme || '',
+            semester: initialData?.semester || '',
+            subCode: initialData?.subCode || '',
+            name: initialData?.name || '',
+            description: initialData?.description || '',
+            pdfUrl: initialData?.pdfUrl || '',
         },
     });
 
     const mutation = useMutation({
-        mutationFn: async (data) => createSubject(data),
+        mutationFn: async (data) => {
+            if (isEditing) {
+                return updateSubject(initialData._id, data);
+            }
+            return createSubject(data);
+        },
         onSuccess: () => {
-            reset();
+            if (!isEditing) reset();
             toast({
                 variant: 'success',
-                title: 'Subject added',
-                description: 'Subject added successfully.',
+                title: isEditing ? 'Subject updated' : 'Subject added',
+                description: isEditing
+                    ? 'Subject updated successfully.'
+                    : 'Subject added successfully.',
             });
             refreshSubjects?.();
+            onSuccess?.();
         },
         onError: (error) => {
             toast({
                 variant: 'destructive',
-                title: 'Unable to add subject',
+                title: isEditing
+                    ? 'Unable to update subject'
+                    : 'Unable to add subject',
                 description: error?.message || 'Please try again.',
             });
         },
@@ -141,16 +164,32 @@ const SubjectForm = ({ refreshSubjects }) => {
                 )}
             </div>
 
-            <Button
-                type="submit"
-                disabled={mutation.isPending}
-                className="w-full gap-2 sm:w-auto"
-            >
-                {mutation.isPending && (
-                    <Loader2 className="h-4 w-4 animate-spin" />
+            <div className="flex items-center gap-2">
+                <Button
+                    type="submit"
+                    disabled={mutation.isPending}
+                    className="w-full gap-2 sm:w-auto"
+                >
+                    {mutation.isPending && (
+                        <Loader2 className="h-4 w-4 animate-spin" />
+                    )}
+                    {mutation.isPending
+                        ? 'Saving…'
+                        : isEditing
+                          ? 'Save Changes'
+                          : 'Add Subject'}
+                </Button>
+                {onCancel && (
+                    <Button
+                        type="button"
+                        variant="outline"
+                        onClick={onCancel}
+                        disabled={mutation.isPending}
+                    >
+                        Cancel
+                    </Button>
                 )}
-                {mutation.isPending ? 'Saving…' : 'Add Subject'}
-            </Button>
+            </div>
         </form>
     );
 };

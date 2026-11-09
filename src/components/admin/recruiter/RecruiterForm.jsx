@@ -7,7 +7,10 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation } from '@tanstack/react-query';
 
-import { createRecruiter } from '@/actions/recruiter.action';
+import {
+    createRecruiter,
+    updateRecruiter,
+} from '@/actions/recruiter.action';
 import { Button } from '@/components/ui/button';
 import FormField from '../ui/FormField';
 import UploadCard from '../ui/UploadCard';
@@ -18,7 +21,13 @@ const recruiterFormSchema = z.object({
     companyLogo: z.string().min(1, { message: 'Company logo is required' }),
 });
 
-const RecruiterForm = ({ refreshRecruiters }) => {
+const RecruiterForm = ({
+    initialData,
+    onSuccess,
+    onCancel,
+    refreshRecruiters,
+}) => {
+    const isEditing = Boolean(initialData?._id);
     const {
         register,
         handleSubmit,
@@ -29,25 +38,36 @@ const RecruiterForm = ({ refreshRecruiters }) => {
     } = useForm({
         resolver: zodResolver(recruiterFormSchema),
         defaultValues: {
-            companyLogo: '',
+            companyName: initialData?.companyName || '',
+            companyLogo: initialData?.companyLogo || '',
         },
     });
 
     const mutation = useMutation({
-        mutationFn: async (data) => createRecruiter(data),
+        mutationFn: async (data) => {
+            if (isEditing) {
+                return updateRecruiter(initialData._id, data);
+            }
+            return createRecruiter(data);
+        },
         onSuccess: () => {
-            reset();
+            if (!isEditing) reset();
             toast({
                 variant: 'success',
-                title: 'Recruiter added',
-                description: 'Recruiter added successfully.',
+                title: isEditing ? 'Recruiter updated' : 'Recruiter added',
+                description: isEditing
+                    ? 'Recruiter updated successfully.'
+                    : 'Recruiter added successfully.',
             });
             refreshRecruiters?.();
+            onSuccess?.();
         },
         onError: (error) => {
             toast({
                 variant: 'destructive',
-                title: 'Unable to add recruiter',
+                title: isEditing
+                    ? 'Unable to update recruiter'
+                    : 'Unable to add recruiter',
                 description: error?.message || 'Please try again.',
             });
         },
@@ -85,16 +105,32 @@ const RecruiterForm = ({ refreshRecruiters }) => {
                 )}
             </div>
 
-            <Button
-                type="submit"
-                disabled={mutation.isPending}
-                className="w-full gap-2 sm:w-auto"
-            >
-                {mutation.isPending && (
-                    <Loader2 className="h-4 w-4 animate-spin" />
+            <div className="flex items-center gap-2">
+                <Button
+                    type="submit"
+                    disabled={mutation.isPending}
+                    className="w-full gap-2 sm:w-auto"
+                >
+                    {mutation.isPending && (
+                        <Loader2 className="h-4 w-4 animate-spin" />
+                    )}
+                    {mutation.isPending
+                        ? 'Saving…'
+                        : isEditing
+                          ? 'Save Changes'
+                          : 'Add Recruiter'}
+                </Button>
+                {onCancel && (
+                    <Button
+                        type="button"
+                        variant="outline"
+                        onClick={onCancel}
+                        disabled={mutation.isPending}
+                    >
+                        Cancel
+                    </Button>
                 )}
-                {mutation.isPending ? 'Saving…' : 'Add Recruiter'}
-            </Button>
+            </div>
         </form>
     );
 };

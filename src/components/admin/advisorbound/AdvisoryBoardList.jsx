@@ -1,13 +1,17 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import { UserRound } from 'lucide-react';
 
 import DataTable from '../ui/DataTable';
 import RowActions from '../ui/RowActions';
+import EditDialog from '../ui/EditDialog';
+import AdvisorBoundForm from './AdvisorBoundForm';
 import { deleteAdvisoryBoardMember } from '@/actions/advisoryboard.action';
 
 const AdvisoryBoardList = ({ advisoryBoardList, loading, refresh }) => {
+    const [editingItem, setEditingItem] = useState(null);
+
     const columns = [
         {
             key: 'imageUrl',
@@ -50,6 +54,7 @@ const AdvisoryBoardList = ({ advisoryBoardList, loading, refresh }) => {
             cellClassName: 'text-right',
             cell: (item) => (
                 <RowActions
+                    onEdit={() => setEditingItem(item)}
                     onDelete={async () => {
                         await deleteAdvisoryBoardMember(item._id);
                     }}
@@ -62,17 +67,36 @@ const AdvisoryBoardList = ({ advisoryBoardList, loading, refresh }) => {
     ];
 
     return (
-        <DataTable
-            data={advisoryBoardList}
-            loading={loading}
-            columns={columns}
-            searchKeys={['name', 'designation']}
-            searchPlaceholder="Search advisors…"
-            emptyState={{
-                title: 'No advisors yet',
-                subtitle: 'Your advisory board list is empty.',
-            }}
-        />
+        <>
+            <DataTable
+                data={advisoryBoardList}
+                loading={loading}
+                columns={columns}
+                searchKeys={['name', 'designation']}
+                searchPlaceholder="Search advisors…"
+                emptyState={{
+                    title: 'No advisors yet',
+                    subtitle: 'Your advisory board list is empty.',
+                }}
+            />
+            <EditDialog
+                open={Boolean(editingItem)}
+                onOpenChange={(isOpen) => !isOpen && setEditingItem(null)}
+                title="Edit Advisor"
+                description="Update advisory board member information and photo."
+            >
+                {editingItem && (
+                    <AdvisorBoundForm
+                        initialData={editingItem}
+                        onSuccess={() => {
+                            setEditingItem(null);
+                            refresh();
+                        }}
+                        onCancel={() => setEditingItem(null)}
+                    />
+                )}
+            </EditDialog>
+        </>
     );
 };
 

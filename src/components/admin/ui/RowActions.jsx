@@ -8,6 +8,7 @@ import DeleteDialog from './DeleteDialog';
 
 export default function RowActions({
     editHref,
+    onEdit,
     onDelete,
     onSuccess,
     deleteTitle = 'Delete item?',
@@ -15,7 +16,7 @@ export default function RowActions({
 }) {
     return (
         <div className="flex items-center justify-end gap-1">
-            {editHref && (
+            {editHref ? (
                 <Button
                     variant="ghost"
                     size="icon"
@@ -27,7 +28,18 @@ export default function RowActions({
                         <Pencil className="h-4 w-4" />
                     </Link>
                 </Button>
-            )}
+            ) : onEdit ? (
+                <Button
+                    type="button"
+                    variant="ghost"
+                    size="icon"
+                    className="h-8 w-8 text-muted-foreground hover:text-foreground"
+                    aria-label="Edit"
+                    onClick={onEdit}
+                >
+                    <Pencil className="h-4 w-4" />
+                </Button>
+            ) : null}
             {onDelete && (
                 <DeleteDialog
                     title={deleteTitle}

@@ -53,6 +53,30 @@ export async function getAssociationMembers() {
     }
 }
 
+export async function updateAssociationMember(
+    memberId,
+    { name, year, designation, mailId, imageUrl }
+) {
+    try {
+        if (!(await isAuthenticated())) {
+            throw new Error('Unauthorized');
+        }
+        await dbConnect();
+        const updatedMember = await AssociationMember.findByIdAndUpdate(
+            memberId,
+            { name, year, designation, mailId, imageUrl },
+            { new: true }
+        );
+        if (!updatedMember) {
+            throw new Error('Association member not found');
+        }
+        return { message: 'Association member updated successfully' };
+    } catch (error) {
+        console.error('Failed to update association member:', error);
+        throw new Error(error.message || 'Failed to update association member');
+    }
+}
+
 export async function deleteAssociationMember(memberId) {
     try {
         if (!(await isAuthenticated())) {

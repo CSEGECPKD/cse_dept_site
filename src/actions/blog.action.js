@@ -52,6 +52,26 @@ export async function createBlog(data) {
     }
 }
 
+export async function updateBlog(blogId, data) {
+    try {
+        if (!(await isAuthenticated())) {
+            throw new Error('Unauthorized');
+        }
+        const validated = blogSchema.parse(data);
+        await dbConnect();
+        const updatedBlog = await Blog.findByIdAndUpdate(blogId, validated, {
+            new: true,
+        });
+        if (!updatedBlog) {
+            throw new Error('Blog not found');
+        }
+        return { message: 'Blog updated successfully' };
+    } catch (error) {
+        console.error('Failed to update blog:', error);
+        throw new Error(error.message || 'Failed to update blog');
+    }
+}
+
 export async function deleteBlog(blogId) {
     try {
         if (!(await isAuthenticated())) {

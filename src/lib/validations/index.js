@@ -21,11 +21,16 @@ export const blogSchema = z.object({
 
 export const eventSchema = z.object({
     name: z.string().trim().min(1, 'Event name is required'),
-    date: z.string().trim().min(1, 'Date is required'),
+    date: z
+        .union([z.string(), z.date()])
+        .transform((val) => (val instanceof Date ? val.toISOString() : String(val))),
     details: z.string().trim().min(1, 'Details are required'),
     mode: z.string().trim().min(1, 'Mode is required'),
     posters: z.array(z.string()).optional().default([]),
-    regLinks: z.string().optional().default(''),
+    regLinks: z
+        .union([z.string(), z.array(z.string())])
+        .optional()
+        .default(''),
 });
 
 export const magazineSchema = z.object({

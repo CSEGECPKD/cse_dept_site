@@ -1,13 +1,17 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Building2 } from 'lucide-react';
 
 import DataTable from '../ui/DataTable';
 import RowActions from '../ui/RowActions';
+import EditDialog from '../ui/EditDialog';
+import RecruiterForm from './RecruiterForm';
 import { deleteRecruiter } from '@/actions/recruiter.action';
 
 const RecruiterList = ({ recruiterList, loading, refresh }) => {
+    const [editingItem, setEditingItem] = useState(null);
+
     const columns = [
         {
             key: 'companyLogo',
@@ -42,6 +46,7 @@ const RecruiterList = ({ recruiterList, loading, refresh }) => {
             cellClassName: 'text-right',
             cell: (item) => (
                 <RowActions
+                    onEdit={() => setEditingItem(item)}
                     onDelete={async () => {
                         await deleteRecruiter(item._id);
                     }}
@@ -54,17 +59,36 @@ const RecruiterList = ({ recruiterList, loading, refresh }) => {
     ];
 
     return (
-        <DataTable
-            data={recruiterList}
-            loading={loading}
-            columns={columns}
-            searchKeys={['companyName']}
-            searchPlaceholder="Search recruiters…"
-            emptyState={{
-                title: 'No recruiters yet',
-                subtitle: 'Your recruiter list is empty.',
-            }}
-        />
+        <>
+            <DataTable
+                data={recruiterList}
+                loading={loading}
+                columns={columns}
+                searchKeys={['companyName']}
+                searchPlaceholder="Search recruiters…"
+                emptyState={{
+                    title: 'No recruiters yet',
+                    subtitle: 'Your recruiter list is empty.',
+                }}
+            />
+            <EditDialog
+                open={Boolean(editingItem)}
+                onOpenChange={(isOpen) => !isOpen && setEditingItem(null)}
+                title="Edit Recruiter"
+                description="Update recruiter company name and logo."
+            >
+                {editingItem && (
+                    <RecruiterForm
+                        initialData={editingItem}
+                        onSuccess={() => {
+                            setEditingItem(null);
+                            refresh();
+                        }}
+                        onCancel={() => setEditingItem(null)}
+                    />
+                )}
+            </EditDialog>
+        </>
     );
 };
 

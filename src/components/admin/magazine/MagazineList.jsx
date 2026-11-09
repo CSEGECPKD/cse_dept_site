@@ -1,12 +1,16 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 
 import DataTable from '../ui/DataTable';
 import RowActions from '../ui/RowActions';
+import EditDialog from '../ui/EditDialog';
+import MagazineForm from './MagazineForm';
 import { deleteMagazine } from '@/actions/magazine.action';
 
 const MagazineList = ({ magazines, loading, refresh }) => {
+    const [editingItem, setEditingItem] = useState(null);
+
     const columns = [
         {
             key: 'name',
@@ -47,6 +51,7 @@ const MagazineList = ({ magazines, loading, refresh }) => {
             cellClassName: 'text-right',
             cell: (item) => (
                 <RowActions
+                    onEdit={() => setEditingItem(item)}
                     onDelete={async () => {
                         await deleteMagazine(item._id);
                     }}
@@ -59,17 +64,36 @@ const MagazineList = ({ magazines, loading, refresh }) => {
     ];
 
     return (
-        <DataTable
-            data={magazines}
-            loading={loading}
-            columns={columns}
-            searchKeys={['name', 'category']}
-            searchPlaceholder="Search magazines…"
-            emptyState={{
-                title: 'No magazines yet',
-                subtitle: 'Your magazine list is empty.',
-            }}
-        />
+        <>
+            <DataTable
+                data={magazines}
+                loading={loading}
+                columns={columns}
+                searchKeys={['name', 'category']}
+                searchPlaceholder="Search magazines…"
+                emptyState={{
+                    title: 'No magazines yet',
+                    subtitle: 'Your magazine list is empty.',
+                }}
+            />
+            <EditDialog
+                open={Boolean(editingItem)}
+                onOpenChange={(isOpen) => !isOpen && setEditingItem(null)}
+                title="Edit Magazine"
+                description="Update magazine publication info, cover, and file."
+            >
+                {editingItem && (
+                    <MagazineForm
+                        initialData={editingItem}
+                        onSuccess={() => {
+                            setEditingItem(null);
+                            refresh();
+                        }}
+                        onCancel={() => setEditingItem(null)}
+                    />
+                )}
+            </EditDialog>
+        </>
     );
 };
 

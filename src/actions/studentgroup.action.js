@@ -36,6 +36,30 @@ export async function getStudentGroups() {
     }
 }
 
+export async function updateStudentGroup(
+    studentGroupId,
+    { name, description, logoUrl }
+) {
+    try {
+        if (!(await isAuthenticated())) {
+            throw new Error('Unauthorized');
+        }
+        await dbConnect();
+        const updatedStudentGroup = await StudentGroup.findByIdAndUpdate(
+            studentGroupId,
+            { name, description, logoUrl },
+            { new: true }
+        );
+        if (!updatedStudentGroup) {
+            throw new Error('Student group not found');
+        }
+        return { message: 'Student group updated successfully' };
+    } catch (error) {
+        console.error('Failed to update student group:', error);
+        throw new Error(error.message || 'Failed to update student group');
+    }
+}
+
 export async function deleteStudentGroup(studentGroupId) {
     try {
         if (!(await isAuthenticated())) {

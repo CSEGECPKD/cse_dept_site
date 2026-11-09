@@ -1,13 +1,17 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 
 import DataTable from '../ui/DataTable';
 import RowActions from '../ui/RowActions';
+import EditDialog from '../ui/EditDialog';
+import EventForm from './EventForm';
 import StatusBadge from '../ui/StatusBadge';
 import { deleteEvent } from '@/actions/event.action';
 
 const EventList = ({ eventList, loading, refresh }) => {
+    const [editingItem, setEditingItem] = useState(null);
+
     const columns = [
         {
             key: 'name',
@@ -50,6 +54,7 @@ const EventList = ({ eventList, loading, refresh }) => {
             cellClassName: 'text-right',
             cell: (item) => (
                 <RowActions
+                    onEdit={() => setEditingItem(item)}
                     onDelete={async () => {
                         await deleteEvent(item._id);
                     }}
@@ -62,17 +67,36 @@ const EventList = ({ eventList, loading, refresh }) => {
     ];
 
     return (
-        <DataTable
-            data={eventList}
-            loading={loading}
-            columns={columns}
-            searchKeys={['name', 'mode']}
-            searchPlaceholder="Search events…"
-            emptyState={{
-                title: 'No events yet',
-                subtitle: 'Your event list is empty.',
-            }}
-        />
+        <>
+            <DataTable
+                data={eventList}
+                loading={loading}
+                columns={columns}
+                searchKeys={['name', 'mode']}
+                searchPlaceholder="Search events…"
+                emptyState={{
+                    title: 'No events yet',
+                    subtitle: 'Your event list is empty.',
+                }}
+            />
+            <EditDialog
+                open={Boolean(editingItem)}
+                onOpenChange={(isOpen) => !isOpen && setEditingItem(null)}
+                title="Edit Event"
+                description="Update event schedule, details, and registration links."
+            >
+                {editingItem && (
+                    <EventForm
+                        initialData={editingItem}
+                        onSuccess={() => {
+                            setEditingItem(null);
+                            refresh();
+                        }}
+                        onCancel={() => setEditingItem(null)}
+                    />
+                )}
+            </EditDialog>
+        </>
     );
 };
 

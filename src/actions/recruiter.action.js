@@ -32,6 +32,30 @@ export async function getRecruiters() {
     }
 }
 
+export async function updateRecruiter(
+    recruiterId,
+    { companyName, companyLogo }
+) {
+    try {
+        if (!(await isAuthenticated())) {
+            throw new Error('Unauthorized');
+        }
+        await dbConnect();
+        const updatedRecruiter = await Recruiter.findByIdAndUpdate(
+            recruiterId,
+            { companyName, companyLogo },
+            { new: true }
+        );
+        if (!updatedRecruiter) {
+            throw new Error('Recruiter not found');
+        }
+        return { message: 'Recruiter updated successfully' };
+    } catch (error) {
+        console.error('Failed to update recruiter:', error);
+        throw new Error(error.message || 'Failed to update recruiter');
+    }
+}
+
 export async function deleteRecruiter(recruiterId) {
     try {
         if (!(await isAuthenticated())) {

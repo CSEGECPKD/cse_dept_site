@@ -43,6 +43,37 @@ export async function createMagazine(data) {
     }
 }
 
+export async function updateMagazine(magazineId, data) {
+    try {
+        if (!(await isAuthenticated())) {
+            throw new Error('Unauthorized');
+        }
+        const validated = magazineSchema.parse({
+            ...data,
+            date:
+                data?.date instanceof Date
+                    ? data.date.toISOString()
+                    : String(data?.date ?? ''),
+        });
+        await dbConnect();
+        const updatedMagazine = await Magazine.findByIdAndUpdate(
+            magazineId,
+            {
+                ...validated,
+                date: new Date(validated.date),
+            },
+            { new: true }
+        );
+        if (!updatedMagazine) {
+            throw new Error('Magazine not found');
+        }
+        return { message: 'Magazine updated successfully' };
+    } catch (error) {
+        console.error('Failed to update magazine:', error);
+        throw new Error(error.message || 'Failed to update magazine');
+    }
+}
+
 export async function deleteMagazine(magazineId) {
     try {
         if (!(await isAuthenticated())) {

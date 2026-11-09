@@ -1,13 +1,17 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Image as ImageIcon } from 'lucide-react';
 
 import DataTable from '../ui/DataTable';
 import RowActions from '../ui/RowActions';
+import EditDialog from '../ui/EditDialog';
+import GalleryForm from './GalleryForm';
 import { deleteGallery } from '@/actions/gallery.action';
 
 const GalleryList = ({ galleryList, loading, refresh }) => {
+    const [editingItem, setEditingItem] = useState(null);
+
     const columns = [
         {
             key: 'image',
@@ -49,6 +53,7 @@ const GalleryList = ({ galleryList, loading, refresh }) => {
             cellClassName: 'text-right',
             cell: (item) => (
                 <RowActions
+                    onEdit={() => setEditingItem(item)}
                     onDelete={async () => {
                         await deleteGallery(item._id);
                     }}
@@ -61,17 +66,36 @@ const GalleryList = ({ galleryList, loading, refresh }) => {
     ];
 
     return (
-        <DataTable
-            data={galleryList}
-            loading={loading}
-            columns={columns}
-            searchKeys={['name', 'imgDescription']}
-            searchPlaceholder="Search gallery items…"
-            emptyState={{
-                title: 'No gallery items yet',
-                subtitle: 'Your gallery list is empty.',
-            }}
-        />
+        <>
+            <DataTable
+                data={galleryList}
+                loading={loading}
+                columns={columns}
+                searchKeys={['name', 'imgDescription']}
+                searchPlaceholder="Search gallery items…"
+                emptyState={{
+                    title: 'No gallery items yet',
+                    subtitle: 'Your gallery list is empty.',
+                }}
+            />
+            <EditDialog
+                open={Boolean(editingItem)}
+                onOpenChange={(isOpen) => !isOpen && setEditingItem(null)}
+                title="Edit Gallery Item"
+                description="Update gallery item title, description, and image."
+            >
+                {editingItem && (
+                    <GalleryForm
+                        initialData={editingItem}
+                        onSuccess={() => {
+                            setEditingItem(null);
+                            refresh();
+                        }}
+                        onCancel={() => setEditingItem(null)}
+                    />
+                )}
+            </EditDialog>
+        </>
     );
 };
 

@@ -32,6 +32,30 @@ export async function getCourses() {
     }
 }
 
+export async function updateCourse(
+    courseId,
+    { name, description, imageUrl, pdfUrl }
+) {
+    try {
+        if (!(await isAuthenticated())) {
+            throw new Error('Unauthorized');
+        }
+        await dbConnect();
+        const updatedCourse = await Course.findByIdAndUpdate(
+            courseId,
+            { name, description, imageUrl, pdfUrl },
+            { new: true }
+        );
+        if (!updatedCourse) {
+            throw new Error('Course not found');
+        }
+        return { message: 'Course updated successfully' };
+    } catch (error) {
+        console.error('Failed to update course:', error);
+        throw new Error(error.message || 'Failed to update course');
+    }
+}
+
 export async function deleteCourse(courseId) {
     try {
         if (!(await isAuthenticated())) {

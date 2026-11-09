@@ -32,6 +32,30 @@ export async function createPoster({ name, imageUrl, description }) {
     }
 }
 
+export async function updatePoster(
+    posterId,
+    { name, imageUrl, description }
+) {
+    try {
+        if (!(await isAuthenticated())) {
+            throw new Error('Unauthorized');
+        }
+        await dbConnect();
+        const updatedPoster = await Poster.findByIdAndUpdate(
+            posterId,
+            { name, imageUrl, description },
+            { new: true }
+        );
+        if (!updatedPoster) {
+            throw new Error('Poster not found');
+        }
+        return { message: 'Poster updated successfully' };
+    } catch (error) {
+        console.error('Failed to update poster:', error);
+        throw new Error(error.message || 'Failed to update poster');
+    }
+}
+
 export async function deletePoster(posterId) {
     try {
         if (!(await isAuthenticated())) {

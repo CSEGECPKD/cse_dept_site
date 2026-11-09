@@ -20,6 +20,26 @@ export const createTopper = async (data) => {
     }
 };
 
+export const updateTopper = async (id, data) => {
+    try {
+        await dbConnect();
+        if (!(await isAuthenticated())) {
+            throw new Error('Unauthorized');
+        }
+        const updatedTopper = await Topper.findByIdAndUpdate(id, data, {
+            new: true,
+        });
+        if (!updatedTopper) {
+            throw new Error('Topper not found');
+        }
+        return {
+            message: 'Updated successfully',
+        };
+    } catch (error) {
+        throw error;
+    }
+};
+
 export const deleteTopper = async (id) => {
     try {
         await dbConnect();

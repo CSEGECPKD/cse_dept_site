@@ -7,7 +7,7 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation } from '@tanstack/react-query';
 
-import { createSyllabus } from '@/actions/syllabus.action';
+import { createSyllabus, updateSyllabus } from '@/actions/syllabus.action';
 import { Button } from '@/components/ui/button';
 import FormField from '../ui/FormField';
 import UploadCard from '../ui/UploadCard';
@@ -26,7 +26,13 @@ const syllabusFormSchema = z.object({
     pdfUrl: z.string().min(1, { message: 'PDF URL is required' }),
 });
 
-const SyllabusForm = ({ refreshSyllabi }) => {
+const SyllabusForm = ({
+    initialData,
+    onSuccess,
+    onCancel,
+    refreshSyllabi,
+}) => {
+    const isEditing = Boolean(initialData?._id);
     const {
         register,
         handleSubmit,
@@ -37,25 +43,40 @@ const SyllabusForm = ({ refreshSyllabi }) => {
     } = useForm({
         resolver: zodResolver(syllabusFormSchema),
         defaultValues: {
-            pdfUrl: '',
+            course:
+                typeof initialData?.course === 'object'
+                    ? initialData.course?.name || ''
+                    : initialData?.course || '',
+            yearOfScheme: initialData?.yearOfScheme || '',
+            pdfUrl: initialData?.pdfUrl || '',
         },
     });
 
     const mutation = useMutation({
-        mutationFn: async (data) => createSyllabus(data),
+        mutationFn: async (data) => {
+            if (isEditing) {
+                return updateSyllabus(initialData._id, data);
+            }
+            return createSyllabus(data);
+        },
         onSuccess: () => {
-            reset();
+            if (!isEditing) reset();
             toast({
                 variant: 'success',
-                title: 'Syllabus added',
-                description: 'Syllabus added successfully.',
+                title: isEditing ? 'Syllabus updated' : 'Syllabus added',
+                description: isEditing
+                    ? 'Syllabus updated successfully.'
+                    : 'Syllabus added successfully.',
             });
             refreshSyllabi?.();
+            onSuccess?.();
         },
         onError: (error) => {
             toast({
                 variant: 'destructive',
-                title: 'Unable to add syllabus',
+                title: isEditing
+                    ? 'Unable to update syllabus'
+                    : 'Unable to add syllabus',
                 description: error?.message || 'Please try again.',
             });
         },
@@ -108,16 +129,32 @@ const SyllabusForm = ({ refreshSyllabi }) => {
                 )}
             </div>
 
-            <Button
-                type="submit"
-                disabled={mutation.isPending}
-                className="w-full gap-2 sm:w-auto"
-            >
-                {mutation.isPending && (
-                    <Loader2 className="h-4 w-4 animate-spin" />
+            <div className="flex items-center gap-2">
+                <Button
+                    type="submit"
+                    disabled={mutation.isPending}
+                    className="w-full gap-2 sm:w-auto"
+                >
+                    {mutation.isPending && (
+                        <Loader2 className="h-4 w-4 animate-spin" />
+                    )}
+                    {mutation.isPending
+                        ? 'Saving…'
+                        : isEditing
+                          ? 'Save Changes'
+                          : 'Add Syllabus'}
+                </Button>
+                {onCancel && (
+                    <Button
+                        type="button"
+                        variant="outline"
+                        onClick={onCancel}
+                        disabled={mutation.isPending}
+                    >
+                        Cancel
+                    </Button>
                 )}
-                {mutation.isPending ? 'Saving…' : 'Add Syllabus'}
-            </Button>
+            </div>
         </form>
     );
 };

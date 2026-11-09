@@ -7,7 +7,7 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation } from '@tanstack/react-query';
 
-import { createGallery } from '@/actions/gallery.action';
+import { createGallery, updateGallery } from '@/actions/gallery.action';
 import { Button } from '@/components/ui/button';
 import FormField from '../ui/FormField';
 import UploadCard from '../ui/UploadCard';
@@ -21,7 +21,13 @@ const galleryFormSchema = z.object({
         .min(1, { message: 'Image Description is required' }),
 });
 
-const GalleryForm = ({ refreshGalleries }) => {
+const GalleryForm = ({
+    initialData,
+    onSuccess,
+    onCancel,
+    refreshGalleries,
+}) => {
+    const isEditing = Boolean(initialData?._id);
     const {
         register,
         handleSubmit,
@@ -32,26 +38,37 @@ const GalleryForm = ({ refreshGalleries }) => {
     } = useForm({
         resolver: zodResolver(galleryFormSchema),
         defaultValues: {
-            image: '',
-            imgDescription: '',
+            name: initialData?.name || '',
+            image: initialData?.image || '',
+            imgDescription: initialData?.imgDescription || '',
         },
     });
 
     const mutation = useMutation({
-        mutationFn: async (data) => createGallery(data),
+        mutationFn: async (data) => {
+            if (isEditing) {
+                return updateGallery(initialData._id, data);
+            }
+            return createGallery(data);
+        },
         onSuccess: () => {
-            reset();
+            if (!isEditing) reset();
             toast({
                 variant: 'success',
-                title: 'Gallery item added',
-                description: 'Gallery item added successfully.',
+                title: isEditing ? 'Gallery item updated' : 'Gallery item added',
+                description: isEditing
+                    ? 'Gallery item updated successfully.'
+                    : 'Gallery item added successfully.',
             });
             refreshGalleries?.();
+            onSuccess?.();
         },
         onError: (error) => {
             toast({
                 variant: 'destructive',
-                title: 'Unable to add gallery item',
+                title: isEditing
+                    ? 'Unable to update gallery item'
+                    : 'Unable to add gallery item',
                 description: error?.message || 'Please try again.',
             });
         },
@@ -99,16 +116,32 @@ const GalleryForm = ({ refreshGalleries }) => {
                 {...register('imgDescription')}
             />
 
-            <Button
-                type="submit"
-                disabled={mutation.isPending}
-                className="w-full gap-2 sm:w-auto"
-            >
-                {mutation.isPending && (
-                    <Loader2 className="h-4 w-4 animate-spin" />
+            <div className="flex items-center gap-2">
+                <Button
+                    type="submit"
+                    disabled={mutation.isPending}
+                    className="w-full gap-2 sm:w-auto"
+                >
+                    {mutation.isPending && (
+                        <Loader2 className="h-4 w-4 animate-spin" />
+                    )}
+                    {mutation.isPending
+                        ? 'Saving…'
+                        : isEditing
+                          ? 'Save Changes'
+                          : 'Add Gallery Item'}
+                </Button>
+                {onCancel && (
+                    <Button
+                        type="button"
+                        variant="outline"
+                        onClick={onCancel}
+                        disabled={mutation.isPending}
+                    >
+                        Cancel
+                    </Button>
                 )}
-                {mutation.isPending ? 'Saving…' : 'Add Gallery Item'}
-            </Button>
+            </div>
         </form>
     );
 };

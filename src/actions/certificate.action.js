@@ -32,6 +32,27 @@ export async function getCertificates() {
     }
 }
 
+export async function updateCertificate(certificateId, { name, imageUrl }) {
+    try {
+        if (!(await isAuthenticated())) {
+            throw new Error('Unauthorized');
+        }
+        await dbConnect();
+        const updatedCertificate = await Certificate.findByIdAndUpdate(
+            certificateId,
+            { name, imageUrl },
+            { new: true }
+        );
+        if (!updatedCertificate) {
+            throw new Error('Certificate not found');
+        }
+        return { message: 'Certificate updated successfully' };
+    } catch (error) {
+        console.error('Failed to update certificate:', error);
+        throw new Error(error.message || 'Failed to update certificate');
+    }
+}
+
 export async function deleteCertificate(certificateId) {
     try {
         if (!(await isAuthenticated())) {

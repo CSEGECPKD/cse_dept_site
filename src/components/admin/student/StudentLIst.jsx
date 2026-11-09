@@ -1,12 +1,16 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 
 import DataTable from '../ui/DataTable';
 import RowActions from '../ui/RowActions';
+import EditDialog from '../ui/EditDialog';
+import StudentForm from './StudentForm';
 import { deleteStudent } from '@/actions/student.action';
 
-const StudentList = ({ studentList, loading, refresh }) => {
+const StudentList = ({ courses = [], studentList, loading, refresh }) => {
+    const [editingItem, setEditingItem] = useState(null);
+
     const columns = [
         {
             key: 'name',
@@ -31,6 +35,7 @@ const StudentList = ({ studentList, loading, refresh }) => {
             cellClassName: 'text-right',
             cell: (item) => (
                 <RowActions
+                    onEdit={() => setEditingItem(item)}
                     onDelete={async () => {
                         await deleteStudent(item._id);
                     }}
@@ -43,17 +48,37 @@ const StudentList = ({ studentList, loading, refresh }) => {
     ];
 
     return (
-        <DataTable
-            data={studentList}
-            loading={loading}
-            columns={columns}
-            searchKeys={['name', 'batch', (item) => item.course?.name]}
-            searchPlaceholder="Search students…"
-            emptyState={{
-                title: 'No students yet',
-                subtitle: 'Your student list is empty.',
-            }}
-        />
+        <>
+            <DataTable
+                data={studentList}
+                loading={loading}
+                columns={columns}
+                searchKeys={['name', 'batch', (item) => item.course?.name]}
+                searchPlaceholder="Search students…"
+                emptyState={{
+                    title: 'No students yet',
+                    subtitle: 'Your student list is empty.',
+                }}
+            />
+            <EditDialog
+                open={Boolean(editingItem)}
+                onOpenChange={(isOpen) => !isOpen && setEditingItem(null)}
+                title="Edit Student"
+                description="Update student name, course, and batch."
+            >
+                {editingItem && (
+                    <StudentForm
+                        initialData={editingItem}
+                        courses={courses}
+                        onSuccess={() => {
+                            setEditingItem(null);
+                            refresh();
+                        }}
+                        onCancel={() => setEditingItem(null)}
+                    />
+                )}
+            </EditDialog>
+        </>
     );
 };
 

@@ -1,13 +1,17 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Building2 } from 'lucide-react';
 
 import DataTable from '../ui/DataTable';
 import RowActions from '../ui/RowActions';
+import EditDialog from '../ui/EditDialog';
+import StudentGroupForm from './StudentGroupForm';
 import { deleteStudentGroup } from '@/actions/studentgroup.action';
 
 const StudentGroupList = ({ studentGroupList, loading, refresh }) => {
+    const [editingItem, setEditingItem] = useState(null);
+
     const columns = [
         {
             key: 'logoUrl',
@@ -49,6 +53,7 @@ const StudentGroupList = ({ studentGroupList, loading, refresh }) => {
             cellClassName: 'text-right',
             cell: (item) => (
                 <RowActions
+                    onEdit={() => setEditingItem(item)}
                     onDelete={async () => {
                         await deleteStudentGroup(item._id);
                     }}
@@ -61,17 +66,36 @@ const StudentGroupList = ({ studentGroupList, loading, refresh }) => {
     ];
 
     return (
-        <DataTable
-            data={studentGroupList}
-            loading={loading}
-            columns={columns}
-            searchKeys={['name', 'description']}
-            searchPlaceholder="Search student groups…"
-            emptyState={{
-                title: 'No student groups yet',
-                subtitle: 'Your student group list is empty.',
-            }}
-        />
+        <>
+            <DataTable
+                data={studentGroupList}
+                loading={loading}
+                columns={columns}
+                searchKeys={['name', 'description']}
+                searchPlaceholder="Search student groups…"
+                emptyState={{
+                    title: 'No student groups yet',
+                    subtitle: 'Your student group list is empty.',
+                }}
+            />
+            <EditDialog
+                open={Boolean(editingItem)}
+                onOpenChange={(isOpen) => !isOpen && setEditingItem(null)}
+                title="Edit Student Group"
+                description="Update student group details and logo."
+            >
+                {editingItem && (
+                    <StudentGroupForm
+                        initialData={editingItem}
+                        onSuccess={() => {
+                            setEditingItem(null);
+                            refresh();
+                        }}
+                        onCancel={() => setEditingItem(null)}
+                    />
+                )}
+            </EditDialog>
+        </>
     );
 };
 

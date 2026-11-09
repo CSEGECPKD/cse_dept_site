@@ -7,7 +7,7 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation } from '@tanstack/react-query';
 
-import { createTopper } from '@/actions/topper.action';
+import { createTopper, updateTopper } from '@/actions/topper.action';
 import { Button } from '@/components/ui/button';
 import FormField from '../ui/FormField';
 import UploadCard from '../ui/UploadCard';
@@ -33,7 +33,13 @@ const topperFormSchema = z.object({
     imageUrl: z.string().min(1, { message: 'Image is required' }),
 });
 
-const TopperForm = ({ refreshToppers }) => {
+const TopperForm = ({
+    initialData,
+    onSuccess,
+    onCancel,
+    refreshToppers,
+}) => {
+    const isEditing = Boolean(initialData?._id);
     const {
         register,
         handleSubmit,
@@ -44,25 +50,48 @@ const TopperForm = ({ refreshToppers }) => {
     } = useForm({
         resolver: zodResolver(topperFormSchema),
         defaultValues: {
-            imageUrl: '',
+            name: initialData?.name || '',
+            batch: initialData?.batch || '',
+            course: initialData?.course || '',
+            year: initialData?.year ? String(initialData.year) : '',
+            sem: initialData?.sem ? String(initialData.sem) : '',
+            cgpa: initialData?.cgpa ? String(initialData.cgpa) : '',
+            sgpa: initialData?.sgpa ? String(initialData.sgpa) : '',
+            imageUrl: initialData?.imageUrl || '',
         },
     });
 
     const mutation = useMutation({
-        mutationFn: async (data) => createTopper(data),
+        mutationFn: async (data) => {
+            const payload = {
+                ...data,
+                category: initialData?.category || 'Topper',
+                cgpa: Number(data.cgpa),
+                sgpa: Number(data.sgpa),
+            };
+            if (isEditing) {
+                return updateTopper(initialData._id, payload);
+            }
+            return createTopper(payload);
+        },
         onSuccess: () => {
-            reset();
+            if (!isEditing) reset();
             toast({
                 variant: 'success',
-                title: 'Topper added',
-                description: 'Topper added successfully.',
+                title: isEditing ? 'Topper updated' : 'Topper added',
+                description: isEditing
+                    ? 'Topper updated successfully.'
+                    : 'Topper added successfully.',
             });
             refreshToppers?.();
+            onSuccess?.();
         },
         onError: (error) => {
             toast({
                 variant: 'destructive',
-                title: 'Unable to add topper',
+                title: isEditing
+                    ? 'Unable to update topper'
+                    : 'Unable to add topper',
                 description: error?.message || 'Please try again.',
             });
         },
@@ -156,16 +185,32 @@ const TopperForm = ({ refreshToppers }) => {
                 )}
             </div>
 
-            <Button
-                type="submit"
-                disabled={mutation.isPending}
-                className="w-full gap-2 sm:w-auto"
-            >
-                {mutation.isPending && (
-                    <Loader2 className="h-4 w-4 animate-spin" />
+            <div className="flex items-center gap-2">
+                <Button
+                    type="submit"
+                    disabled={mutation.isPending}
+                    className="w-full gap-2 sm:w-auto"
+                >
+                    {mutation.isPending && (
+                        <Loader2 className="h-4 w-4 animate-spin" />
+                    )}
+                    {mutation.isPending
+                        ? 'Saving…'
+                        : isEditing
+                          ? 'Save Changes'
+                          : 'Add Topper'}
+                </Button>
+                {onCancel && (
+                    <Button
+                        type="button"
+                        variant="outline"
+                        onClick={onCancel}
+                        disabled={mutation.isPending}
+                    >
+                        Cancel
+                    </Button>
                 )}
-                {mutation.isPending ? 'Saving…' : 'Add Topper'}
-            </Button>
+            </div>
         </form>
     );
 };

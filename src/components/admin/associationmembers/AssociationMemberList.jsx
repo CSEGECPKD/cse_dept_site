@@ -1,14 +1,18 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import { UserRound } from 'lucide-react';
 
 import DataTable from '../ui/DataTable';
 import RowActions from '../ui/RowActions';
+import EditDialog from '../ui/EditDialog';
+import AssociationMemberForm from './AssociationMemberForm';
 import StatusBadge from '../ui/StatusBadge';
 import { deleteAssociationMember } from '@/actions/associationmembers.action';
 
 const AssociationMemberList = ({ associationMemberList, loading, refresh }) => {
+    const [editingItem, setEditingItem] = useState(null);
+
     const columns = [
         {
             key: 'imageUrl',
@@ -62,6 +66,7 @@ const AssociationMemberList = ({ associationMemberList, loading, refresh }) => {
             cellClassName: 'text-right',
             cell: (item) => (
                 <RowActions
+                    onEdit={() => setEditingItem(item)}
                     onDelete={async () => {
                         await deleteAssociationMember(item._id);
                     }}
@@ -74,17 +79,36 @@ const AssociationMemberList = ({ associationMemberList, loading, refresh }) => {
     ];
 
     return (
-        <DataTable
-            data={associationMemberList}
-            loading={loading}
-            columns={columns}
-            searchKeys={['name', 'designation', 'mailId']}
-            searchPlaceholder="Search members…"
-            emptyState={{
-                title: 'No members yet',
-                subtitle: 'Your member list is empty.',
-            }}
-        />
+        <>
+            <DataTable
+                data={associationMemberList}
+                loading={loading}
+                columns={columns}
+                searchKeys={['name', 'designation', 'mailId']}
+                searchPlaceholder="Search members…"
+                emptyState={{
+                    title: 'No members yet',
+                    subtitle: 'Your member list is empty.',
+                }}
+            />
+            <EditDialog
+                open={Boolean(editingItem)}
+                onOpenChange={(isOpen) => !isOpen && setEditingItem(null)}
+                title="Edit Association Member"
+                description="Update member details, designation, and photo."
+            >
+                {editingItem && (
+                    <AssociationMemberForm
+                        initialData={editingItem}
+                        onSuccess={() => {
+                            setEditingItem(null);
+                            refresh();
+                        }}
+                        onCancel={() => setEditingItem(null)}
+                    />
+                )}
+            </EditDialog>
+        </>
     );
 };
 

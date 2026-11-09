@@ -7,7 +7,7 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation } from '@tanstack/react-query';
 
-import { createCourse } from '@/actions/course.action';
+import { createCourse, updateCourse } from '@/actions/course.action';
 import { Button } from '@/components/ui/button';
 import FormField from '../ui/FormField';
 import UploadCard from '../ui/UploadCard';
@@ -20,7 +20,8 @@ const courseFormSchema = z.object({
     pdfUrl: z.string().min(1, { message: 'PDF is required' }),
 });
 
-const CourseForm = ({ refreshCourses }) => {
+const CourseForm = ({ initialData, onSuccess, onCancel, refreshCourses }) => {
+    const isEditing = Boolean(initialData?._id);
     const {
         register,
         handleSubmit,
@@ -31,26 +32,38 @@ const CourseForm = ({ refreshCourses }) => {
     } = useForm({
         resolver: zodResolver(courseFormSchema),
         defaultValues: {
-            imageUrl: '',
-            pdfUrl: '',
+            name: initialData?.name || '',
+            description: initialData?.description || '',
+            imageUrl: initialData?.imageUrl || '',
+            pdfUrl: initialData?.pdfUrl || '',
         },
     });
 
     const mutation = useMutation({
-        mutationFn: async (data) => createCourse(data),
+        mutationFn: async (data) => {
+            if (isEditing) {
+                return updateCourse(initialData._id, data);
+            }
+            return createCourse(data);
+        },
         onSuccess: () => {
-            reset();
+            if (!isEditing) reset();
             toast({
                 variant: 'success',
-                title: 'Course added',
-                description: 'Course added successfully.',
+                title: isEditing ? 'Course updated' : 'Course added',
+                description: isEditing
+                    ? 'Course updated successfully.'
+                    : 'Course added successfully.',
             });
             refreshCourses?.();
+            onSuccess?.();
         },
         onError: (error) => {
             toast({
                 variant: 'destructive',
-                title: 'Unable to add course',
+                title: isEditing
+                    ? 'Unable to update course'
+                    : 'Unable to add course',
                 description: error?.message || 'Please try again.',
             });
         },
@@ -115,16 +128,32 @@ const CourseForm = ({ refreshCourses }) => {
                 )}
             </div>
 
-            <Button
-                type="submit"
-                disabled={mutation.isPending}
-                className="w-full gap-2 sm:w-auto"
-            >
-                {mutation.isPending && (
-                    <Loader2 className="h-4 w-4 animate-spin" />
+            <div className="flex items-center gap-2">
+                <Button
+                    type="submit"
+                    disabled={mutation.isPending}
+                    className="w-full gap-2 sm:w-auto"
+                >
+                    {mutation.isPending && (
+                        <Loader2 className="h-4 w-4 animate-spin" />
+                    )}
+                    {mutation.isPending
+                        ? 'Saving…'
+                        : isEditing
+                          ? 'Save Changes'
+                          : 'Add Course'}
+                </Button>
+                {onCancel && (
+                    <Button
+                        type="button"
+                        variant="outline"
+                        onClick={onCancel}
+                        disabled={mutation.isPending}
+                    >
+                        Cancel
+                    </Button>
                 )}
-                {mutation.isPending ? 'Saving…' : 'Add Course'}
-            </Button>
+            </div>
         </form>
     );
 };

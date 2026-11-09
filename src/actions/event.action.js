@@ -46,6 +46,26 @@ export async function getEventById(id) {
     }
 }
 
+export async function updateEvent(eventId, data) {
+    try {
+        if (!(await isAuthenticated())) {
+            throw new Error('Unauthorized');
+        }
+        const validated = eventSchema.parse(data);
+        await dbConnect();
+        const updatedEvent = await Event.findByIdAndUpdate(eventId, validated, {
+            new: true,
+        });
+        if (!updatedEvent) {
+            throw new Error('Event not found');
+        }
+        return { message: 'Event updated successfully' };
+    } catch (error) {
+        console.error('Failed to update event:', error);
+        throw new Error(error.message || 'Failed to update event');
+    }
+}
+
 export async function deleteEvent(eventId) {
     try {
         if (!(await isAuthenticated())) {

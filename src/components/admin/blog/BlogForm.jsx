@@ -7,7 +7,7 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation } from '@tanstack/react-query';
 
-import { createBlog } from '@/actions/blog.action';
+import { createBlog, updateBlog } from '@/actions/blog.action';
 import { Button } from '@/components/ui/button';
 import FormField from '../ui/FormField';
 import UploadCard from '../ui/UploadCard';
@@ -24,7 +24,8 @@ const blogFormSchema = z.object({
     authorLinkedin: z.string().url({ message: 'Invalid LinkedIn URL' }),
 });
 
-const BlogForm = ({ refreshBlogs }) => {
+const BlogForm = ({ initialData, onSuccess, onCancel, refreshBlogs }) => {
+    const isEditing = Boolean(initialData?._id);
     const {
         register,
         handleSubmit,
@@ -35,25 +36,38 @@ const BlogForm = ({ refreshBlogs }) => {
     } = useForm({
         resolver: zodResolver(blogFormSchema),
         defaultValues: {
-            authorImage: '',
+            name: initialData?.name || '',
+            authorName: initialData?.authorName || '',
+            type: initialData?.type || '',
+            authorPosition: initialData?.authorPosition || '',
+            authorImage: initialData?.authorImage || '',
+            authorLinkedin: initialData?.authorLinkedin || '',
         },
     });
 
     const mutation = useMutation({
-        mutationFn: async (data) => createBlog(data),
+        mutationFn: async (data) => {
+            if (isEditing) {
+                return updateBlog(initialData._id, data);
+            }
+            return createBlog(data);
+        },
         onSuccess: () => {
-            reset();
+            if (!isEditing) reset();
             toast({
                 variant: 'success',
-                title: 'Blog added',
-                description: 'Blog added successfully.',
+                title: isEditing ? 'Blog updated' : 'Blog added',
+                description: isEditing
+                    ? 'Blog updated successfully.'
+                    : 'Blog added successfully.',
             });
             refreshBlogs?.();
+            onSuccess?.();
         },
         onError: (error) => {
             toast({
                 variant: 'destructive',
-                title: 'Unable to add blog',
+                title: isEditing ? 'Unable to update blog' : 'Unable to add blog',
                 description: error?.message || 'Please try again.',
             });
         },
@@ -129,16 +143,32 @@ const BlogForm = ({ refreshBlogs }) => {
                 )}
             </div>
 
-            <Button
-                type="submit"
-                disabled={mutation.isPending}
-                className="w-full gap-2 sm:w-auto"
-            >
-                {mutation.isPending && (
-                    <Loader2 className="h-4 w-4 animate-spin" />
+            <div className="flex items-center gap-2">
+                <Button
+                    type="submit"
+                    disabled={mutation.isPending}
+                    className="w-full gap-2 sm:w-auto"
+                >
+                    {mutation.isPending && (
+                        <Loader2 className="h-4 w-4 animate-spin" />
+                    )}
+                    {mutation.isPending
+                        ? 'Saving…'
+                        : isEditing
+                          ? 'Save Changes'
+                          : 'Add Blog'}
+                </Button>
+                {onCancel && (
+                    <Button
+                        type="button"
+                        variant="outline"
+                        onClick={onCancel}
+                        disabled={mutation.isPending}
+                    >
+                        Cancel
+                    </Button>
                 )}
-                {mutation.isPending ? 'Saving…' : 'Add Blog'}
-            </Button>
+            </div>
         </form>
     );
 };

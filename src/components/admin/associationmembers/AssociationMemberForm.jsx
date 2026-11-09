@@ -7,7 +7,10 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation } from '@tanstack/react-query';
 
-import { createAssociationMember } from '@/actions/associationmembers.action';
+import {
+    createAssociationMember,
+    updateAssociationMember,
+} from '@/actions/associationmembers.action';
 import { Button } from '@/components/ui/button';
 import FormField from '../ui/FormField';
 import UploadCard from '../ui/UploadCard';
@@ -28,7 +31,13 @@ const associationMemberFormSchema = z.object({
     imageUrl: z.string().min(1, { message: 'Image is required' }),
 });
 
-const AssociationMemberForm = ({ refreshAssociationMembers }) => {
+const AssociationMemberForm = ({
+    initialData,
+    onSuccess,
+    onCancel,
+    refreshAssociationMembers,
+}) => {
+    const isEditing = Boolean(initialData?._id);
     const {
         register,
         handleSubmit,
@@ -39,25 +48,39 @@ const AssociationMemberForm = ({ refreshAssociationMembers }) => {
     } = useForm({
         resolver: zodResolver(associationMemberFormSchema),
         defaultValues: {
-            imageUrl: '',
+            name: initialData?.name || '',
+            year: initialData?.year ? String(initialData.year) : '',
+            designation: initialData?.designation || '',
+            mailId: initialData?.mailId || '',
+            imageUrl: initialData?.imageUrl || '',
         },
     });
 
     const mutation = useMutation({
-        mutationFn: async (data) => createAssociationMember(data),
+        mutationFn: async (data) => {
+            if (isEditing) {
+                return updateAssociationMember(initialData._id, data);
+            }
+            return createAssociationMember(data);
+        },
         onSuccess: () => {
-            reset();
+            if (!isEditing) reset();
             toast({
                 variant: 'success',
-                title: 'Member added',
-                description: 'Member added successfully.',
+                title: isEditing ? 'Member updated' : 'Member added',
+                description: isEditing
+                    ? 'Member updated successfully.'
+                    : 'Member added successfully.',
             });
             refreshAssociationMembers?.();
+            onSuccess?.();
         },
         onError: (error) => {
             toast({
                 variant: 'destructive',
-                title: 'Unable to add member',
+                title: isEditing
+                    ? 'Unable to update member'
+                    : 'Unable to add member',
                 description: error?.message || 'Please try again.',
             });
         },
@@ -124,16 +147,32 @@ const AssociationMemberForm = ({ refreshAssociationMembers }) => {
                 )}
             </div>
 
-            <Button
-                type="submit"
-                disabled={mutation.isPending}
-                className="w-full gap-2 sm:w-auto"
-            >
-                {mutation.isPending && (
-                    <Loader2 className="h-4 w-4 animate-spin" />
+            <div className="flex items-center gap-2">
+                <Button
+                    type="submit"
+                    disabled={mutation.isPending}
+                    className="w-full gap-2 sm:w-auto"
+                >
+                    {mutation.isPending && (
+                        <Loader2 className="h-4 w-4 animate-spin" />
+                    )}
+                    {mutation.isPending
+                        ? 'Saving…'
+                        : isEditing
+                          ? 'Save Changes'
+                          : 'Add Member'}
+                </Button>
+                {onCancel && (
+                    <Button
+                        type="button"
+                        variant="outline"
+                        onClick={onCancel}
+                        disabled={mutation.isPending}
+                    >
+                        Cancel
+                    </Button>
                 )}
-                {mutation.isPending ? 'Saving…' : 'Add Member'}
-            </Button>
+            </div>
         </form>
     );
 };

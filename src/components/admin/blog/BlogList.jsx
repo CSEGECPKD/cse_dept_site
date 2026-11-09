@@ -1,14 +1,18 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import { UserRound } from 'lucide-react';
 
 import DataTable from '../ui/DataTable';
 import RowActions from '../ui/RowActions';
+import EditDialog from '../ui/EditDialog';
+import BlogForm from './BlogForm';
 import StatusBadge from '../ui/StatusBadge';
 import { deleteBlog } from '@/actions/blog.action';
 
 const BlogList = ({ blogList, loading, refresh }) => {
+    const [editingItem, setEditingItem] = useState(null);
+
     const columns = [
         {
             key: 'authorImage',
@@ -58,6 +62,7 @@ const BlogList = ({ blogList, loading, refresh }) => {
             cellClassName: 'text-right',
             cell: (item) => (
                 <RowActions
+                    onEdit={() => setEditingItem(item)}
                     onDelete={async () => {
                         await deleteBlog(item._id);
                     }}
@@ -70,17 +75,36 @@ const BlogList = ({ blogList, loading, refresh }) => {
     ];
 
     return (
-        <DataTable
-            data={blogList}
-            loading={loading}
-            columns={columns}
-            searchKeys={['name', 'authorName', 'type']}
-            searchPlaceholder="Search blogs…"
-            emptyState={{
-                title: 'No blogs yet',
-                subtitle: 'Your blog list is empty.',
-            }}
-        />
+        <>
+            <DataTable
+                data={blogList}
+                loading={loading}
+                columns={columns}
+                searchKeys={['name', 'authorName', 'type']}
+                searchPlaceholder="Search blogs…"
+                emptyState={{
+                    title: 'No blogs yet',
+                    subtitle: 'Your blog list is empty.',
+                }}
+            />
+            <EditDialog
+                open={Boolean(editingItem)}
+                onOpenChange={(isOpen) => !isOpen && setEditingItem(null)}
+                title="Edit Blog"
+                description="Update article title, author, and details."
+            >
+                {editingItem && (
+                    <BlogForm
+                        initialData={editingItem}
+                        onSuccess={() => {
+                            setEditingItem(null);
+                            refresh();
+                        }}
+                        onCancel={() => setEditingItem(null)}
+                    />
+                )}
+            </EditDialog>
+        </>
     );
 };
 

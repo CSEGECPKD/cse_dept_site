@@ -1,13 +1,17 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Image as ImageIcon } from 'lucide-react';
 
 import DataTable from '../ui/DataTable';
 import RowActions from '../ui/RowActions';
+import EditDialog from '../ui/EditDialog';
+import PosterForm from './PosterForm';
 import { deletePoster } from '@/actions/poster.action';
 
 const PosterList = ({ posterList, loading, refresh }) => {
+    const [editingItem, setEditingItem] = useState(null);
+
     const columns = [
         {
             key: 'imageUrl',
@@ -49,6 +53,7 @@ const PosterList = ({ posterList, loading, refresh }) => {
             cellClassName: 'text-right',
             cell: (item) => (
                 <RowActions
+                    onEdit={() => setEditingItem(item)}
                     onDelete={async () => {
                         await deletePoster(item._id);
                     }}
@@ -61,17 +66,36 @@ const PosterList = ({ posterList, loading, refresh }) => {
     ];
 
     return (
-        <DataTable
-            data={posterList}
-            loading={loading}
-            columns={columns}
-            searchKeys={['name', 'description']}
-            searchPlaceholder="Search posters…"
-            emptyState={{
-                title: 'No posters yet',
-                subtitle: 'Your poster list is empty.',
-            }}
-        />
+        <>
+            <DataTable
+                data={posterList}
+                loading={loading}
+                columns={columns}
+                searchKeys={['name', 'description']}
+                searchPlaceholder="Search posters…"
+                emptyState={{
+                    title: 'No posters yet',
+                    subtitle: 'Your poster list is empty.',
+                }}
+            />
+            <EditDialog
+                open={Boolean(editingItem)}
+                onOpenChange={(isOpen) => !isOpen && setEditingItem(null)}
+                title="Edit Poster"
+                description="Update poster name, description, and image."
+            >
+                {editingItem && (
+                    <PosterForm
+                        initialData={editingItem}
+                        onSuccess={() => {
+                            setEditingItem(null);
+                            refresh();
+                        }}
+                        onCancel={() => setEditingItem(null)}
+                    />
+                )}
+            </EditDialog>
+        </>
     );
 };
 

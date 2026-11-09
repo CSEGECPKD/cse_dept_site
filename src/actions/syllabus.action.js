@@ -1,5 +1,6 @@
 'use server';
 
+import mongoose from 'mongoose';
 import dbConnect from '../lib/db';
 import Syllabus from '../lib/models/Syllabus';
 import { isAuthenticated } from '../lib/auth';
@@ -51,13 +52,49 @@ export async function createSyllabus({
     }
 }
 
-export async function deleteSyllabus(syllabusId) {
+export async function updateSyllabus(
+    id,
+    { course, sem, yearOfScheme, syllabusId, pdfUrl }
+) {
     try {
         if (!(await isAuthenticated())) {
             throw new Error('Unauthorized');
         }
         await dbConnect();
-        const deletedSyllabus = await Syllabus.findOneAndDelete({ syllabusId });
+        const query = mongoose.Types.ObjectId.isValid(id)
+            ? { $or: [{ _id: id }, { syllabusId: id }] }
+            : { syllabusId: id };
+        const updatedSyllabus = await Syllabus.findOneAndUpdate(
+            query,
+            {
+                course,
+                sem,
+                yearOfScheme,
+                syllabusId: syllabusId || id,
+                pdfUrl,
+            },
+            { new: true }
+        );
+        if (!updatedSyllabus) {
+            throw new Error('Syllabus not found');
+        }
+        return { message: 'Syllabus updated successfully' };
+    } catch (error) {
+        console.error('Failed to update syllabus:', error);
+        throw new Error(error.message || 'Failed to update syllabus');
+    }
+}
+
+export async function deleteSyllabus(id) {
+    try {
+        if (!(await isAuthenticated())) {
+            throw new Error('Unauthorized');
+        }
+        await dbConnect();
+        const query = mongoose.Types.ObjectId.isValid(id)
+            ? { $or: [{ _id: id }, { syllabusId: id }] }
+            : { syllabusId: id };
+        const deletedSyllabus = await Syllabus.findOneAndDelete(query);
         if (!deletedSyllabus) {
             throw new Error('Syllabus not found');
         }

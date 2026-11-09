@@ -7,7 +7,7 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation } from '@tanstack/react-query';
 
-import { createMagazine } from '@/actions/magazine.action';
+import { createMagazine, updateMagazine } from '@/actions/magazine.action';
 import { Button } from '@/components/ui/button';
 import FormField from '../ui/FormField';
 import UploadCard from '../ui/UploadCard';
@@ -22,7 +22,13 @@ const magazineFormSchema = z.object({
     frontPageUrl: z.string().min(1, { message: 'Front Page URL is required' }),
 });
 
-const MagazineForm = ({ refreshMagazines }) => {
+const MagazineForm = ({
+    initialData,
+    onSuccess,
+    onCancel,
+    refreshMagazines,
+}) => {
+    const isEditing = Boolean(initialData?._id);
     const {
         register,
         handleSubmit,
@@ -33,27 +39,40 @@ const MagazineForm = ({ refreshMagazines }) => {
     } = useForm({
         resolver: zodResolver(magazineFormSchema),
         defaultValues: {
-            pdfUrl: '',
-            frontPageUrl: '',
-            date: new Date(),
+            name: initialData?.name || '',
+            category: initialData?.category || '',
+            date: initialData?.date ? new Date(initialData.date) : new Date(),
+            description: initialData?.description || '',
+            pdfUrl: initialData?.pdfUrl || '',
+            frontPageUrl: initialData?.frontPageUrl || '',
         },
     });
 
     const mutation = useMutation({
-        mutationFn: async (data) => createMagazine(data),
+        mutationFn: async (data) => {
+            if (isEditing) {
+                return updateMagazine(initialData._id, data);
+            }
+            return createMagazine(data);
+        },
         onSuccess: () => {
-            reset();
+            if (!isEditing) reset();
             toast({
                 variant: 'success',
-                title: 'Magazine added',
-                description: 'Magazine added successfully.',
+                title: isEditing ? 'Magazine updated' : 'Magazine added',
+                description: isEditing
+                    ? 'Magazine updated successfully.'
+                    : 'Magazine added successfully.',
             });
             refreshMagazines?.();
+            onSuccess?.();
         },
         onError: (error) => {
             toast({
                 variant: 'destructive',
-                title: 'Unable to add magazine',
+                title: isEditing
+                    ? 'Unable to update magazine'
+                    : 'Unable to add magazine',
                 description: error?.message || 'Please try again.',
             });
         },
@@ -145,16 +164,32 @@ const MagazineForm = ({ refreshMagazines }) => {
                 )}
             </div>
 
-            <Button
-                type="submit"
-                disabled={mutation.isPending}
-                className="w-full gap-2 sm:w-auto"
-            >
-                {mutation.isPending && (
-                    <Loader2 className="h-4 w-4 animate-spin" />
+            <div className="flex items-center gap-2">
+                <Button
+                    type="submit"
+                    disabled={mutation.isPending}
+                    className="w-full gap-2 sm:w-auto"
+                >
+                    {mutation.isPending && (
+                        <Loader2 className="h-4 w-4 animate-spin" />
+                    )}
+                    {mutation.isPending
+                        ? 'Saving…'
+                        : isEditing
+                          ? 'Save Changes'
+                          : 'Add Magazine'}
+                </Button>
+                {onCancel && (
+                    <Button
+                        type="button"
+                        variant="outline"
+                        onClick={onCancel}
+                        disabled={mutation.isPending}
+                    >
+                        Cancel
+                    </Button>
                 )}
-                {mutation.isPending ? 'Saving…' : 'Add Magazine'}
-            </Button>
+            </div>
         </form>
     );
 };
