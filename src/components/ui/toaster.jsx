@@ -9,18 +9,17 @@ import {
     ToastTitle,
     ToastViewport,
 } from '@/components/ui/toast';
-import { useEffect } from 'react';
-import { useState } from 'react';
+import { useSyncExternalStore } from 'react';
+
+const subscribe = () => () => {};
+const getSnapshot = () => true;
+const getServerSnapshot = () => false;
 
 export function Toaster() {
+    const isClient = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
     const { toasts } = useToast();
-    const [show, setShow] = useState(false);
 
-    useEffect(() => {
-        setShow(true);
-    }, []);
-
-    if (!show) {
+    if (!isClient) {
         return null;
     }
 

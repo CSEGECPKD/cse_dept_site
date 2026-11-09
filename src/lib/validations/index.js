@@ -29,9 +29,10 @@ export const eventSchema = z.object({
 });
 
 export const magazineSchema = z.object({
-    title: z.string().trim().min(1, 'Magazine title is required'),
+    name: z.string().trim().min(1, 'Magazine name is required'),
     category: z.string().trim().min(1, 'Category is required'),
     date: z.string().trim().min(1, 'Date is required'),
-    driveUrl: z.string().trim().min(1, 'Document URL is required'),
-    coverImage: z.string().optional().default(''),
+    description: z.string().optional().default(''),
+    pdfUrl: z.string().optional().default(''),
+    frontPageUrl: z.string().optional().default(''),
 });

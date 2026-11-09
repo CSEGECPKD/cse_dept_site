@@ -4,6 +4,7 @@ import { IoPersonCircle } from 'react-icons/io5';
 import { notFound } from 'next/navigation';
 import { getBlogById } from '@/actions/blog.action';
 import { data as staticBlogs } from '../content';
+import { isSafeUrl } from '@/lib/security';
 
 export default async function DetailsPage({ params }) {
     const { id } = await params;
@@ -75,7 +76,7 @@ export default async function DetailsPage({ params }) {
                         <IoPersonCircle className="w-16 h-16 md:w-12 md:h-12 text-gray-600" />
                         <h2 className="text-lg md:text-xl font-semibold mt-2">{author}</h2>
                         {position && <p className="text-gray-600">{position}</p>}
-                        {blogItem.authorLinkedin && (
+                        {blogItem.authorLinkedin && isSafeUrl(blogItem.authorLinkedin) && (
                             <a
                                 href={blogItem.authorLinkedin}
                                 target="_blank"

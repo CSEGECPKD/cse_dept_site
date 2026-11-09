@@ -25,6 +25,18 @@ const ExpandableCards = ({ title, item }) => {
         setIsExpanded(!isExpanded);
     };
 
+    useEffect(() => {
+        const handleKeyDown = (e) => {
+            if (e.key === 'Escape') {
+                setIsDescVisible(null);
+            }
+        };
+        if (isDescVisible !== null) {
+            window.addEventListener('keydown', handleKeyDown);
+            return () => window.removeEventListener('keydown', handleKeyDown);
+        }
+    }, [isDescVisible]);
+
     return (
         <div className="w-screen flex justify-center overflow-hidden">
             <div
@@ -108,7 +120,7 @@ const ExpandableCards = ({ title, item }) => {
                                             <h3 className="text-xl font-bold group-hover/items:text-white">
                                                 {data.name}
                                             </h3>
-                                            <p className="text-[#9E9E9E] group-hover/items:text-white">
+                                            <p className="text-[#696969] group-hover/items:text-white">
                                                 {isHover
                                                     ? 'Click to know more'
                                                     : `${data.designation ?? ''}`}
@@ -117,7 +129,12 @@ const ExpandableCards = ({ title, item }) => {
                                     </div>
                                     {isDescVisible === key && (
                                         <div className="fixed w-screen h-screen top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] flex justify-center items-center z-[60]">
-                                            <motion.div className="flex gap-5 relative w-[80%] h-[30%] lg:w-2/5 p-5 lg:h-2/4 border-solid z-[60] bg-white bg-opacity-20 shadow-[0_8px_32px_0_rgba(31,38,135,0.37)] backdrop-blur-lg">
+                                            <motion.div
+                                                role="dialog"
+                                                aria-modal="true"
+                                                aria-label="Member details"
+                                                className="flex gap-5 relative w-[80%] h-[30%] lg:w-2/5 p-5 lg:h-2/4 border-solid z-[60] bg-white bg-opacity-20 shadow-[0_8px_32px_0_rgba(31,38,135,0.37)] backdrop-blur-lg"
+                                            >
                                                 <div
                                                     className="absolute top-[-30px] gap-2 right-0 w-auto flex items-center cursor-pointer bg-white/60 p-1"
                                                     onClick={() =>
@@ -205,6 +222,18 @@ const AssociationCards = ({ members }) => {
     const toggleExpand = () => {
         setIsExpanded(!isExpanded);
     };
+
+    useEffect(() => {
+        const handleKeyDown = (e) => {
+            if (e.key === 'Escape') {
+                setIsDescVisible(null);
+            }
+        };
+        if (isDescVisible !== null) {
+            window.addEventListener('keydown', handleKeyDown);
+            return () => window.removeEventListener('keydown', handleKeyDown);
+        }
+    }, [isDescVisible]);
 
     const toggleOpen = () => {
         setIsOpen(!isOpen);
@@ -362,7 +391,7 @@ const AssociationCards = ({ members }) => {
                                             <h3 className="text-xl font-bold group-hover/items:text-white">
                                                 {data.name}
                                             </h3>
-                                            <p className="text-[#9E9E9E] group-hover/items:text-white">
+                                            <p className="text-[#696969] group-hover/items:text-white">
                                                 {isHover
                                                     ? 'Click to know more'
                                                     : data.designation}
@@ -371,7 +400,12 @@ const AssociationCards = ({ members }) => {
                                     </div>
                                     {isDescVisible === key && (
                                         <div className="fixed w-screen h-screen top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] flex justify-center items-center z-[60]">
-                                            <motion.div className="flex gap-5 relative w-[80%] h-[30%] lg:w-2/5 p-5 lg:h-2/4 border-solid z-[60] bg-white bg-opacity-20 shadow-[0_8px_32px_0_rgba(31,38,135,0.37)] backdrop-blur-lg">
+                                            <motion.div
+                                                role="dialog"
+                                                aria-modal="true"
+                                                aria-label="Member details"
+                                                className="flex gap-5 relative w-[80%] h-[30%] lg:w-2/5 p-5 lg:h-2/4 border-solid z-[60] bg-white bg-opacity-20 shadow-[0_8px_32px_0_rgba(31,38,135,0.37)] backdrop-blur-lg"
+                                            >
                                                 <div
                                                     className="absolute top-[-30px] gap-2 right-0 w-auto flex items-center cursor-pointer bg-white/60 p-1"
                                                     onClick={() =>

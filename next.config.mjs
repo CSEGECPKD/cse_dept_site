@@ -1,3 +1,18 @@
+const cspHeader = `
+    default-src 'self';
+    script-src 'self' 'unsafe-inline' 'unsafe-eval' https://api.emailjs.com;
+    style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
+    img-src 'self' blob: data: https:;
+    font-src 'self' https://fonts.gstatic.com data:;
+    object-src 'none';
+    base-uri 'self';
+    form-action 'self';
+    frame-src 'self' https://drive.google.com;
+    connect-src 'self' https://*.ufs.sh https://utfs.io https://uploadthing.com https://api.emailjs.com https://www.googleapis.com;
+`
+    .replace(/\s{2,}/g, ' ')
+    .trim();
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     experimental: {
@@ -36,6 +51,10 @@ const nextConfig = {
             {
                 source: '/:path*',
                 headers: [
+                    {
+                        key: 'Content-Security-Policy',
+                        value: cspHeader,
+                    },
                     {
                         key: 'X-Frame-Options',
                         value: 'DENY',

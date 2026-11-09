@@ -15,7 +15,6 @@ const TopperList = ({ topperList, loading, refresh }) => {
             cell: (item) => (
                 <div className="h-10 w-10 overflow-hidden rounded-full border bg-muted">
                     {item.imageUrl ? (
-                        // eslint-disable-next-line @next/next/no-img-element
                         <img
                             src={item.imageUrl}
                             alt=""
