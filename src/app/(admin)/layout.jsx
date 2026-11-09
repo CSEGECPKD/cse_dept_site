@@ -4,6 +4,8 @@ import { getAuth } from '@/lib/session';
 import { redirect } from 'next/navigation';
 import React from 'react';
 
+export const dynamic = 'force-dynamic';
+
 const AdminLayout = async ({ children }) => {
     const isLoggedIn = await isAuthenticated();
 
@@ -13,7 +15,11 @@ const AdminLayout = async ({ children }) => {
 
     const auth = await getAuth();
 
-    return <AdminShell email={auth?.user?.email}>{children}</AdminShell>;
+    return (
+        <AdminShell email={auth?.user?.email || 'csed@gecskp.ac.in'}>
+            {children}
+        </AdminShell>
+    );
 };
 
 export default AdminLayout;

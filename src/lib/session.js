@@ -37,35 +37,45 @@ export const getAuth = cache(async () => {
         return { user: null, session: null };
     }
 
-    const auth = await validateSessionToken(token);
+    try {
+        const auth = await validateSessionToken(token);
+        if (auth?.user) return auth;
+    } catch (e) {
+        console.error('getAuth validate error:', e.message);
+    }
 
-    return auth;
+    return { user: null, session: null };
 });
 
 export const validateSessionToken = async (token) => {
-    await dbConnect();
-    const sessionId = encodeHexLowerCase(
-        sha256(new TextEncoder().encode(token))
-    );
-    const result = await Session.findById(sessionId).populate('user');
-    if (!result) {
+    try {
+        await dbConnect();
+        const sessionId = encodeHexLowerCase(
+            sha256(new TextEncoder().encode(token))
+        );
+        const result = await Session.findById(sessionId).populate('user');
+        if (!result) {
+            return { session: null, user: null };
+        }
+        const user = result.user;
+        const session = {
+            ...JSON.parse(JSON.stringify(result)),
+            user: undefined,
+        };
+        const time = new Date(session.expiresAt);
+        if (Date.now() >= time.getTime()) {
+            await Session.findByIdAndDelete(sessionId);
+            return { session: null, user: null };
+        }
+        if (Date.now() >= time.getTime() - 1000 * 60 * 60 * 24 * 15) {
+            result.expiresAt = new Date(Date.now() + 1000 * 60 * 60 * 24 * 30);
+            await result.save();
+        }
+        return { session, user };
+    } catch (error) {
+        console.error('Session validation error:', error.message);
         return { session: null, user: null };
     }
-    const user = result.user;
-    const session = {
-        ...JSON.parse(JSON.stringify(result)),
-        user: undefined,
-    };
-    const time = new Date(session.expiresAt);
-    if (Date.now() >= time.getTime()) {
-        await Session.findByIdAndDelete(sessionId);
-        return { session: null, user: null };
-    }
-    if (Date.now() >= time.getTime() - 1000 * 60 * 60 * 24 * 15) {
-        result.expiresAt = new Date(Date.now() + 1000 * 60 * 60 * 24 * 30);
-        await result.save();
-    }
-    return { session, user };
 };
 const SESSION_COOKIE_NAME = 'session';
 

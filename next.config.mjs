@@ -6,9 +6,9 @@ const cspHeader = `
     font-src 'self' https://fonts.gstatic.com data:;
     object-src 'none';
     base-uri 'self';
-    form-action 'self';
+    form-action 'self' https://accounts.google.com;
     frame-src 'self' https://drive.google.com;
-    connect-src 'self' https://*.ufs.sh https://utfs.io https://uploadthing.com https://api.emailjs.com https://www.googleapis.com;
+    connect-src 'self' ws: wss: https://*.ufs.sh https://utfs.io https://uploadthing.com https://api.emailjs.com https://www.googleapis.com https://accounts.google.com;
 `
     .replace(/\s{2,}/g, ' ')
     .trim();
