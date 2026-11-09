@@ -28,7 +28,7 @@ const AcheiversHorizontalScrollCarousel = () => {
                             <motion.div>
                                 <Card
                                     card={{
-                                        url: '/bg.png',
+                                        url: '/media/bg.png',
                                         height: '390px',
                                         width: '310px',
                                         title: 'Title 1',
@@ -38,7 +38,7 @@ const AcheiversHorizontalScrollCarousel = () => {
                                 />
                                 <Card
                                     card={{
-                                        url: '/bg.png',
+                                        url: '/media/bg.png',
                                         height: '350px',
                                         width: '310px',
                                         title: 'Title 2',
@@ -48,7 +48,7 @@ const AcheiversHorizontalScrollCarousel = () => {
                                 />
                                 <Card
                                     card={{
-                                        url: '/bg.png',
+                                        url: '/media/bg.png',
                                         height: '390px',
                                         width: '310px',
                                         title: 'Title 3',
@@ -58,7 +58,7 @@ const AcheiversHorizontalScrollCarousel = () => {
                                 />
                                 <Card
                                     card={{
-                                        url: '/bg.png',
+                                        url: '/media/bg.png',
                                         height: '350px',
                                         width: '310px',
                                         title: 'Title 4',
@@ -74,7 +74,7 @@ const AcheiversHorizontalScrollCarousel = () => {
                                 <div className="relative h-screen w-[1000px] mr-[40px] flex-shrink-0">
                                     <div className="absolute h-[680px] w-[950px] top-5 right-0">
                                         <img
-                                            src="/bg.png"
+                                            src="/media/bg.png"
                                             className="w-full h-full object-cover"
                                             alt="random image"
                                         />
@@ -83,7 +83,7 @@ const AcheiversHorizontalScrollCarousel = () => {
                                 <div className="relative h-screen w-[1000px] mr-[40px] flex-shrink-0">
                                     <div className="absolute h-[680px] w-[950px] top-5 left-0">
                                         <img
-                                            src="/bg.png"
+                                            src="/media/bg.png"
                                             className="w-full h-full object-cover"
                                             alt="random image"
                                         />
@@ -92,7 +92,7 @@ const AcheiversHorizontalScrollCarousel = () => {
                                 <div className="relative h-screen w-[1000px] mr-[40px] flex-shrink-0">
                                     <div className="absolute h-[680px] w-[950px] bottom-5 right-0">
                                         <img
-                                            src="/bg.png"
+                                            src="/media/bg.png"
                                             className="w-full h-full object-cover"
                                             alt="random image"
                                         />
@@ -101,7 +101,7 @@ const AcheiversHorizontalScrollCarousel = () => {
                                 <div className="relative h-screen w-[1000px] mr-[40px] flex-shrink-0">
                                     <div className="absolute h-[680px] w-[950px] bottom-5 left-0">
                                         <img
-                                            src="/bg.png"
+                                            src="/media/bg.png"
                                             className="w-full h-full object-cover "
                                             alt="random image"
                                         />

@@ -1,6 +1,29 @@
 'use client';
 import React, { useEffect, useRef, useState, useCallback } from 'react';
 
+const ScrollingRow = ({ direction, innerRef, images, animationDuration }) => (
+    <div
+        className="flex items-center whitespace-nowrap"
+        ref={innerRef}
+        style={{
+            animationDuration: `${animationDuration}s`,
+            animationTimingFunction: 'linear',
+            animationIterationCount: 'infinite',
+            animationName:
+                direction === 'left' ? 'scrollLeft' : 'scrollRight',
+        }}
+    >
+        {[...images, ...images].map((image, index) => (
+            <img
+                key={index}
+                src={image}
+                alt={`Recruiter ${index + 1}`}
+                className="inline-block px-10 flex-none"
+            />
+        ))}
+    </div>
+);
+
 const PlacementRecruiters = () => {
     const outerRef = useRef(null);
     const innerRef1 = useRef(null);
@@ -22,47 +45,24 @@ const PlacementRecruiters = () => {
     }, [setupInstances]);
 
     const images1 = [
-        '/cognizant.jpg',
-        '/tata.jpg',
-        '/ust.jpg',
-        '/qburst.jpg',
-        '/keltron.jpg',
-        '/experion.jpg',
-        '/LandT.jpg',
+        '/recruiters/cognizant.jpg',
+        '/recruiters/tata.jpg',
+        '/recruiters/ust.jpg',
+        '/recruiters/qburst.jpg',
+        '/recruiters/keltron.jpg',
+        '/recruiters/experion.jpg',
+        '/recruiters/LandT.jpg',
     ];
 
     const images2 = [
-        '/pennyflo.jpg',
-        '/xyvin.jpg',
-        '/zendalona.jpg',
-        '/cognizant.jpg',
-        '/tata.jpg',
-        '/ust.jpg',
-        '/qburst.jpg',
+        '/recruiters/pennyflo.jpg',
+        '/recruiters/xyvin.jpg',
+        '/recruiters/zendalona.jpg',
+        '/recruiters/cognizant.jpg',
+        '/recruiters/tata.jpg',
+        '/recruiters/ust.jpg',
+        '/recruiters/qburst.jpg',
     ];
-
-    const ScrollingRow = ({ direction, innerRef, images }) => (
-        <div
-            className="flex items-center whitespace-nowrap"
-            ref={innerRef}
-            style={{
-                animationDuration: `${animationDuration}s`,
-                animationTimingFunction: 'linear',
-                animationIterationCount: 'infinite',
-                animationName:
-                    direction === 'left' ? 'scrollLeft' : 'scrollRight',
-            }}
-        >
-            {[...images, ...images].map((image, index) => (
-                <img
-                    key={index}
-                    src={image}
-                    alt={`Recruiter ${index + 1}`}
-                    className="inline-block px-10 flex-none"
-                />
-            ))}
-        </div>
-    );
 
     return (
         <section className="bg-white w-full py-32">
@@ -76,22 +76,26 @@ const PlacementRecruiters = () => {
                     direction="left"
                     innerRef={innerRef1}
                     images={images1}
+                    animationDuration={animationDuration}
                 />
                 <div className="my-10" />
                 <ScrollingRow
                     direction="right"
                     innerRef={innerRef2}
                     images={images2}
+                    animationDuration={animationDuration}
                 />
                 <div className="my-10" />
                 <ScrollingRow
                     direction="left"
                     images={images1}
+                    animationDuration={animationDuration}
                 />
                 <div className="my-10" />
                 <ScrollingRow
                     direction="right"
                     images={images2}
+                    animationDuration={animationDuration}
                 />
                 <style jsx>{`
                     @keyframes scrollLeft {

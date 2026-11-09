@@ -5,7 +5,7 @@ export const ALL_ASSOCIATION_MEMBERS = [
         year: '2025-26',
         designation: 'Association Advisor',
         mailId: '',
-        imageUrl: '/cse-association-execom-2026-27.jpg',
+        imageUrl: '/events/cse-association-execom-2026-27.jpg',
     },
     {
         _id: 'assoc-2',
@@ -13,7 +13,7 @@ export const ALL_ASSOCIATION_MEMBERS = [
         year: '2025-26',
         designation: 'Chairperson',
         mailId: '',
-        imageUrl: '/cse-association-execom-2026-27.jpg',
+        imageUrl: '/events/cse-association-execom-2026-27.jpg',
     },
     {
         _id: 'assoc-3',
@@ -21,7 +21,7 @@ export const ALL_ASSOCIATION_MEMBERS = [
         year: '2025-26',
         designation: 'Vice Chairperson',
         mailId: '',
-        imageUrl: '/cse-association-execom-2026-27.jpg',
+        imageUrl: '/events/cse-association-execom-2026-27.jpg',
     },
     {
         _id: 'assoc-4',
@@ -29,7 +29,7 @@ export const ALL_ASSOCIATION_MEMBERS = [
         year: '2025-26',
         designation: 'Secretary',
         mailId: '',
-        imageUrl: '/cse-association-execom-2026-27.jpg',
+        imageUrl: '/events/cse-association-execom-2026-27.jpg',
     },
     {
         _id: 'assoc-5',
@@ -37,7 +37,7 @@ export const ALL_ASSOCIATION_MEMBERS = [
         year: '2025-26',
         designation: 'Joint Secretary',
         mailId: '',
-        imageUrl: '/cse-association-execom-2026-27.jpg',
+        imageUrl: '/events/cse-association-execom-2026-27.jpg',
     },
     {
         _id: 'assoc-6',
@@ -45,7 +45,7 @@ export const ALL_ASSOCIATION_MEMBERS = [
         year: '2025-26',
         designation: 'Joint Secretary',
         mailId: '',
-        imageUrl: '/cse-association-execom-2026-27.jpg',
+        imageUrl: '/events/cse-association-execom-2026-27.jpg',
     },
     {
         _id: 'assoc-7',
@@ -53,7 +53,7 @@ export const ALL_ASSOCIATION_MEMBERS = [
         year: '2025-26',
         designation: 'Treasurer',
         mailId: '',
-        imageUrl: '/cse-association-execom-2026-27.jpg',
+        imageUrl: '/events/cse-association-execom-2026-27.jpg',
     },
     {
         _id: 'assoc-8',
@@ -61,7 +61,7 @@ export const ALL_ASSOCIATION_MEMBERS = [
         year: '2025-26',
         designation: 'Joint Treasurer',
         mailId: '',
-        imageUrl: '/cse-association-execom-2026-27.jpg',
+        imageUrl: '/events/cse-association-execom-2026-27.jpg',
     },
     {
         _id: 'assoc-9',
@@ -69,7 +69,7 @@ export const ALL_ASSOCIATION_MEMBERS = [
         year: '2025-26',
         designation: 'Program Convenor',
         mailId: '',
-        imageUrl: '/cse-association-execom-2026-27.jpg',
+        imageUrl: '/events/cse-association-execom-2026-27.jpg',
     },
     {
         _id: 'assoc-10',
@@ -77,7 +77,7 @@ export const ALL_ASSOCIATION_MEMBERS = [
         year: '2025-26',
         designation: 'Program Convenor',
         mailId: '',
-        imageUrl: '/cse-association-execom-2026-27.jpg',
+        imageUrl: '/events/cse-association-execom-2026-27.jpg',
     },
     {
         _id: 'assoc-11',
@@ -85,7 +85,7 @@ export const ALL_ASSOCIATION_MEMBERS = [
         year: '2025-26',
         designation: 'Program Convenor',
         mailId: '',
-        imageUrl: '/cse-association-execom-2026-27.jpg',
+        imageUrl: '/events/cse-association-execom-2026-27.jpg',
     },
     {
         _id: 'assoc-12',
@@ -93,7 +93,7 @@ export const ALL_ASSOCIATION_MEMBERS = [
         year: '2025-26',
         designation: 'Technical Lead',
         mailId: '',
-        imageUrl: '/cse-association-execom-2026-27.jpg',
+        imageUrl: '/events/cse-association-execom-2026-27.jpg',
     },
     {
         _id: 'assoc-13',
@@ -101,7 +101,7 @@ export const ALL_ASSOCIATION_MEMBERS = [
         year: '2025-26',
         designation: 'Design Lead',
         mailId: '',
-        imageUrl: '/cse-association-execom-2026-27.jpg',
+        imageUrl: '/events/cse-association-execom-2026-27.jpg',
     },
     {
         _id: 'assoc-14',
@@ -109,7 +109,7 @@ export const ALL_ASSOCIATION_MEMBERS = [
         year: '2025-26',
         designation: 'Media Lead',
         mailId: '',
-        imageUrl: '/cse-association-execom-2026-27.jpg',
+        imageUrl: '/events/cse-association-execom-2026-27.jpg',
     },
     {
         _id: 'assoc-15',
@@ -117,7 +117,7 @@ export const ALL_ASSOCIATION_MEMBERS = [
         year: '2025-26',
         designation: 'Executive Member (1st Year)',
         mailId: '',
-        imageUrl: '/cse-association-execom-2026-27.jpg',
+        imageUrl: '/events/cse-association-execom-2026-27.jpg',
     },
     {
         _id: 'assoc-16',
@@ -125,7 +125,7 @@ export const ALL_ASSOCIATION_MEMBERS = [
         year: '2025-26',
         designation: 'Executive Member (2nd Year)',
         mailId: '',
-        imageUrl: '/cse-association-execom-2026-27.jpg',
+        imageUrl: '/events/cse-association-execom-2026-27.jpg',
     },
     {
         _id: 'assoc-17',
@@ -133,7 +133,7 @@ export const ALL_ASSOCIATION_MEMBERS = [
         year: '2025-26',
         designation: 'Executive Member (3rd Year)',
         mailId: '',
-        imageUrl: '/cse-association-execom-2026-27.jpg',
+        imageUrl: '/events/cse-association-execom-2026-27.jpg',
     },
     {
         _id: 'assoc-18',
@@ -141,6 +141,6 @@ export const ALL_ASSOCIATION_MEMBERS = [
         year: '2025-26',
         designation: 'Executive Member (4th Year)',
         mailId: '',
-        imageUrl: '/cse-association-execom-2026-27.jpg',
+        imageUrl: '/events/cse-association-execom-2026-27.jpg',
     },
 ];

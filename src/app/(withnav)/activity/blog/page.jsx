@@ -69,7 +69,7 @@ function HoverableItem({ item }) {
             >
                 <div className="bg-slate-500 relative w-full md:w-1/2 h-auto">
                     <Image
-                        src={item.authorImage || '/placeholder-image.jpg'}
+                        src={item.authorImage || '/ui/placeholder-image.jpg'}
                         alt={item.name}
                         width={800}
                         height={400}

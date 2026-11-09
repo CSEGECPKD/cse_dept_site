@@ -17,7 +17,7 @@ const PlacementIntro = () => {
                     <div className="w-full flex justify-center md:justify-start">
                         <div className="w-full max-w-[250px] md:max-w-none">
                             <Image
-                                src="/placement-cell-logo.svg"
+                                src="/icons/placement-cell-logo.svg"
                                 alt="Training & Placement Cell Logo — GEC Palakkad"
                                 width={250}
                                 height={150}

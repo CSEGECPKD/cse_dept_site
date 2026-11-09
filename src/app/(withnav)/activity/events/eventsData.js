@@ -10,7 +10,7 @@ const upcomingEvents = [
         topics: ['Competitive Coding', 'Hackathon', 'Rapid Prototyping'],
         speakers: [],
         location: 'Offline - CB105 Lecture Hall',
-        image: '/cse-association-execom-2026-27.jpg',
+        image: '/events/cse-association-execom-2026-27.jpg',
         registrationLink: '',
         description:
             'An exclusive intra-departmental hackathon tailored for CSE students to foster experiential learning, technical creativity, and rapid prototyping capabilities. Participating teams collaborate under time constraints to design, code, and deploy innovative technological solutions.',
@@ -30,7 +30,7 @@ const upcomingEvents = [
             },
         ],
         location: 'Online - Google Meet',
-        image: '/cse-association-execom-2026-27.jpg',
+        image: '/events/cse-association-execom-2026-27.jpg',
         registrationLink: '',
         description:
             'An online expert session led by Dr. Princy Ann Thomas orienting students and aspiring researchers on academic paper drafting, literature review structuring, identifying suitable indexing journals, maintaining academic integrity, and navigating peer-review workflows.',
@@ -53,7 +53,7 @@ const pastEvents = [
             { name: 'Prof. Helen K J', title: 'HoD, Dept. of CSE' },
         ],
         location: 'CSE UG Seminar Hall',
-        image: '/cse-association-execom-2026-27.jpg',
+        image: '/events/cse-association-execom-2026-27.jpg',
         registrationLink: null,
     },
     {
@@ -68,7 +68,7 @@ const pastEvents = [
         topics: ['Farewell', 'Batch 2022-26'],
         speakers: [],
         location: 'GEC Palakkad',
-        image: '/cse-association-execom-2026-27.jpg',
+        image: '/events/cse-association-execom-2026-27.jpg',
         registrationLink: null,
     },
     {
@@ -88,7 +88,7 @@ const pastEvents = [
             },
         ],
         location: 'Online - Google Meet',
-        image: '/cse-association-execom-2026-27.jpg',
+        image: '/events/cse-association-execom-2026-27.jpg',
         registrationLink: null,
     },
     {
@@ -103,7 +103,7 @@ const pastEvents = [
         topics: ['Git', 'GitHub', 'Version Control', 'Open Source'],
         speakers: [{ name: 'Muhammad Fahad', title: 'Void Minds Lead' }],
         location: 'Online - Google Meet',
-        image: '/cse-association-execom-2026-27.jpg',
+        image: '/events/cse-association-execom-2026-27.jpg',
         registrationLink: null,
     },
     {
@@ -123,7 +123,7 @@ const pastEvents = [
             },
         ],
         location: 'Online - Google Meet',
-        image: '/cse-association-execom-2026-27.jpg',
+        image: '/events/cse-association-execom-2026-27.jpg',
         registrationLink: null,
     },
     {
@@ -143,7 +143,7 @@ const pastEvents = [
             },
         ],
         location: 'Online - Google Meet',
-        image: '/cse-association-execom-2026-27.jpg',
+        image: '/events/cse-association-execom-2026-27.jpg',
         registrationLink: null,
     },
 ];

@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import HorizontalScroll from '../../../../components/horizontal-scroll';
 import Link from 'next/link';
 
-const images = ['/image1.jpeg', '/bg.png', '/bg.png', '/bg.png'];
+const images = ['/image1.jpeg', '/media/bg.png', '/media/bg.png', '/media/bg.png'];
 const lastimag = ['/ImageScroll/image1.png', '/ImageScroll/image2.png'];
 const AboutusHorizontalScrollCarousel = () => {
     const [isMobile, setIsMobile] = useState(false);

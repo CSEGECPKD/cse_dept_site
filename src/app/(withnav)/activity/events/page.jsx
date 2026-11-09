@@ -24,7 +24,7 @@ const EventCard = ({ event }) => {
         >
             <div className="h-auto w-full md:w-auto overflow-hidden bg-no-repeat bg-cover ">
                 <img
-                    src={event.image || '/placeholder-image.jpeg'}
+                    src={event.image || '/ui/placeholder-image.jpeg'}
                     alt={event.title || 'Event poster'}
                     className={`object-cover transition duration-300 w-full md:w-[500px] bg-no-repeat ${
                         isHovered ? '' : 'grayscale'
@@ -139,7 +139,7 @@ export default function Page() {
                     description: e.details,
                     mode: e.mode,
                     date: e.date,
-                    image: e.posters?.[0] || '/placeholder-image.jpeg',
+                    image: e.posters?.[0] || '/ui/placeholder-image.jpeg',
                     registrationLink: e.regLinks?.[0] || null,
                 }));
                 setUpcomingEvents(

@@ -45,7 +45,7 @@ function HeroSection() {
                         preload="auto"
                         className="w-full h-full object-cover absolute top-0 z-[-1]"
                     >
-                        <source src="/frontVid.mp4" type="video/mp4" />
+                        <source src="/media/frontVid.mp4" type="video/mp4" />
                         Your browser does not support the video tag.
                     </video>
                 </div>

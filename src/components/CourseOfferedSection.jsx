@@ -15,7 +15,7 @@ const CourseOfferedSection = () => {
             <div className="lg:sticky">
                 <div className="brightness-50 hidden lg:sticky inset-0 lg:block">
                     <Image
-                        src="/bg-acadamic.jpeg"
+                        src="/media/bg-acadamic.jpeg"
                         alt="department pic"
                         className="object-fill"
                         width={1920}

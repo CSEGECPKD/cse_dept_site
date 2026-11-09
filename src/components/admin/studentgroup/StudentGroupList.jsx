@@ -15,7 +15,6 @@ const StudentGroupList = ({ studentGroupList, loading, refresh }) => {
             cell: (item) => (
                 <div className="h-10 w-10 overflow-hidden rounded-lg border bg-muted">
                     {item.logoUrl ? (
-                        // eslint-disable-next-line @next/next/no-img-element
                         <img
                             src={item.logoUrl}
                             alt=""

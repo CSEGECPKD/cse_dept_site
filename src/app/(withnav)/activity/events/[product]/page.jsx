@@ -21,7 +21,7 @@ export default function EventDetails() {
                         description: e.details,
                         mode: e.mode,
                         date: e.date,
-                        image: e.posters?.[0] || '/placeholder-image.jpeg',
+                        image: e.posters?.[0] || '/ui/placeholder-image.jpeg',
                         registrationLink: e.regLinks?.[0] || null,
                     });
                 } catch (error) {

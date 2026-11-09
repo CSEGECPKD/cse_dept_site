@@ -383,7 +383,7 @@ const AssociationCards = ({ members }) => {
                                             className="w-full h-[300px] bg-cover bg-no-repeat bg-center object-cover group-hover/items:grayscale"
                                             src={
                                                 data.imageUrl ||
-                                                '/cse-association-execom-2026-27.jpg'
+                                                '/events/cse-association-execom-2026-27.jpg'
                                             }
                                             alt={data.name}
                                         />
@@ -421,7 +421,7 @@ const AssociationCards = ({ members }) => {
                                                         style={{
                                                             backgroundImage: `url(${
                                                                 data.imageUrl ||
-                                                                '/cse-association-execom-2026-27.jpg'
+                                                                '/events/cse-association-execom-2026-27.jpg'
                                                             })`,
                                                         }}
                                                     ></div>

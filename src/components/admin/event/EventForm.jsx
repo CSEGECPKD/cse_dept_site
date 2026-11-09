@@ -146,7 +146,6 @@ const EventForm = ({ refreshEvents }) => {
                                 key={index}
                                 className="relative h-28 w-28 overflow-hidden rounded-lg border bg-muted"
                             >
-                                {/* eslint-disable-next-line @next/next/no-img-element */}
                                 <img
                                     src={poster}
                                     alt={`Poster ${index + 1}`}

@@ -88,6 +88,56 @@ const nextConfig = {
             },
         ];
     },
+    async rewrites() {
+        return {
+            fallback: [
+                {
+                    source: '/:file(logo\\.png|logo\\(black\\)\\.png|cse\\.png|SIMPLE_logo\\.png|nba\\.svg|next\\.svg|vercel\\.svg)',
+                    destination: '/branding/:file',
+                },
+                {
+                    source: '/:file(acadamic-logo1\\.svg|acadamic-logo2\\.svg|acadamic-logo3\\.svg|btech-logo\\.png|btech-logo\\.svg|mtech-logo\\.png|mtech-logo\\.svg|placement-cell-logo\\.svg|profile-logo\\.svg|cap\\.png|computer\\.png|Mission\\.png|Vision\\.png)',
+                    destination: '/icons/:file',
+                },
+                {
+                    source: '/:file(cognizant\\.jpg|experion\\.jpg|keltron\\.jpg|LandT\\.jpg|pennyflo\\.jpg|qburst\\.jpg|tata\\.jpg|tataConsult\\.jpg|ust\\.jpg|xyvin\\.jpg|zendalona\\.jpg|Adobe\\.svg|Airbnb\\.svg|Amazon\\.svg|Canva\\.svg|Descript\\.svg|Discord\\.svg|Dropbox\\.svg|GitLab\\.svg|IBM\\.svg|LinkedIn\\.svg|Microsoft\\.svg|OLX\\.svg|Pinterest\\.svg|Reddit\\.svg)',
+                    destination: '/recruiters/:file',
+                },
+                {
+                    source: '/:file(ali\\.jpeg|amal\\.jpg|bimal\\.jpeg|hashiq\\.jpg|jerald\\.jpeg|nishan\\.jpeg|rohini\\.jpg|viswa\\.jpg|s\\.jpg|hodImage\\.jpg|student-1\\.jpg|teams\\.png)',
+                    destination: '/people/:file',
+                },
+                {
+                    source: '/:file(cse-association-execom-2026-27\\.jpg|activity1\\.png|activity2\\.png|coderelay\\.jpeg|expo\\.jpeg|gdg\\.jpg|ideaintoproduct\\.jpeg|mulearn\\.webp|notify\\.jpg|quanta\'22\\.png|tinkerhub\\.jpg|void-minds\\.jpg)',
+                    destination: '/events/:file',
+                },
+                {
+                    source: '/:file(history1\\.png|history2\\.png)',
+                    destination: '/history/:file',
+                },
+                {
+                    source: '/:file(error-cap\\.png|errorComputer\\.png|error-computer\\.png|error-computer-white\\.png|error-cse\\.png|error-cse-hover\\.png)',
+                    destination: '/errors/:file',
+                },
+                {
+                    source: '/:file(bg\\.mp4|frontVid\\.mp4|bg\\.png|bg-acadamic\\.jpeg)',
+                    destination: '/media/:file',
+                },
+                {
+                    source: '/:file(arrow\\.png|down-arrow-black\\.png|down-arrow-white\\.png|border-circle\\.svg|circle-line\\.svg|circle-line-half\\.svg|placeholder-image\\.jpeg|placeholder-image\\.jpg)',
+                    destination: '/ui/:file',
+                },
+                {
+                    source: '/:file(blog\\.jpg|blog\\.png|blog\\.webp)',
+                    destination: '/blog/:file',
+                },
+                {
+                    source: '/:file(gallery1\\.png|gallery2\\.png|gallery3\\.png)',
+                    destination: '/gallery/:file',
+                },
+            ],
+        };
+    },
 };
 
 export default nextConfig;

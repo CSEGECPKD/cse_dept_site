@@ -175,7 +175,7 @@ function Navbar() {
     const color = isWhite === 'WHITE' && !open ? 'text-white' : 'text-black';
     const btnColor = isWhite === 'WHITE' && !open ? 'text-black' : 'text-white';
     const logo =
-        isWhite === 'WHITE' && !open ? '/logo.png' : '/logo(black).png';
+        isWhite === 'WHITE' && !open ? '/branding/logo.png' : '/branding/logo(black).png';
     const bgColor = isWhite === 'WHITE' && !open ? 'bg-white' : 'bg-black';
     const bgBlur = isWhite === 'WHITE' ? 'bg-black/80' : 'bg-white/80';
 
@@ -287,7 +287,7 @@ function DesktopNavbarItem({ link }) {
     const blurBg = isWhite === 'WHITE' ? 'bg-black/80' : 'bg-white/80';
     const hasDropdown = !!link.node;
     const arrow =
-        isWhite === 'WHITE' ? '/down-arrow-white.png' : '/down-arrow-black.png';
+        isWhite === 'WHITE' ? '/ui/down-arrow-white.png' : '/ui/down-arrow-black.png';
     const pathname = usePathname();
 
     return (

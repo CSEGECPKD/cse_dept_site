@@ -16,7 +16,7 @@ const iconMap = {
 
 const data = [
     {
-        img: '/ali.jpeg',
+        img: '/people/ali.jpeg',
         name: 'Muhammad Ali',
         position: 'UI-UX Designer',
         socialmedia1: 'https://www.linkedin.com/in/muhammadalima',
@@ -27,7 +27,7 @@ const data = [
         socialmediaimg3: 'FaGithub',
     },
     {
-        img: '/hashiq.jpg',
+        img: '/people/hashiq.jpg',
         name: 'Muhammad Hashiq',
         position: 'Full-Stack Developer',
         socialmedia1: 'https://www.linkedin.com/in/muhammad-hashiq',
@@ -38,7 +38,7 @@ const data = [
         socialmediaimg3: 'FaGithub',
     },
     {
-        img: '/jerald.jpeg',
+        img: '/people/jerald.jpeg',
         name: 'Jerald Joyson',
         position: 'Full-Stack Developer',
         socialmedia1: 'https://www.linkedin.com/in/jerald-joyson',
@@ -49,7 +49,7 @@ const data = [
         socialmediaimg3: 'FaGithub',
     },
     {
-        img: '/bimal.jpeg',
+        img: '/people/bimal.jpeg',
         name: 'Bimal Devasia',
         position: 'Full-Stack Developer',
         socialmedia1: 'https://www.linkedin.com/in/bimal-devasia',
@@ -60,7 +60,7 @@ const data = [
         socialmediaimg3: 'FaGithub',
     },
     {
-        img: '/nishan.jpeg',
+        img: '/people/nishan.jpeg',
         name: 'Mohammad Nishan',
         position: 'Full-Stack Developer',
         socialmedia1: 'https://www.linkedin.com/in/mohammad-nishan',
@@ -71,7 +71,7 @@ const data = [
         socialmediaimg3: 'FaGithub',
     },
     {
-        img: '/viswa.jpg',
+        img: '/people/viswa.jpg',
         name: 'Viswajith VP',
         position: 'Full-Stack Developer',
         socialmedia1: 'https://www.linkedin.com/in/viswajith-vp',
@@ -82,7 +82,7 @@ const data = [
         socialmediaimg3: 'FaGithub',
     },
     {
-        img: '/amal.jpg',
+        img: '/people/amal.jpg',
         name: 'Amal Joseph',
         position: 'ML Developer',
         // Fixed: was incorrectly pointing to bimal-devasia's links
@@ -94,7 +94,7 @@ const data = [
         socialmediaimg3: 'FaGithub',
     },
     {
-        img: '/rohini.jpg',
+        img: '/people/rohini.jpg',
         name: 'Rohini Kanth',
         position: 'ML Developer',
         // Fixed: was incorrectly pointing to mohammad-nishan's links

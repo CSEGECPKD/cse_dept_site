@@ -35,7 +35,7 @@ export default async function DetailsPage({ params }) {
     const title = blogItem.name || blogItem.head || 'Blog Post';
     const author = blogItem.authorName || blogItem.name || 'Anonymous';
     const position = blogItem.authorPosition || blogItem.year || '';
-    const image = blogItem.authorImage || blogItem.img || '/blog.jpg';
+    const image = blogItem.authorImage || blogItem.img || '/blog/blog.jpg';
     const dateStr =
         blogItem.date ||
         (blogItem.createdAt

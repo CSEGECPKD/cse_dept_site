@@ -37,17 +37,17 @@ const imagesArray = [
     {
         alt: 'Annual fest and student activities',
         caption: 'Annual Fest',
-        src: '/gallery1.png',
+        src: '/gallery/gallery1.png',
     },
     {
         alt: 'Technical symposium and project expo',
         caption: 'Tech Symposium',
-        src: '/gallery2.png',
+        src: '/gallery/gallery2.png',
     },
     {
         alt: 'Graduation ceremony',
         caption: 'Graduation Day',
-        src: '/gallery3.png',
+        src: '/gallery/gallery3.png',
     },
 ];
 
