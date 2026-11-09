@@ -18,14 +18,7 @@ import { toast } from '@/hooks/use-toast';
 
 const associationMemberFormSchema = z.object({
     name: z.string().min(1, { message: 'Name is required' }),
-    year: z
-        .string()
-        .refine((val) => /^\d+$/.test(val), {
-            message: 'Year must be an integer',
-        })
-        .refine((val) => val.length === 4, {
-            message: 'Year must be 4 digits',
-        }),
+    year: z.string().min(1, { message: 'Academic Year is required' }).trim(),
     designation: z.string().min(1, { message: 'Designation is required' }),
     mailId: z.string().email({ message: 'Invalid email' }),
     imageUrl: z.string().min(1, { message: 'Image is required' }),
@@ -106,9 +99,9 @@ const AssociationMemberForm = ({
                 />
                 <FormField
                     id="year"
-                    label="Year"
+                    label="Academic Year"
                     type="text"
-                    placeholder="eg. 2023"
+                    placeholder="eg. 2025-26"
                     required
                     error={errors?.year}
                     {...register('year')}

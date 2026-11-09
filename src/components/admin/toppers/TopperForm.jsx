@@ -17,14 +17,7 @@ const topperFormSchema = z.object({
     name: z.string().min(1, { message: 'Name is required' }),
     batch: z.string().min(1, { message: 'Batch is required' }),
     course: z.string().min(1, { message: 'Course is required' }),
-    year: z
-        .string()
-        .refine((val) => /^\d+$/.test(val), {
-            message: 'Year must be an integer',
-        })
-        .refine((val) => val.length === 4, {
-            message: 'Year must be 4 digits year',
-        }),
+    year: z.string().min(1, { message: 'Year is required' }).trim(),
     sem: z.string().refine((val) => /^\d+$/.test(val), {
         message: 'Semester must be an integer',
     }),
@@ -137,7 +130,7 @@ const TopperForm = ({
                     id="year"
                     label="Year"
                     type="text"
-                    placeholder="eg. 2020"
+                    placeholder="eg. 2024-25 or 2024"
                     required
                     error={errors?.year}
                     {...register('year')}

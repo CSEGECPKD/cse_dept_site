@@ -8,7 +8,7 @@ const cspHeader = `
     base-uri 'self';
     form-action 'self' https://accounts.google.com;
     frame-src 'self' https://drive.google.com;
-    connect-src 'self' ws: wss: https://*.ufs.sh https://utfs.io https://uploadthing.com https://api.emailjs.com https://www.googleapis.com https://accounts.google.com;
+    connect-src 'self' ws: wss: https://*.ufs.sh https://ufs.sh https://utfs.io https://*.utfs.io https://uploadthing.com https://*.uploadthing.com https://api.emailjs.com https://www.googleapis.com https://accounts.google.com;
 `
     .replace(/\s{2,}/g, ' ')
     .trim();
@@ -30,7 +30,15 @@ const nextConfig = {
             },
             {
                 protocol: 'https',
+                hostname: 'ufs.sh',
+            },
+            {
+                protocol: 'https',
                 hostname: 'uploadthing.com',
+            },
+            {
+                protocol: 'https',
+                hostname: '*.uploadthing.com',
             },
             {
                 protocol: 'https',
