@@ -30,39 +30,39 @@ const DeptLogo = () => {
         offset: ['start end', 'end end'],
     });
     // const opacity = useTransform(scrollYProgress, [0.5, 0.6], [0, 1]);
-    const capTop = useTransform(scrollYProgress, [0.5, 0.8], [400, 0], {
+    const capTop = useTransform(scrollYProgress, [0.15, 0.45], [150, 0], {
         ease: cubicBezier(0.455, 0.03, 0.515, 0.955),
     });
-    const logoTop = useTransform(scrollYProgress, [0.55, 0.85], [400, 0], {
+    const logoTop = useTransform(scrollYProgress, [0.2, 0.5], [150, 0], {
         ease: cubicBezier(0.455, 0.03, 0.515, 0.955),
     });
-    const scaleCap = useTransform(scrollYProgress, [0.5, 0.8], [0.9, 1], {
+    const scaleCap = useTransform(scrollYProgress, [0.15, 0.45], [0.9, 1], {
         ease: cubicBezier(0.455, 0.03, 0.515, 0.955),
     });
 
-    const scaleLogo = useTransform(scrollYProgress, [0.55, 0.85], [0.95, 1], {
+    const scaleLogo = useTransform(scrollYProgress, [0.2, 0.5], [0.95, 1], {
         ease: cubicBezier(0.455, 0.03, 0.515, 0.955),
     });
     const visionTextOpacity = useTransform(
         scrollYProgress,
-        [0.75, 0.85],
-        [0, 1],
+        [0.3, 0.55],
+        [0.2, 1],
         {
             ease: cubicBezier(0.455, 0.03, 0.515, 0.955),
         }
     );
-    const visionTextY = useTransform(scrollYProgress, [0.75, 0.85], [200, 0], {
+    const visionTextY = useTransform(scrollYProgress, [0.3, 0.55], [60, 0], {
         ease: cubicBezier(0.455, 0.03, 0.515, 0.955),
     });
     const missionTextOpacity = useTransform(
         scrollYProgress,
-        [0.85, 1],
-        [0, 1],
+        [0.35, 0.6],
+        [0.2, 1],
         {
             ease: cubicBezier(0.455, 0.03, 0.515, 0.955),
         }
     );
-    const missionTextY = useTransform(scrollYProgress, [0.85, 1], [200, 0], {
+    const missionTextY = useTransform(scrollYProgress, [0.35, 0.6], [60, 0], {
         ease: cubicBezier(0.455, 0.03, 0.515, 0.955),
     });
 
@@ -136,9 +136,15 @@ const DeptLogo = () => {
         <ColoredSection color="BLACK">
             <div
                 ref={containerRef}
-                className="flex flex-col px-12 py-8 md:py-0 justify-center items-center"
+                className="flex flex-col px-6 sm:px-12 md:px-16 lg:px-20 py-12 md:py-16 justify-center items-center w-full scroll-mt-24"
                 id="mission"
             >
+                <div className="w-full max-w-7xl mx-auto mb-8 sm:mb-12">
+                    <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold font-bebasneue tracking-wide text-black text-left">
+                        . VISION & MISSION
+                    </h2>
+                </div>
+
                 <div className="flex justify-center align-items-center relative px-5 md:px-0">
                     <motion.img
                         style={{
@@ -210,7 +216,7 @@ const DeptLogo = () => {
                 </div>
 
                 <div
-                    className="overflow-hidden flex flex-row items-center w-screen h-min pt-12 md:pt-20"
+                    className="overflow-hidden flex flex-row items-center w-screen max-w-full h-min pt-12 md:pt-20"
                     onMouseEnter={handleMouseEnter}
                     onMouseLeave={handleMouseLeave}
                 >
