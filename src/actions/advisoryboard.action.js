@@ -33,12 +33,13 @@ export async function createAdvisoryBoardMember({
 
 export async function getAdvisoryBoardMembers() {
     try {
-        await dbConnect();
+        const conn = await dbConnect();
+        if (!conn) return [];
         const members = await AdvisoryBoard.find({}).lean();
-        return JSON.parse(JSON.stringify(members));
+        return JSON.parse(JSON.stringify(members || []));
     } catch (error) {
-        console.error('Failed to fetch advisory board members:', error);
-        throw new Error(error.message || 'Failed to fetch advisory board members');
+        console.error('Failed to fetch advisory board members, using fallback:', error);
+        return [];
     }
 }
 

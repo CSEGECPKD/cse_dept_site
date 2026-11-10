@@ -1,24 +1,26 @@
 import React from 'react';
-import DeptInfo from '../../../components/DeptInfo';
-import DeptLogo from '../../../components/DeptLogo';
-import History from '../../../components/History';
+import AboutHero from '@/components/about/AboutHero';
+import DeptLogo from '@/components/DeptLogo';
 import CourseOfferedSection from '@/components/CourseOfferedSection';
+import History from '@/components/History';
+import AboutAdvisoryBoard from '@/components/about/AboutAdvisoryBoard';
 import Contact from '@/components/Contact';
 
 export const metadata = {
-    title: 'About Us',
+    title: 'About Us | Department of Computer Science & Engineering',
     description:
-        'Learn about the Computer Science and Engineering Department at GEC Palakkad, our history, faculty, vision, mission, and academic environment.',
+        'Learn about the Computer Science and Engineering Department at Government Engineering College Palakkad (GECSKP): our history, vision, mission, academic programmes, Advisory Board, and contact details.',
 };
 
 export default function About() {
     return (
-        <div className="space-y-16 md:space-y-24">
-            <DeptInfo isAboutPage={true} />
+        <main className="bg-white">
+            <AboutHero />
             <DeptLogo />
             <CourseOfferedSection />
             <History />
+            <AboutAdvisoryBoard />
             <Contact />
-        </div>
+        </main>
     );
 }

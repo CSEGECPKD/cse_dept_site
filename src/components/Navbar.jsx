@@ -59,7 +59,7 @@ const links = [
             {
                 label: 'Advisory Board',
                 type: 'sub-main',
-                href: '/aboutus',
+                href: '/aboutus#advisory-board',
             },
             {
                 label: 'Gallery',

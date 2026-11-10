@@ -1,5 +1,6 @@
 import DeptInfo from '@/components/DeptInfo';
 import DeptLogo from '@/components/DeptLogo';
+import HorizontalScrollCarousel from '@/components/HorizontalScrollCarousel';
 import HodMessage from '@/components/HodMessage';
 import HeroSection from '@/components/HeroSection';
 import References from '@/components/References';
@@ -16,6 +17,7 @@ export default function Home() {
             <HeroSection />
             <DeptInfo />
             <DeptLogo />
+            <HorizontalScrollCarousel />
             <HodMessage />
             <References />
         </div>
