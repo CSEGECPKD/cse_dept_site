@@ -1,6 +1,9 @@
 import mongoose from 'mongoose';
 import dns from 'dns';
 
+// Disable Mongoose query buffering globally so operations fail fast if disconnected instead of hanging for 10s
+mongoose.set('bufferCommands', false);
+
 try {
     dns.setServers(['8.8.8.8', '1.1.1.1']);
 } catch (e) {}

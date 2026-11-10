@@ -27,12 +27,13 @@ export async function createStudentGroup({ name, description, logoUrl }) {
 
 export async function getStudentGroups() {
     try {
-        await dbConnect();
+        const conn = await dbConnect();
+        if (!conn) return [];
         const studentGroups = await StudentGroup.find({}).lean();
         return JSON.parse(JSON.stringify(studentGroups));
     } catch (error) {
-        console.error('Failed to fetch student groups:', error);
-        throw new Error(error.message || 'Failed to fetch student groups');
+        console.error('Failed to fetch student groups:', error.message || error);
+        return [];
     }
 }
 

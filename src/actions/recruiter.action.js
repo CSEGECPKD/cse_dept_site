@@ -23,12 +23,13 @@ export async function createRecruiter({ companyName, companyLogo }) {
 
 export async function getRecruiters() {
     try {
-        await dbConnect();
+        const conn = await dbConnect();
+        if (!conn) return [];
         const recruiters = await Recruiter.find({}).lean();
         return JSON.parse(JSON.stringify(recruiters));
     } catch (error) {
-        console.error('Failed to fetch recruiters:', error);
-        throw new Error(error.message || 'Failed to fetch recruiters');
+        console.error('Failed to fetch recruiters:', error.message || error);
+        return [];
     }
 }
 

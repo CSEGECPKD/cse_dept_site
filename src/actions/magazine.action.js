@@ -7,12 +7,13 @@ import { magazineSchema } from '../lib/validations';
 
 export async function getMagazines() {
     try {
-        await dbConnect();
+        const conn = await dbConnect();
+        if (!conn) return [];
         const magazines = await Magazine.find({}).sort({ date: -1 }).lean();
         return JSON.parse(JSON.stringify(magazines));
     } catch (error) {
-        console.error('Failed to fetch magazines:', error);
-        throw new Error(error.message || 'Failed to fetch magazines');
+        console.error('Failed to fetch magazines:', error.message || error);
+        return [];
     }
 }
 

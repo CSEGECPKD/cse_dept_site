@@ -6,12 +6,13 @@ import { isAuthenticated } from '../lib/auth';
 
 export async function getGalleries() {
     try {
-        await dbConnect();
+        const conn = await dbConnect();
+        if (!conn) return [];
         const galleries = await Gallery.find({}).lean();
         return JSON.parse(JSON.stringify(galleries));
     } catch (error) {
-        console.error('Failed to fetch galleries:', error);
-        throw new Error(error.message || 'Failed to fetch galleries');
+        console.error('Failed to fetch galleries:', error.message || error);
+        return [];
     }
 }
 

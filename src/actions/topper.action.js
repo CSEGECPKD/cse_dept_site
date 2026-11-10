@@ -73,12 +73,15 @@ export const deleteTopper = async (id) => {
 
 export const getTopperList = async () => {
     try {
-        await dbConnect();
+        const conn = await dbConnect();
+        if (!conn) {
+            return STATIC_TOPPERS;
+        }
         const toppers = await Topper.find().lean().exec();
         const list = JSON.parse(JSON.stringify(toppers));
         return list.length > 0 ? list : STATIC_TOPPERS;
     } catch (error) {
-        console.error('Failed to fetch toppers, using fallback:', error);
+        console.error('Failed to fetch toppers, using fallback:', error.message || error);
         return STATIC_TOPPERS;
     }
 };
