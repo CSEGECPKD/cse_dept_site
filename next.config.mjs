@@ -7,7 +7,7 @@ const cspHeader = `
     object-src 'none';
     base-uri 'self';
     form-action 'self' https://accounts.google.com;
-    frame-src 'self' https://drive.google.com;
+    frame-src 'self' https://drive.google.com https://*.google.com https://www.google.com https://maps.google.com https://*.google.co.in https://*.mappedin.com https://app.mappedin.com https://mappedin.com;
     media-src 'self' blob: data:;
     connect-src 'self' ws: wss: https://*.ufs.sh https://ufs.sh https://utfs.io https://*.utfs.io https://uploadthing.com https://*.uploadthing.com https://api.emailjs.com https://www.googleapis.com https://accounts.google.com;
 `
