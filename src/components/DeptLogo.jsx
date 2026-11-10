@@ -164,7 +164,7 @@ const DeptLogo = () => {
                             width={200}
                             height={200}
                             alt="Cap Image"
-                            className="cap-image w-[25vw] md:w-[200px]"
+                            className="cap-image w-[25vw] md:w-[200px] h-auto"
                         />
                     </motion.div>
                 </div>

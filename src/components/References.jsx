@@ -4,8 +4,13 @@ import { useRef } from 'react';
 import { useGSAP } from '@gsap/react';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import ColoredSection from './ColoredSection';
+
+if (typeof window !== 'undefined') {
+  gsap.registerPlugin(ScrollTrigger);
+}
+
 export default function References() {
-  let imag = [
+  const imag = [
     {
       org: '/images/1.jpg',
       hvr: '/images/1h.svg',
@@ -53,46 +58,36 @@ export default function References() {
     },
   ];
 
-  let comp = useRef(null);
-  let item1 = useRef(null);
-  let items2 = useRef(null);
-  let item3 = useRef(null);
-  let text1 = useRef(null);
-  let text2 = useRef(null);
-  let animatedRef = useRef(null);
+  const comp = useRef(null);
+  const animatedRef = useRef(null);
 
-  useGSAP(() => {
-    let t1 = gsap.timeline({
-      scrollTrigger: {
-        trigger: animatedRef,
-      },
-    });
+  useGSAP(
+    () => {
+      if (!comp.current || !animatedRef.current) return;
 
-    t1.from(comp.current, {
-      scrollTrigger: animatedRef,
-      x: -900,
-      duration: 2,
-    });
-
-    let t2 = gsap.timeline();
-
-    t2.to(item3.current, { opacity: 100 })
-      .to(items2.current, { opacity: 100 })
-      .to(item1.current, { opacity: 100 });
-  }, []);
+      gsap.from(comp.current, {
+        scrollTrigger: {
+          trigger: animatedRef.current,
+          start: 'top 85%',
+        },
+        x: -100,
+        opacity: 0,
+        duration: 1.2,
+        ease: 'power2.out',
+      });
+    },
+    { scope: animatedRef }
+  );
 
   return (
     <ColoredSection color="BLACK">
       <div
-        className="text-black lg:max-w-screen overflow-x-hidden md:mt-40 md:pb-10"
+        className="text-black lg:max-w-screen overflow-x-hidden md:mt-40 md:pb-10 relative"
         ref={animatedRef}
       >
         <div className="lg:flex-row flex flex-col-reverse lg:10 xl:px-20 justify-between">
           <div className="lg:flex-none flex flex-col justify-center items-center">
-            <h2
-              ref={text1}
-              className="self-start lg:block lg:px-0 px-10 font-bold mt-[1rem] mb-[1rem] font-bebasneue text-[56px]"
-            >
+            <h2 className="self-start lg:block lg:px-0 px-10 font-bold mt-[1rem] mb-[1rem] font-bebasneue text-[56px]">
               .REFERENCES
             </h2>
             <div
