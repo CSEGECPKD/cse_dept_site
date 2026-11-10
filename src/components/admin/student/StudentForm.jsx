@@ -8,7 +8,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 
-import { createStudent } from '@/actions/student.action';
+import { createStudent, updateStudent } from '@/actions/student.action';
 import { Button } from '@/components/ui/button';
 import FormField from '../ui/FormField';
 import {
@@ -24,12 +24,19 @@ const studentFormSchema = z.object({
     name: z.string().min(1, { message: 'Name is required' }),
     course: z.string().min(1, { message: 'Course is required' }),
     batch: z.string().regex(/^\d{4}-\d{4}$/, {
-        message: 'Invalid batch format',
+        message: 'Invalid batch format (eg. 2020-2024)',
     }),
 });
 
-const StudentForm = ({ courses = [], refreshStudents }) => {
+const StudentForm = ({
+    initialData,
+    courses = [],
+    onSuccess,
+    onCancel,
+    refreshStudents,
+}) => {
     const router = useRouter();
+    const isEditing = Boolean(initialData?._id);
     const {
         register,
         handleSubmit,
@@ -39,26 +46,38 @@ const StudentForm = ({ courses = [], refreshStudents }) => {
     } = useForm({
         resolver: zodResolver(studentFormSchema),
         defaultValues: {
-            course: '',
+            name: initialData?.name || '',
+            course: initialData?.course?._id || initialData?.course || '',
+            batch: initialData?.batch || '',
         },
     });
 
     const { mutate, isPending } = useMutation({
-        mutationFn: async (data) => createStudent(data),
+        mutationFn: async (data) => {
+            if (isEditing) {
+                return updateStudent(initialData._id, data);
+            }
+            return createStudent(data);
+        },
         onSuccess: () => {
-            reset({ course: '' });
+            if (!isEditing) reset({ course: '', name: '', batch: '' });
             toast({
                 variant: 'success',
-                title: 'Student added',
-                description: 'Student added successfully.',
+                title: isEditing ? 'Student updated' : 'Student added',
+                description: isEditing
+                    ? 'Student updated successfully.'
+                    : 'Student added successfully.',
             });
             refreshStudents?.();
+            onSuccess?.();
             router.refresh();
         },
         onError: (error) => {
             toast({
                 variant: 'destructive',
-                title: 'Unable to add student',
+                title: isEditing
+                    ? 'Unable to update student'
+                    : 'Unable to add student',
                 description: error?.message || 'Please try again.',
             });
         },
@@ -126,14 +145,30 @@ const StudentForm = ({ courses = [], refreshStudents }) => {
                 {...register('batch')}
             />
 
-            <Button
-                type="submit"
-                disabled={isPending}
-                className="w-full gap-2 sm:w-auto"
-            >
-                {isPending && <Loader2 className="h-4 w-4 animate-spin" />}
-                {isPending ? 'Saving…' : 'Add Student'}
-            </Button>
+            <div className="flex items-center gap-2">
+                <Button
+                    type="submit"
+                    disabled={isPending}
+                    className="w-full gap-2 sm:w-auto"
+                >
+                    {isPending && <Loader2 className="h-4 w-4 animate-spin" />}
+                    {isPending
+                        ? 'Saving…'
+                        : isEditing
+                          ? 'Save Changes'
+                          : 'Add Student'}
+                </Button>
+                {onCancel && (
+                    <Button
+                        type="button"
+                        variant="outline"
+                        onClick={onCancel}
+                        disabled={isPending}
+                    >
+                        Cancel
+                    </Button>
+                )}
+            </div>
         </form>
     );
 };

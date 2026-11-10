@@ -7,7 +7,10 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation } from '@tanstack/react-query';
 
-import { createCertificate } from '@/actions/certificate.action';
+import {
+    createCertificate,
+    updateCertificate,
+} from '@/actions/certificate.action';
 import { Button } from '@/components/ui/button';
 import FormField from '../ui/FormField';
 import UploadCard from '../ui/UploadCard';
@@ -18,7 +21,13 @@ const certificateFormSchema = z.object({
     imageUrl: z.string().min(1, { message: 'Image is required' }),
 });
 
-const CertificateForm = ({ refreshCertificates }) => {
+const CertificateForm = ({
+    initialData,
+    onSuccess,
+    onCancel,
+    refreshCertificates,
+}) => {
+    const isEditing = Boolean(initialData?._id);
     const {
         register,
         handleSubmit,
@@ -29,25 +38,36 @@ const CertificateForm = ({ refreshCertificates }) => {
     } = useForm({
         resolver: zodResolver(certificateFormSchema),
         defaultValues: {
-            imageUrl: '',
+            name: initialData?.name || '',
+            imageUrl: initialData?.imageUrl || '',
         },
     });
 
     const mutation = useMutation({
-        mutationFn: async (data) => createCertificate(data),
+        mutationFn: async (data) => {
+            if (isEditing) {
+                return updateCertificate(initialData._id, data);
+            }
+            return createCertificate(data);
+        },
         onSuccess: () => {
-            reset();
+            if (!isEditing) reset();
             toast({
                 variant: 'success',
-                title: 'Certificate added',
-                description: 'Certificate added successfully.',
+                title: isEditing ? 'Certificate updated' : 'Certificate added',
+                description: isEditing
+                    ? 'Certificate updated successfully.'
+                    : 'Certificate added successfully.',
             });
             refreshCertificates?.();
+            onSuccess?.();
         },
         onError: (error) => {
             toast({
                 variant: 'destructive',
-                title: 'Unable to add certificate',
+                title: isEditing
+                    ? 'Unable to update certificate'
+                    : 'Unable to add certificate',
                 description: error?.message || 'Please try again.',
             });
         },
@@ -85,16 +105,32 @@ const CertificateForm = ({ refreshCertificates }) => {
                 )}
             </div>
 
-            <Button
-                type="submit"
-                disabled={mutation.isPending}
-                className="w-full gap-2 sm:w-auto"
-            >
-                {mutation.isPending && (
-                    <Loader2 className="h-4 w-4 animate-spin" />
+            <div className="flex items-center gap-2">
+                <Button
+                    type="submit"
+                    disabled={mutation.isPending}
+                    className="w-full gap-2 sm:w-auto"
+                >
+                    {mutation.isPending && (
+                        <Loader2 className="h-4 w-4 animate-spin" />
+                    )}
+                    {mutation.isPending
+                        ? 'Saving…'
+                        : isEditing
+                          ? 'Save Changes'
+                          : 'Add Certificate'}
+                </Button>
+                {onCancel && (
+                    <Button
+                        type="button"
+                        variant="outline"
+                        onClick={onCancel}
+                        disabled={mutation.isPending}
+                    >
+                        Cancel
+                    </Button>
                 )}
-                {mutation.isPending ? 'Saving…' : 'Add Certificate'}
-            </Button>
+            </div>
         </form>
     );
 };

@@ -7,17 +7,23 @@ import Faculty from '../lib/models/Faculty';
 import { isAuthenticated } from '../lib/auth';
 import { facultySchema } from '../lib/validations';
 import { isSafeUrl } from '../lib/security';
+import { ALL_FACULTIES } from '../data/faculty';
 
 const utapi = new UTApi();
 
 export async function getFaculties() {
     try {
-        await dbConnect();
-        const faculties = await Faculty.find({}, { phone: 0 }).lean();
-        return JSON.parse(JSON.stringify(faculties));
+        const conn = await dbConnect();
+        if (conn) {
+            const faculties = await Faculty.find({}, { phone: 0 }).lean();
+            if (faculties && faculties.length > 0) {
+                return JSON.parse(JSON.stringify(faculties));
+            }
+        }
+        return ALL_FACULTIES;
     } catch (error) {
-        console.error('Failed to fetch faculties:', error);
-        throw new Error(error.message || 'Failed to fetch faculties');
+        console.error('Failed to fetch faculties from db, using fallback:', error);
+        return ALL_FACULTIES;
     }
 }
 

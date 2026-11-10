@@ -56,6 +56,54 @@ export async function getSubjects() {
     }
 }
 
+export async function updateSubject(
+    subjectId,
+    {
+        courseId,
+        yearOfScheme,
+        semester,
+        subCode,
+        name,
+        description,
+        pdfUrl,
+    }
+) {
+    try {
+        if (!(await isAuthenticated())) {
+            throw new Error('Unauthorized');
+        }
+        await dbConnect();
+
+        if (courseId) {
+            const course = await Course.findById(courseId);
+            if (!course) {
+                throw new Error('Course not found');
+            }
+        }
+
+        const updatedSubject = await Subject.findByIdAndUpdate(
+            subjectId,
+            {
+                courseId,
+                yearOfScheme,
+                semester,
+                subCode,
+                name,
+                description,
+                pdfUrl,
+            },
+            { new: true }
+        );
+        if (!updatedSubject) {
+            throw new Error('Subject not found');
+        }
+        return { message: 'Subject updated successfully' };
+    } catch (error) {
+        console.error('Failed to update subject:', error);
+        throw new Error(error.message || 'Failed to update subject');
+    }
+}
+
 export async function deleteSubject(subjectId) {
     try {
         if (!(await isAuthenticated())) {

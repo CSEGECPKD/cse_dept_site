@@ -7,7 +7,10 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation } from '@tanstack/react-query';
 
-import { createStudentGroup } from '@/actions/studentgroup.action';
+import {
+    createStudentGroup,
+    updateStudentGroup,
+} from '@/actions/studentgroup.action';
 import { Button } from '@/components/ui/button';
 import FormField from '../ui/FormField';
 import UploadCard from '../ui/UploadCard';
@@ -19,7 +22,13 @@ const studentGroupFormSchema = z.object({
     logoUrl: z.string().min(1, { message: 'Logo URL is required' }),
 });
 
-const StudentGroupForm = ({ refreshStudentGroups }) => {
+const StudentGroupForm = ({
+    initialData,
+    onSuccess,
+    onCancel,
+    refreshStudentGroups,
+}) => {
+    const isEditing = Boolean(initialData?._id);
     const {
         register,
         handleSubmit,
@@ -30,25 +39,39 @@ const StudentGroupForm = ({ refreshStudentGroups }) => {
     } = useForm({
         resolver: zodResolver(studentGroupFormSchema),
         defaultValues: {
-            logoUrl: '',
+            name: initialData?.name || '',
+            description: initialData?.description || '',
+            logoUrl: initialData?.logoUrl || '',
         },
     });
 
     const { mutate, isPending } = useMutation({
-        mutationFn: async (data) => createStudentGroup(data),
+        mutationFn: async (data) => {
+            if (isEditing) {
+                return updateStudentGroup(initialData._id, data);
+            }
+            return createStudentGroup(data);
+        },
         onSuccess: () => {
-            reset();
+            if (!isEditing) reset();
             toast({
                 variant: 'success',
-                title: 'Student group added',
-                description: 'Student group added successfully.',
+                title: isEditing
+                    ? 'Student group updated'
+                    : 'Student group added',
+                description: isEditing
+                    ? 'Student group updated successfully.'
+                    : 'Student group added successfully.',
             });
             refreshStudentGroups?.();
+            onSuccess?.();
         },
         onError: (error) => {
             toast({
                 variant: 'destructive',
-                title: 'Unable to add student group',
+                title: isEditing
+                    ? 'Unable to update student group'
+                    : 'Unable to add student group',
                 description: error?.message || 'Please try again.',
             });
         },
@@ -97,14 +120,30 @@ const StudentGroupForm = ({ refreshStudentGroups }) => {
                 )}
             </div>
 
-            <Button
-                type="submit"
-                disabled={isPending}
-                className="w-full gap-2 sm:w-auto"
-            >
-                {isPending && <Loader2 className="h-4 w-4 animate-spin" />}
-                {isPending ? 'Saving…' : 'Add Student Group'}
-            </Button>
+            <div className="flex items-center gap-2">
+                <Button
+                    type="submit"
+                    disabled={isPending}
+                    className="w-full gap-2 sm:w-auto"
+                >
+                    {isPending && <Loader2 className="h-4 w-4 animate-spin" />}
+                    {isPending
+                        ? 'Saving…'
+                        : isEditing
+                          ? 'Save Changes'
+                          : 'Add Student Group'}
+                </Button>
+                {onCancel && (
+                    <Button
+                        type="button"
+                        variant="outline"
+                        onClick={onCancel}
+                        disabled={isPending}
+                    >
+                        Cancel
+                    </Button>
+                )}
+            </div>
         </form>
     );
 };

@@ -1,12 +1,16 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 
 import DataTable from '../ui/DataTable';
 import RowActions from '../ui/RowActions';
+import EditDialog from '../ui/EditDialog';
+import FacilityForm from './FacilityForm';
 import { deleteFacility } from '@/actions/facility.action';
 
 const FacilityList = ({ facilityList, loading, refresh }) => {
+    const [editingItem, setEditingItem] = useState(null);
+
     const columns = [
         {
             key: 'name',
@@ -29,6 +33,7 @@ const FacilityList = ({ facilityList, loading, refresh }) => {
             cellClassName: 'text-right',
             cell: (item) => (
                 <RowActions
+                    onEdit={() => setEditingItem(item)}
                     onDelete={async () => {
                         await deleteFacility(item._id);
                     }}
@@ -41,17 +46,36 @@ const FacilityList = ({ facilityList, loading, refresh }) => {
     ];
 
     return (
-        <DataTable
-            data={facilityList}
-            loading={loading}
-            columns={columns}
-            searchKeys={['name', 'description']}
-            searchPlaceholder="Search facilities…"
-            emptyState={{
-                title: 'No facilities yet',
-                subtitle: 'Your facility list is empty.',
-            }}
-        />
+        <>
+            <DataTable
+                data={facilityList}
+                loading={loading}
+                columns={columns}
+                searchKeys={['name', 'description']}
+                searchPlaceholder="Search facilities…"
+                emptyState={{
+                    title: 'No facilities yet',
+                    subtitle: 'Your facility list is empty.',
+                }}
+            />
+            <EditDialog
+                open={Boolean(editingItem)}
+                onOpenChange={(isOpen) => !isOpen && setEditingItem(null)}
+                title="Edit Facility"
+                description="Update facility details and brochure."
+            >
+                {editingItem && (
+                    <FacilityForm
+                        initialData={editingItem}
+                        onSuccess={() => {
+                            setEditingItem(null);
+                            refresh();
+                        }}
+                        onCancel={() => setEditingItem(null)}
+                    />
+                )}
+            </EditDialog>
+        </>
     );
 };
 

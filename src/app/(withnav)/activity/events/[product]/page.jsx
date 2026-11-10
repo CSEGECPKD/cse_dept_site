@@ -3,6 +3,7 @@ import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { getEventById } from '@/actions/event.action';
 import ColoredSection from '../../../../../components/ColoredSection';
+import { isSafeUrl } from '@/lib/security';
 
 export default function EventDetails() {
     const { product } = useParams();
@@ -20,7 +21,7 @@ export default function EventDetails() {
                         description: e.details,
                         mode: e.mode,
                         date: e.date,
-                        image: e.posters?.[0] || '/placeholder-image.jpg',
+                        image: e.posters?.[0] || '/ui/placeholder-image.jpeg',
                         registrationLink: e.regLinks?.[0] || null,
                     });
                 } catch (error) {
@@ -32,8 +33,30 @@ export default function EventDetails() {
         }
     }, [product]);
 
-    if (loading) return <p className="text-center py-20">Loading...</p>;
-    if (!event) return <p className="text-center py-20">Event not found</p>;
+    if (loading) {
+        return (
+            <ColoredSection color="BLACK">
+                <div className="container min-h-screen bg-white mx-auto py-20 px-4 flex flex-col items-center justify-center space-y-4">
+                    <div className="w-10 h-10 border-4 border-gray-300 border-t-black rounded-full animate-spin"></div>
+                    <p className="text-gray-600 font-medium">Loading event details...</p>
+                </div>
+            </ColoredSection>
+        );
+    }
+
+    if (!event) {
+        return (
+            <ColoredSection color="BLACK">
+                <div className="container min-h-screen bg-white mx-auto py-20 px-4 text-center">
+                    <h2 className="text-2xl font-bold text-gray-800 mb-2">Event Not Found</h2>
+                    <p className="text-gray-600">The event you are looking for does not exist or may have been removed.</p>
+                </div>
+            </ColoredSection>
+        );
+    }
+
+    const hasSafeRegistrationLink =
+        event.registrationLink && isSafeUrl(event.registrationLink);
 
     return (
         <ColoredSection color="BLACK">
@@ -67,7 +90,7 @@ export default function EventDetails() {
                         </p>
                     </div>
                 </div>
-                {event.registrationLink && (
+                {hasSafeRegistrationLink && (
                     <a
                         href={event.registrationLink}
                         target="_blank"

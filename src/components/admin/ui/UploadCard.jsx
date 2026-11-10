@@ -19,10 +19,15 @@ export default function UploadCard({
     const isPdfFile = isPdf || endpoint === 'pdfUploader' || (typeof value === 'string' && value.endsWith('.pdf'));
 
     const handleError = (error) => {
+        const msg = error?.message || '';
+        let description = msg;
+        if (msg.includes('FetchError') || msg.toLowerCase().includes('failed to fetch')) {
+            description = 'Network or ad-blocker error. If you use Brave or an ad-blocker (uBlock), allow uploadthing.com, and make sure pnpm dev was restarted after setting UPLOADTHING_TOKEN.';
+        }
         toast({
             variant: 'destructive',
             title: `Unable to upload ${isPdfFile ? 'PDF' : 'image'}`,
-            description: error?.message || 'Please try again.',
+            description: description || 'Please try again.',
         });
     };
 
@@ -98,12 +103,17 @@ export default function UploadCard({
             <UploadDropzone
                 endpoint={endpoint}
                 onClientUploadComplete={(res) => {
-                    onChange(res[0].url);
-                    toast({
-                        variant: 'success',
-                        title: 'Upload complete',
-                        description: `Your ${isPdfFile ? 'PDF' : 'image'} has been uploaded.`,
-                    });
+                    const uploadedUrl = res?.[0]?.ufsUrl || res?.[0]?.url;
+                    if (uploadedUrl) {
+                        onChange(uploadedUrl);
+                        toast({
+                            variant: 'success',
+                            title: 'Upload complete',
+                            description: `Your ${isPdfFile ? 'PDF' : 'image'} has been uploaded.`,
+                        });
+                    } else {
+                        handleError(new Error('No file URL returned from upload provider'));
+                    }
                 }}
                 onUploadError={handleError}
                 className="ut-label:text-sm ut-label:font-medium ut-label:text-foreground ut-upload-icon:text-muted-foreground ut-button:bg-primary ut-button:text-primary-foreground ut-button:rounded-md ut-button:h-9 ut-button:px-4 ut-button:text-sm ut-button:font-medium ut-allowed-content:text-xs ut-allowed-content:text-muted-foreground"

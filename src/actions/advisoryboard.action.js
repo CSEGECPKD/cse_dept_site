@@ -42,6 +42,32 @@ export async function getAdvisoryBoardMembers() {
     }
 }
 
+export async function updateAdvisoryBoardMember(
+    memberId,
+    { name, designation, position, imageUrl }
+) {
+    try {
+        if (!(await isAuthenticated())) {
+            throw new Error('Unauthorized');
+        }
+        await dbConnect();
+        const updatedMember = await AdvisoryBoard.findByIdAndUpdate(
+            memberId,
+            { name, designation, position, imageUrl },
+            { new: true }
+        );
+        if (!updatedMember) {
+            throw new Error('Advisory board member not found');
+        }
+        return { message: 'Advisory board member updated successfully' };
+    } catch (error) {
+        console.error('Failed to update advisory board member:', error);
+        throw new Error(
+            error.message || 'Failed to update advisory board member'
+        );
+    }
+}
+
 export async function deleteAdvisoryBoardMember(memberId) {
     try {
         if (!(await isAuthenticated())) {

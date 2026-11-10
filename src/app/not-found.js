@@ -26,7 +26,7 @@ export default function Page() {
             {showDinoGame ? (
                 <div className="flex flex-col items-center justify-center z-50">
                     <img
-                        src="/error-computer-white.png"
+                        src="/errors/error-computer-white.png"
                         alt="Computer Image"
                         className="w-[206px] h-[200px] md:h-[320px] md:w-[330px] object-contain"
                     />
@@ -84,22 +84,22 @@ export default function Page() {
                         onClick={handleClick}
                     >
                         <img
-                            src="/error-computer.png"
+                            src="/errors/error-computer.png"
                             alt="Computer Image"
                             className="w-[206px] h-[200px] md:h-[320px] md:w-[330px]  object-contain"
                         />
                         <img
-                            src="/error-cse.png"
+                            src="/errors/error-cse.png"
                             alt="CSE logo"
                             className="w-[102px] h-[57px] md:w-[165px] md:h-[92px] cursor-pointer z-50 absolute left-[45px] top-[24px] md:left-[70px] md:top-[35px] group-hover:hidden transition-all duration-300 ease-in-out"
                         />
                         <img
-                            src="/error-cse-hover.png"
+                            src="/errors/error-cse-hover.png"
                             alt="CSE logo"
                             className="w-[102px] h-[57px] md:w-[165px] md:h-[92px] cursor-pointer z-50 absolute left-[45px] top-[24px] md:left-[70px] md:top-[35px] hidden transition-all duration-300 ease-in-out group-hover:block"
                         />
                         <img
-                            src="/error-cap.png"
+                            src="/errors/error-cap.png"
                             alt="Cap Image"
                             className="w-[33px] h-[23px] md:w-[48px] md:h-[38px] z-50 absolute left-[44px] top-[40px] md:left-[73px] md:top-[43px] opacity-100 md:opacity-0 transition-all duration-300 ease-in-out transform -translate-y-3 group-hover:opacity-100 group-hover:translate-y-0"
                         />

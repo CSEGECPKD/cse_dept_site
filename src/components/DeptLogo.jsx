@@ -145,7 +145,7 @@ const DeptLogo = () => {
                             y: logoTop,
                             scale: scaleLogo,
                         }}
-                        src="/cse.png"
+                        src="/branding/cse.png"
                         width={480}
                         height={280}
                         alt="cse Image"
@@ -160,11 +160,11 @@ const DeptLogo = () => {
                         className="absolute top-[-42%] left-[-10%]  md:left-[-23%]"
                     >
                         <Image
-                            src="/cap.png"
+                            src="/icons/cap.png"
                             width={200}
                             height={200}
                             alt="Cap Image"
-                            className="cap-image w-[25vw] md:w-[200px]"
+                            className="cap-image w-[25vw] md:w-[200px] h-auto"
                         />
                     </motion.div>
                 </div>
@@ -177,7 +177,7 @@ const DeptLogo = () => {
                         className="sm:w-5/12 w-full"
                     >
                         <Image
-                            src="/Vision.png"
+                            src="/icons/Vision.png"
                             width={800}
                             height={800}
                             alt="vision"
@@ -196,7 +196,7 @@ const DeptLogo = () => {
                     >
                         <div className="flex flex-col items-end">
                             <Image
-                                src="/Mission.png"
+                                src="/icons/Mission.png"
                                 width={800}
                                 height={800}
                                 alt="mission"
@@ -223,7 +223,7 @@ const DeptLogo = () => {
                         </p>
                         <div className="border-x-4 border-[#9E9E9E] border-solid px-2">
                             <img
-                                src="/nba.svg"
+                                src="/branding/nba.svg"
                                 alt="Description"
                                 className="  text-[#9E9E9E] min-w-[33px] min-h-[33px]"
                             />
@@ -239,7 +239,7 @@ const DeptLogo = () => {
                         </p>
                         <div className="border-x-4 border-[#9E9E9E] border-solid px-2">
                             <img
-                                src="/nba.svg"
+                                src="/branding/nba.svg"
                                 alt="Description"
                                 className="  text-[#9E9E9E] min-w-[33px] min-h-[33px]"
                             />
@@ -254,7 +254,7 @@ const DeptLogo = () => {
                         </p>
                         <div className="border-x-4 border-[#9E9E9E] border-solid px-2">
                             <img
-                                src="/nba.svg"
+                                src="/branding/nba.svg"
                                 alt="Description"
                                 className="  text-[#9E9E9E] min-w-[33px] min-h-[33px]"
                             />
@@ -270,7 +270,7 @@ const DeptLogo = () => {
                         </p>
                         <div className="border-x-4 border-[#9E9E9E] border-solid px-2">
                             <img
-                                src="/nba.svg"
+                                src="/branding/nba.svg"
                                 alt="Description"
                                 className="  text-[#9E9E9E] min-w-[33px] min-h-[33px]"
                             />

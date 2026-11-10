@@ -7,7 +7,7 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation } from '@tanstack/react-query';
 
-import { createPoster } from '@/actions/poster.action';
+import { createPoster, updatePoster } from '@/actions/poster.action';
 import { Button } from '@/components/ui/button';
 import FormField from '../ui/FormField';
 import UploadCard from '../ui/UploadCard';
@@ -19,7 +19,13 @@ const posterFormSchema = z.object({
     description: z.string().min(1, { message: 'Description is required' }),
 });
 
-const PosterForm = ({ refreshPosters }) => {
+const PosterForm = ({
+    initialData,
+    onSuccess,
+    onCancel,
+    refreshPosters,
+}) => {
+    const isEditing = Boolean(initialData?._id);
     const {
         register,
         handleSubmit,
@@ -30,25 +36,37 @@ const PosterForm = ({ refreshPosters }) => {
     } = useForm({
         resolver: zodResolver(posterFormSchema),
         defaultValues: {
-            imageUrl: '',
+            name: initialData?.name || '',
+            description: initialData?.description || '',
+            imageUrl: initialData?.imageUrl || '',
         },
     });
 
     const mutation = useMutation({
-        mutationFn: async (data) => createPoster(data),
+        mutationFn: async (data) => {
+            if (isEditing) {
+                return updatePoster(initialData._id, data);
+            }
+            return createPoster(data);
+        },
         onSuccess: () => {
-            reset();
+            if (!isEditing) reset();
             toast({
                 variant: 'success',
-                title: 'Poster added',
-                description: 'Poster added successfully.',
+                title: isEditing ? 'Poster updated' : 'Poster added',
+                description: isEditing
+                    ? 'Poster updated successfully.'
+                    : 'Poster added successfully.',
             });
             refreshPosters?.();
+            onSuccess?.();
         },
         onError: (error) => {
             toast({
                 variant: 'destructive',
-                title: 'Unable to add poster',
+                title: isEditing
+                    ? 'Unable to update poster'
+                    : 'Unable to add poster',
                 description: error?.message || 'Please try again.',
             });
         },
@@ -97,16 +115,32 @@ const PosterForm = ({ refreshPosters }) => {
                 )}
             </div>
 
-            <Button
-                type="submit"
-                disabled={mutation.isPending}
-                className="w-full gap-2 sm:w-auto"
-            >
-                {mutation.isPending && (
-                    <Loader2 className="h-4 w-4 animate-spin" />
+            <div className="flex items-center gap-2">
+                <Button
+                    type="submit"
+                    disabled={mutation.isPending}
+                    className="w-full gap-2 sm:w-auto"
+                >
+                    {mutation.isPending && (
+                        <Loader2 className="h-4 w-4 animate-spin" />
+                    )}
+                    {mutation.isPending
+                        ? 'Saving…'
+                        : isEditing
+                          ? 'Save Changes'
+                          : 'Add Poster'}
+                </Button>
+                {onCancel && (
+                    <Button
+                        type="button"
+                        variant="outline"
+                        onClick={onCancel}
+                        disabled={mutation.isPending}
+                    >
+                        Cancel
+                    </Button>
                 )}
-                {mutation.isPending ? 'Saving…' : 'Add Poster'}
-            </Button>
+            </div>
         </form>
     );
 };

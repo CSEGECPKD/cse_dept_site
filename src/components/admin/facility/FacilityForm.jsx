@@ -7,7 +7,7 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation } from '@tanstack/react-query';
 
-import { createFacility } from '@/actions/facility.action';
+import { createFacility, updateFacility } from '@/actions/facility.action';
 import { Button } from '@/components/ui/button';
 import FormField from '../ui/FormField';
 import UploadCard from '../ui/UploadCard';
@@ -19,7 +19,13 @@ const facilityFormSchema = z.object({
     pdfUrl: z.string().min(1, { message: 'PDF URL is required' }),
 });
 
-const FacilityForm = ({ refreshFacilities }) => {
+const FacilityForm = ({
+    initialData,
+    onSuccess,
+    onCancel,
+    refreshFacilities,
+}) => {
+    const isEditing = Boolean(initialData?._id);
     const {
         register,
         handleSubmit,
@@ -30,25 +36,37 @@ const FacilityForm = ({ refreshFacilities }) => {
     } = useForm({
         resolver: zodResolver(facilityFormSchema),
         defaultValues: {
-            pdfUrl: '',
+            name: initialData?.name || '',
+            description: initialData?.description || '',
+            pdfUrl: initialData?.pdfUrl || '',
         },
     });
 
     const mutation = useMutation({
-        mutationFn: async (data) => createFacility(data),
+        mutationFn: async (data) => {
+            if (isEditing) {
+                return updateFacility(initialData._id, data);
+            }
+            return createFacility(data);
+        },
         onSuccess: () => {
-            reset();
+            if (!isEditing) reset();
             toast({
                 variant: 'success',
-                title: 'Facility added',
-                description: 'Facility added successfully.',
+                title: isEditing ? 'Facility updated' : 'Facility added',
+                description: isEditing
+                    ? 'Facility updated successfully.'
+                    : 'Facility added successfully.',
             });
             refreshFacilities?.();
+            onSuccess?.();
         },
         onError: (error) => {
             toast({
                 variant: 'destructive',
-                title: 'Unable to add facility',
+                title: isEditing
+                    ? 'Unable to update facility'
+                    : 'Unable to add facility',
                 description: error?.message || 'Please try again.',
             });
         },
@@ -98,16 +116,32 @@ const FacilityForm = ({ refreshFacilities }) => {
                 )}
             </div>
 
-            <Button
-                type="submit"
-                disabled={mutation.isPending}
-                className="w-full gap-2 sm:w-auto"
-            >
-                {mutation.isPending && (
-                    <Loader2 className="h-4 w-4 animate-spin" />
+            <div className="flex items-center gap-2">
+                <Button
+                    type="submit"
+                    disabled={mutation.isPending}
+                    className="w-full gap-2 sm:w-auto"
+                >
+                    {mutation.isPending && (
+                        <Loader2 className="h-4 w-4 animate-spin" />
+                    )}
+                    {mutation.isPending
+                        ? 'Saving…'
+                        : isEditing
+                          ? 'Save Changes'
+                          : 'Add Facility'}
+                </Button>
+                {onCancel && (
+                    <Button
+                        type="button"
+                        variant="outline"
+                        onClick={onCancel}
+                        disabled={mutation.isPending}
+                    >
+                        Cancel
+                    </Button>
                 )}
-                {mutation.isPending ? 'Saving…' : 'Add Facility'}
-            </Button>
+            </div>
         </form>
     );
 };

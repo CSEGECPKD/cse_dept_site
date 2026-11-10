@@ -7,7 +7,7 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation } from '@tanstack/react-query';
 
-import { createEvent } from '@/actions/event.action';
+import { createEvent, updateEvent } from '@/actions/event.action';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -28,7 +28,8 @@ const eventFormSchema = z.object({
         .min(1, { message: 'At least one registration link is required' }),
 });
 
-const EventForm = ({ refreshEvents }) => {
+const EventForm = ({ initialData, onSuccess, onCancel, refreshEvents }) => {
+    const isEditing = Boolean(initialData?._id);
     const {
         register,
         handleSubmit,
@@ -39,26 +40,44 @@ const EventForm = ({ refreshEvents }) => {
     } = useForm({
         resolver: zodResolver(eventFormSchema),
         defaultValues: {
-            posters: [],
-            regLinks: [],
+            name: initialData?.name || '',
+            date: initialData?.date ? new Date(initialData.date) : undefined,
+            details: initialData?.details || '',
+            mode: initialData?.mode || '',
+            posters: initialData?.posters || [],
+            regLinks: Array.isArray(initialData?.regLinks)
+                ? initialData.regLinks
+                : initialData?.regLinks
+                  ? [initialData.regLinks]
+                  : [],
         },
     });
 
     const mutation = useMutation({
-        mutationFn: async (data) => createEvent(data),
+        mutationFn: async (data) => {
+            if (isEditing) {
+                return updateEvent(initialData._id, data);
+            }
+            return createEvent(data);
+        },
         onSuccess: () => {
-            reset();
+            if (!isEditing) reset();
             toast({
                 variant: 'success',
-                title: 'Event added',
-                description: 'Event added successfully.',
+                title: isEditing ? 'Event updated' : 'Event added',
+                description: isEditing
+                    ? 'Event updated successfully.'
+                    : 'Event added successfully.',
             });
             refreshEvents?.();
+            onSuccess?.();
         },
         onError: (error) => {
             toast({
                 variant: 'destructive',
-                title: 'Unable to add event',
+                title: isEditing
+                    ? 'Unable to update event'
+                    : 'Unable to add event',
                 description: error?.message || 'Please try again.',
             });
         },
@@ -146,7 +165,6 @@ const EventForm = ({ refreshEvents }) => {
                                 key={index}
                                 className="relative h-28 w-28 overflow-hidden rounded-lg border bg-muted"
                             >
-                                {/* eslint-disable-next-line @next/next/no-img-element */}
                                 <img
                                     src={poster}
                                     alt={`Poster ${index + 1}`}
@@ -226,16 +244,32 @@ const EventForm = ({ refreshEvents }) => {
                 )}
             </div>
 
-            <Button
-                type="submit"
-                disabled={mutation.isPending}
-                className="w-full gap-2 sm:w-auto"
-            >
-                {mutation.isPending && (
-                    <Loader2 className="h-4 w-4 animate-spin" />
+            <div className="flex items-center gap-2">
+                <Button
+                    type="submit"
+                    disabled={mutation.isPending}
+                    className="w-full gap-2 sm:w-auto"
+                >
+                    {mutation.isPending && (
+                        <Loader2 className="h-4 w-4 animate-spin" />
+                    )}
+                    {mutation.isPending
+                        ? 'Saving…'
+                        : isEditing
+                          ? 'Save Changes'
+                          : 'Save Event'}
+                </Button>
+                {onCancel && (
+                    <Button
+                        type="button"
+                        variant="outline"
+                        onClick={onCancel}
+                        disabled={mutation.isPending}
+                    >
+                        Cancel
+                    </Button>
                 )}
-                {mutation.isPending ? 'Saving…' : 'Save Event'}
-            </Button>
+            </div>
         </form>
     );
 };

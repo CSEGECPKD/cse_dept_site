@@ -23,12 +23,37 @@ export async function createRecruiter({ companyName, companyLogo }) {
 
 export async function getRecruiters() {
     try {
-        await dbConnect();
+        const conn = await dbConnect();
+        if (!conn) return [];
         const recruiters = await Recruiter.find({}).lean();
         return JSON.parse(JSON.stringify(recruiters));
     } catch (error) {
-        console.error('Failed to fetch recruiters:', error);
-        throw new Error(error.message || 'Failed to fetch recruiters');
+        console.error('Failed to fetch recruiters:', error.message || error);
+        return [];
+    }
+}
+
+export async function updateRecruiter(
+    recruiterId,
+    { companyName, companyLogo }
+) {
+    try {
+        if (!(await isAuthenticated())) {
+            throw new Error('Unauthorized');
+        }
+        await dbConnect();
+        const updatedRecruiter = await Recruiter.findByIdAndUpdate(
+            recruiterId,
+            { companyName, companyLogo },
+            { new: true }
+        );
+        if (!updatedRecruiter) {
+            throw new Error('Recruiter not found');
+        }
+        return { message: 'Recruiter updated successfully' };
+    } catch (error) {
+        console.error('Failed to update recruiter:', error);
+        throw new Error(error.message || 'Failed to update recruiter');
     }
 }
 

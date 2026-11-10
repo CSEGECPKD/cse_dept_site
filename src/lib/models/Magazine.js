@@ -8,10 +8,12 @@ const magazineSchema = new mongoose.Schema({
     category: {
         type: String,
         required: true,
+        index: true,
     },
     date: {
         type: Date,
         required: true,
+        index: true,
     },
     description: {
         type: String,

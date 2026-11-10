@@ -7,7 +7,10 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation } from '@tanstack/react-query';
 
-import { createAdvisoryBoardMember } from '@/actions/advisoryboard.action';
+import {
+    createAdvisoryBoardMember,
+    updateAdvisoryBoardMember,
+} from '@/actions/advisoryboard.action';
 import { Button } from '@/components/ui/button';
 import FormField from '../ui/FormField';
 import UploadCard from '../ui/UploadCard';
@@ -20,7 +23,13 @@ const advisorBoundFormSchema = z.object({
     imageUrl: z.string().min(1, { message: 'Image is required' }),
 });
 
-const AdvisorBoundForm = ({ refreshAdvisors }) => {
+const AdvisorBoundForm = ({
+    initialData,
+    onSuccess,
+    onCancel,
+    refreshAdvisors,
+}) => {
+    const isEditing = Boolean(initialData?._id);
     const {
         register,
         handleSubmit,
@@ -31,25 +40,38 @@ const AdvisorBoundForm = ({ refreshAdvisors }) => {
     } = useForm({
         resolver: zodResolver(advisorBoundFormSchema),
         defaultValues: {
-            imageUrl: '',
+            name: initialData?.name || '',
+            designation: initialData?.designation || '',
+            position: initialData?.position || '',
+            imageUrl: initialData?.imageUrl || '',
         },
     });
 
     const mutation = useMutation({
-        mutationFn: async (data) => createAdvisoryBoardMember(data),
+        mutationFn: async (data) => {
+            if (isEditing) {
+                return updateAdvisoryBoardMember(initialData._id, data);
+            }
+            return createAdvisoryBoardMember(data);
+        },
         onSuccess: () => {
-            reset();
+            if (!isEditing) reset();
             toast({
                 variant: 'success',
-                title: 'Advisor added',
-                description: 'Advisor added successfully.',
+                title: isEditing ? 'Advisor updated' : 'Advisor added',
+                description: isEditing
+                    ? 'Advisor updated successfully.'
+                    : 'Advisor added successfully.',
             });
             refreshAdvisors?.();
+            onSuccess?.();
         },
         onError: (error) => {
             toast({
                 variant: 'destructive',
-                title: 'Unable to add advisor',
+                title: isEditing
+                    ? 'Unable to update advisor'
+                    : 'Unable to add advisor',
                 description: error?.message || 'Please try again.',
             });
         },
@@ -108,16 +130,32 @@ const AdvisorBoundForm = ({ refreshAdvisors }) => {
                 )}
             </div>
 
-            <Button
-                type="submit"
-                disabled={mutation.isPending}
-                className="w-full gap-2 sm:w-auto"
-            >
-                {mutation.isPending && (
-                    <Loader2 className="h-4 w-4 animate-spin" />
+            <div className="flex items-center gap-2">
+                <Button
+                    type="submit"
+                    disabled={mutation.isPending}
+                    className="w-full gap-2 sm:w-auto"
+                >
+                    {mutation.isPending && (
+                        <Loader2 className="h-4 w-4 animate-spin" />
+                    )}
+                    {mutation.isPending
+                        ? 'Saving…'
+                        : isEditing
+                          ? 'Save Changes'
+                          : 'Add Advisor'}
+                </Button>
+                {onCancel && (
+                    <Button
+                        type="button"
+                        variant="outline"
+                        onClick={onCancel}
+                        disabled={mutation.isPending}
+                    >
+                        Cancel
+                    </Button>
                 )}
-                {mutation.isPending ? 'Saving…' : 'Add Advisor'}
-            </Button>
+            </div>
         </form>
     );
 };

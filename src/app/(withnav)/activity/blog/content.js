@@ -3,7 +3,7 @@ import { IoPersonCircle } from 'react-icons/io5';
 export const data = [
     {
         id: 1,
-        img: '/blog.jpg',
+        img: '/blog/blog.jpg',
         head: 'Binary to Decimal Conversion',
         content: `Hi!
 
@@ -91,7 +91,7 @@ A massive shout-out to Prof. Soni for sharing this little hack with us! If you f
     },
     // {
     //   id: 2,
-    //   img: "/blog.png",
+    //   img: "/blog/blog.png",
     //   head: "Embracing Digital Transformation in Education",
     //   content:
     //     "Explore how digital technologies are reshaping the educational landscape and enhancing learning experiences for students and educators....",
@@ -102,7 +102,7 @@ A massive shout-out to Prof. Soni for sharing this little hack with us! If you f
     // },
     // {
     //   id: 3,
-    //   img: "/blog.png",
+    //   img: "/blog/blog.png",
     //   head: "Embracing Digital Transformation in Education",
     //   content:
     //     "Explore how digital technologies are reshaping the educational landscape and enhancing learning experiences for students and educators....",
@@ -113,7 +113,7 @@ A massive shout-out to Prof. Soni for sharing this little hack with us! If you f
     // },
     // {
     //   id: 4,
-    //   img: "/blog.png",
+    //   img: "/blog/blog.png",
     //   head: "Embracing Digital Transformation in Education",
     //   content:
     //     "Explore how digital technologies are reshaping the educational landscape and enhancing learning experiences for students and educators....",
@@ -124,7 +124,7 @@ A massive shout-out to Prof. Soni for sharing this little hack with us! If you f
     // },
     // {
     //   id: 5,
-    //   img: "/blog.png",
+    //   img: "/blog/blog.png",
     //   head: "Embracing Digital Transformation in Education",
     //   content:
     //     "Explore how digital technologies are reshaping the educational landscape and enhancing learning experiences for students and educators....",
@@ -135,7 +135,7 @@ A massive shout-out to Prof. Soni for sharing this little hack with us! If you f
     // },
     // {
     //   id: 6,
-    //   img: "/blog.png",
+    //   img: "/blog/blog.png",
     //   head: "Embracing Digital Transformation in Education",
     //   content:
     //     "Explore how digital technologies are reshaping the educational landscape and enhancing learning experiences for students and educators....",

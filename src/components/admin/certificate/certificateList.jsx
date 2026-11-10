@@ -1,13 +1,17 @@
 'use client';
 
-import React from 'react';
-import { Image } from 'lucide-react';
+import React, { useState } from 'react';
+import { Image as ImageIcon } from 'lucide-react';
 
 import DataTable from '../ui/DataTable';
 import RowActions from '../ui/RowActions';
+import EditDialog from '../ui/EditDialog';
+import CertificateForm from './CertificateForm';
 import { deleteCertificate } from '@/actions/certificate.action';
 
 const CertificateList = ({ certificateList, loading, refresh }) => {
+    const [editingItem, setEditingItem] = useState(null);
+
     const columns = [
         {
             key: 'imageUrl',
@@ -15,7 +19,6 @@ const CertificateList = ({ certificateList, loading, refresh }) => {
             cell: (item) => (
                 <div className="h-10 w-10 overflow-hidden rounded-lg border bg-muted">
                     {item.imageUrl ? (
-                        // eslint-disable-next-line @next/next/no-img-element
                         <img
                             src={item.imageUrl}
                             alt=""
@@ -23,7 +26,7 @@ const CertificateList = ({ certificateList, loading, refresh }) => {
                         />
                     ) : (
                         <div className="flex h-full w-full items-center justify-center text-muted-foreground">
-                            <Image className="h-5 w-5" />
+                            <ImageIcon className="h-5 w-5" />
                         </div>
                     )}
                 </div>
@@ -41,6 +44,7 @@ const CertificateList = ({ certificateList, loading, refresh }) => {
             cellClassName: 'text-right',
             cell: (item) => (
                 <RowActions
+                    onEdit={() => setEditingItem(item)}
                     onDelete={async () => {
                         await deleteCertificate(item._id);
                     }}
@@ -53,17 +57,36 @@ const CertificateList = ({ certificateList, loading, refresh }) => {
     ];
 
     return (
-        <DataTable
-            data={certificateList}
-            loading={loading}
-            columns={columns}
-            searchKeys={['name']}
-            searchPlaceholder="Search certificates…"
-            emptyState={{
-                title: 'No certificates yet',
-                subtitle: 'Your certificate list is empty.',
-            }}
-        />
+        <>
+            <DataTable
+                data={certificateList}
+                loading={loading}
+                columns={columns}
+                searchKeys={['name']}
+                searchPlaceholder="Search certificates…"
+                emptyState={{
+                    title: 'No certificates yet',
+                    subtitle: 'Your certificate list is empty.',
+                }}
+            />
+            <EditDialog
+                open={Boolean(editingItem)}
+                onOpenChange={(isOpen) => !isOpen && setEditingItem(null)}
+                title="Edit Certificate"
+                description="Update certificate name and image."
+            >
+                {editingItem && (
+                    <CertificateForm
+                        initialData={editingItem}
+                        onSuccess={() => {
+                            setEditingItem(null);
+                            refresh();
+                        }}
+                        onCancel={() => setEditingItem(null)}
+                    />
+                )}
+            </EditDialog>
+        </>
     );
 };
 

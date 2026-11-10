@@ -4,15 +4,24 @@ const departmentMagazine = [
         title: "QUANTA'23",
         description: 'Department Magazine of 2023 edition',
         date: 'December 21, 2022',
-        image: "/quanta'22.png",
+        image: "/events/quanta'22.png",
         pdf: '/pdf/Quanta22.pdf',
+    },
+    {
+        id: 2,
+        title: 'CSE Association Events Report 2025-26',
+        description:
+            'Official summary report of technical workshops, seminars, hackathons, and student initiatives',
+        date: 'September 2026',
+        image: '/events/cse-association-execom-2026-27.jpg',
+        pdf: '/pdf/cse-association-report-2025-26.pdf',
     },
     //   {
     //     id: 2,
     //     title: "QUANTA'23",
     //     description: "Department Magazine of 2023 edition",
     //     date: "July 15, 2024",
-    //     image: "/activity2.png",
+    //     image: "/events/activity2.png",
     //     pdf: "/pdf/sample-pdf-2.pdf",
     //   },
     //   {
@@ -20,7 +29,7 @@ const departmentMagazine = [
     //     title: "QUANTA'23",
     //     description: "Department Magazine of 2023 edition",
     //     date: "July 15, 2024",
-    //     image: "/activity2.png",
+    //     image: "/events/activity2.png",
     //     pdf: "/pdf/sample-pdf-1.pdf",
     //   },
     //   {
@@ -28,7 +37,7 @@ const departmentMagazine = [
     //     title: "QUANTA'23",
     //     description: "Department Magazine of 2023 edition",
     //     date: "July 15, 2024",
-    //     image: "/activity2.png",
+    //     image: "/events/activity2.png",
     //     pdf: "/pdf/sample-pdf-2.pdf",
     //   },
     //   {
@@ -36,7 +45,7 @@ const departmentMagazine = [
     //     title: "QUANTA'23",
     //     description: "Department Magazine of 2023 edition",
     //     date: "July 15, 2024",
-    //     image: "/activity2.png",
+    //     image: "/events/activity2.png",
     //     pdf: "/pdf/sample-pdf-1.pdf",
     //   },
     //   {
@@ -44,7 +53,7 @@ const departmentMagazine = [
     //     title: "QUANTA'23",
     //     description: "Department Magazine of 2023 edition",
     //     date: "July 15, 2024",
-    //     image: "/activity2.png",
+    //     image: "/events/activity2.png",
     //     pdf: "/pdf/sample-pdf-2.pdf",
     //   },
     //   {
@@ -52,7 +61,7 @@ const departmentMagazine = [
     //     title: "QUANTA'23",
     //     description: "Department Magazine of 2023 edition",
     //     date: "July 15, 2024",
-    //     image: "/activity2.png",
+    //     image: "/events/activity2.png",
     //     pdf: "/pdf/sample-pdf-1.pdf",
     //   },
     //   {
@@ -60,7 +69,7 @@ const departmentMagazine = [
     //     title: "QUANTA'23",
     //     description: "Department Magazine of 2023 edition",
     //     date: "July 15, 2024",
-    //     image: "/activity2.png",
+    //     image: "/events/activity2.png",
     //     pdf: "/pdf/sample-pdf-2.pdf",
     //   },
     //   {
@@ -68,7 +77,7 @@ const departmentMagazine = [
     //     title: "QUANTA'23",
     //     description: "Department Magazine of 2023 edition",
     //     date: "July 15, 2024",
-    //     image: "/activity2.png",
+    //     image: "/events/activity2.png",
     //     pdf: "/pdf/sample-pdf-1.pdf",
     //   },
     //   {
@@ -76,7 +85,7 @@ const departmentMagazine = [
     //     title: "QUANTA'23",
     //     description: "Department Magazine of 2023 edition",
     //     date: "July 15, 2024",
-    //     image: "/activity2.png",
+    //     image: "/events/activity2.png",
     //     pdf: "/pdf/sample-pdf-2.pdf",
     //   },
 ];
@@ -86,7 +95,7 @@ const pgMagazine = [
         title: "QUANTA'23",
         description: 'Department Magazine of 2023 edition',
         date: 'July 15, 2024',
-        image: '/activity2.png',
+        image: '/events/activity2.png',
         pdf: '/pdf/sample-pdf-1.pdf',
     },
     {
@@ -94,7 +103,7 @@ const pgMagazine = [
         title: "QUANTA'23",
         description: 'Department Magazine of 2023 edition',
         date: 'July 15, 2024',
-        image: '/activity2.png',
+        image: '/events/activity2.png',
         pdf: '/pdf/sample-pdf-2.pdf',
     },
     {
@@ -102,7 +111,7 @@ const pgMagazine = [
         title: "QUANTA'23",
         description: 'Department Magazine of 2023 edition',
         date: 'July 15, 2024',
-        image: '/activity2.png',
+        image: '/events/activity2.png',
         pdf: '/pdf/sample-pdf-1.pdf',
     },
     {
@@ -110,7 +119,7 @@ const pgMagazine = [
         title: "QUANTA'23",
         description: 'Department Magazine of 2023 edition',
         date: 'July 15, 2024',
-        image: '/activity2.png',
+        image: '/events/activity2.png',
         pdf: '/pdf/sample-pdf-2.pdf',
     },
     {
@@ -118,7 +127,7 @@ const pgMagazine = [
         title: "QUANTA'23",
         description: 'Department Magazine of 2023 edition',
         date: 'July 15, 2024',
-        image: '/activity2.png',
+        image: '/events/activity2.png',
         pdf: '/pdf/sample-pdf-1.pdf',
     },
     {
@@ -126,7 +135,7 @@ const pgMagazine = [
         title: "QUANTA'23",
         description: 'Department Magazine of 2023 edition',
         date: 'July 15, 2024',
-        image: '/activity2.png',
+        image: '/events/activity2.png',
         pdf: '/pdf/sample-pdf-2.pdf',
     },
     {
@@ -134,7 +143,7 @@ const pgMagazine = [
         title: "QUANTA'23",
         description: 'Department Magazine of 2023 edition',
         date: 'July 15, 2024',
-        image: '/activity2.png',
+        image: '/events/activity2.png',
         pdf: '/pdf/sample-pdf-1.pdf',
     },
     {
@@ -142,7 +151,7 @@ const pgMagazine = [
         title: "QUANTA'23",
         description: 'Department Magazine of 2023 edition',
         date: 'July 15, 2024',
-        image: '/activity2.png',
+        image: '/events/activity2.png',
         pdf: '/pdf/sample-pdf-2.pdf',
     },
 ];
@@ -152,7 +161,7 @@ const pgNewsLetter = [
         title: 'CLEAR Magazine September 2021',
         description:
             'Computational Linguistics in Engineering And Research Journal is an initiative of M.Tech Computer Science and Engineering, GEC Sreekrishnapuram',
-        image: '/SIMPLE_logo.png',
+        image: '/branding/SIMPLE_logo.png',
         date: 'Sepetember, 2021',
         pdf: 'https://simplegec.blogspot.com/2022/01/clear-magazine-september-2021_13.html?m=0',
     },

@@ -1,13 +1,17 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import { UserRound } from 'lucide-react';
 
 import DataTable from '../ui/DataTable';
 import RowActions from '../ui/RowActions';
+import EditDialog from '../ui/EditDialog';
+import TopperForm from './TopperForm';
 import { deleteTopper } from '@/actions/topper.action';
 
 const TopperList = ({ topperList, loading, refresh }) => {
+    const [editingItem, setEditingItem] = useState(null);
+
     const columns = [
         {
             key: 'imageUrl',
@@ -15,7 +19,6 @@ const TopperList = ({ topperList, loading, refresh }) => {
             cell: (item) => (
                 <div className="h-10 w-10 overflow-hidden rounded-full border bg-muted">
                     {item.imageUrl ? (
-                        // eslint-disable-next-line @next/next/no-img-element
                         <img
                             src={item.imageUrl}
                             alt=""
@@ -71,6 +74,7 @@ const TopperList = ({ topperList, loading, refresh }) => {
             cellClassName: 'text-right',
             cell: (item) => (
                 <RowActions
+                    onEdit={() => setEditingItem(item)}
                     onDelete={async () => {
                         await deleteTopper(item._id);
                     }}
@@ -83,17 +87,36 @@ const TopperList = ({ topperList, loading, refresh }) => {
     ];
 
     return (
-        <DataTable
-            data={topperList}
-            loading={loading}
-            columns={columns}
-            searchKeys={['name', 'course', 'batch']}
-            searchPlaceholder="Search toppers…"
-            emptyState={{
-                title: 'No toppers yet',
-                subtitle: 'Your topper list is empty.',
-            }}
-        />
+        <>
+            <DataTable
+                data={topperList}
+                loading={loading}
+                columns={columns}
+                searchKeys={['name', 'course', 'batch']}
+                searchPlaceholder="Search toppers…"
+                emptyState={{
+                    title: 'No toppers yet',
+                    subtitle: 'Your topper list is empty.',
+                }}
+            />
+            <EditDialog
+                open={Boolean(editingItem)}
+                onOpenChange={(isOpen) => !isOpen && setEditingItem(null)}
+                title="Edit Topper"
+                description="Update student topper record, CGPA, and image."
+            >
+                {editingItem && (
+                    <TopperForm
+                        initialData={editingItem}
+                        onSuccess={() => {
+                            setEditingItem(null);
+                            refresh();
+                        }}
+                        onCancel={() => setEditingItem(null)}
+                    />
+                )}
+            </EditDialog>
+        </>
     );
 };
 

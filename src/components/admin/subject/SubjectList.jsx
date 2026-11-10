@@ -1,12 +1,16 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 
 import DataTable from '../ui/DataTable';
 import RowActions from '../ui/RowActions';
+import EditDialog from '../ui/EditDialog';
+import SubjectForm from './SubjectForm';
 import { deleteSubject } from '@/actions/subject.action';
 
 const SubjectList = ({ subjectList, loading, refresh }) => {
+    const [editingItem, setEditingItem] = useState(null);
+
     const columns = [
         {
             key: 'name',
@@ -22,7 +26,10 @@ const SubjectList = ({ subjectList, loading, refresh }) => {
         {
             key: 'courseId',
             header: 'Course ID',
-            cell: (item) => item.courseId,
+            cell: (item) =>
+                typeof item.courseId === 'object'
+                    ? item.courseId?.name || item.courseId?._id
+                    : item.courseId,
         },
         {
             key: 'yearOfScheme',
@@ -40,6 +47,7 @@ const SubjectList = ({ subjectList, loading, refresh }) => {
             cellClassName: 'text-right',
             cell: (item) => (
                 <RowActions
+                    onEdit={() => setEditingItem(item)}
                     onDelete={async () => {
                         await deleteSubject(item._id);
                     }}
@@ -52,17 +60,36 @@ const SubjectList = ({ subjectList, loading, refresh }) => {
     ];
 
     return (
-        <DataTable
-            data={subjectList}
-            loading={loading}
-            columns={columns}
-            searchKeys={['name', 'subCode', 'courseId']}
-            searchPlaceholder="Search subjects…"
-            emptyState={{
-                title: 'No subjects yet',
-                subtitle: 'Your subject list is empty.',
-            }}
-        />
+        <>
+            <DataTable
+                data={subjectList}
+                loading={loading}
+                columns={columns}
+                searchKeys={['name', 'subCode', 'courseId']}
+                searchPlaceholder="Search subjects…"
+                emptyState={{
+                    title: 'No subjects yet',
+                    subtitle: 'Your subject list is empty.',
+                }}
+            />
+            <EditDialog
+                open={Boolean(editingItem)}
+                onOpenChange={(isOpen) => !isOpen && setEditingItem(null)}
+                title="Edit Subject"
+                description="Update subject syllabus, scheme, and code."
+            >
+                {editingItem && (
+                    <SubjectForm
+                        initialData={editingItem}
+                        onSuccess={() => {
+                            setEditingItem(null);
+                            refresh();
+                        }}
+                        onCancel={() => setEditingItem(null)}
+                    />
+                )}
+            </EditDialog>
+        </>
     );
 };
 

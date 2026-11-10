@@ -25,24 +25,46 @@ export async function createEvent(data) {
 
 export async function getEvents() {
     try {
-        await dbConnect();
+        const conn = await dbConnect();
+        if (!conn) return [];
         const events = await Event.find({}).lean();
         return JSON.parse(JSON.stringify(events));
     } catch (error) {
-        console.error('Failed to fetch events:', error);
-        throw new Error(error.message || 'Failed to fetch events');
+        console.error('Failed to fetch events:', error.message || error);
+        return [];
     }
 }
 
 export async function getEventById(id) {
     try {
-        await dbConnect();
+        const conn = await dbConnect();
+        if (!conn) return null;
         const event = await Event.findById(id).lean();
-        if (!event) throw new Error('Event not found');
+        if (!event) return null;
         return JSON.parse(JSON.stringify(event));
     } catch (error) {
-        console.error('Failed to fetch event:', error);
-        throw new Error(error.message || 'Failed to fetch event');
+        console.error('Failed to fetch event:', error.message || error);
+        return null;
+    }
+}
+
+export async function updateEvent(eventId, data) {
+    try {
+        if (!(await isAuthenticated())) {
+            throw new Error('Unauthorized');
+        }
+        const validated = eventSchema.parse(data);
+        await dbConnect();
+        const updatedEvent = await Event.findByIdAndUpdate(eventId, validated, {
+            new: true,
+        });
+        if (!updatedEvent) {
+            throw new Error('Event not found');
+        }
+        return { message: 'Event updated successfully' };
+    } catch (error) {
+        console.error('Failed to update event:', error);
+        throw new Error(error.message || 'Failed to update event');
     }
 }
 

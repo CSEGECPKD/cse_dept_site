@@ -32,6 +32,27 @@ export async function getStudents() {
     }
 }
 
+export async function updateStudent(studentId, { course, batch, name }) {
+    try {
+        if (!(await isAuthenticated())) {
+            throw new Error('Unauthorized');
+        }
+        await dbConnect();
+        const updatedStudent = await Student.findByIdAndUpdate(
+            studentId,
+            { course, batch, name },
+            { new: true }
+        );
+        if (!updatedStudent) {
+            throw new Error('Student not found');
+        }
+        return { message: 'Student updated successfully' };
+    } catch (error) {
+        console.error('Failed to update student:', error);
+        throw new Error(error.message || 'Failed to update student');
+    }
+}
+
 export async function deleteStudent(studentId) {
     try {
         if (!(await isAuthenticated())) {

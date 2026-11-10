@@ -31,7 +31,7 @@ export default function Contact() {
                             <div>
                                 <h2 className="mb-2">Email Us</h2>
                                 <p>csehod@gecskp.ac.in</p>
-                                <p>sabitha@gecskp.ac.in</p>
+                                <p>helen@gecskp.ac.in</p>
                             </div>
                         </div>
                         <div className="flex mt-6 space-x-2">
@@ -39,7 +39,6 @@ export default function Contact() {
                             <div>
                                 <h2 className="mb-2">Call Us</h2>
                                 <p>+91 4662260565</p>
-                                <p>+91 9497686588</p>
                             </div>
                         </div>
                     </div>

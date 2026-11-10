@@ -24,7 +24,7 @@ const EventCard = ({ event, onCardClick }) => {
         >
             <div className="h-auto w-full md:w-auto overflow-hidden mb-4 md:mb-0">
                 <img
-                    src={event.image || "/quanta'22.png"}
+                    src={event.image || "/events/quanta'22.png"}
                     alt={event.title}
                     width={500}
                     height={500}
@@ -157,7 +157,7 @@ export default function Page() {
                                   day: 'numeric',
                               })
                             : '',
-                        image: m.frontPageUrl || "/quanta'22.png",
+                        image: m.frontPageUrl || "/events/quanta'22.png",
                         pdf: m.pdfUrl,
                         category: m.category || '',
                     }));

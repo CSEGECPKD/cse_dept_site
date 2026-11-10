@@ -60,6 +60,7 @@ const EditStudentPage = () => {
                         description="Manage existing records."
                     >
                         <StudentList
+                            courses={courses}
                             studentList={students}
                             loading={loading}
                             refresh={fetchStudents}

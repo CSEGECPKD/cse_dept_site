@@ -8,19 +8,21 @@ import { blogSchema } from '@/lib/validations';
 
 export async function getBlogs() {
     try {
-        await dbConnect();
+        const conn = await dbConnect();
+        if (!conn) return [];
         const blogs = await Blog.find({}).lean();
         return JSON.parse(JSON.stringify(blogs));
     } catch (error) {
-        console.error('Failed to fetch blogs:', error);
-        throw new Error(error.message || 'Failed to fetch blogs');
+        console.error('Failed to fetch blogs:', error.message || error);
+        return [];
     }
 }
 
 export async function getBlogById(id) {
     try {
         if (!id) return null;
-        await dbConnect();
+        const conn = await dbConnect();
+        if (!conn) return null;
         if (mongoose.Types.ObjectId.isValid(id)) {
             const blog = await Blog.findById(id).lean();
             if (blog) {
@@ -29,7 +31,7 @@ export async function getBlogById(id) {
         }
         return null;
     } catch (error) {
-        console.error('Failed to fetch blog by id:', error);
+        console.error('Failed to fetch blog by id:', error.message || error);
         return null;
     }
 }
@@ -49,6 +51,26 @@ export async function createBlog(data) {
     } catch (error) {
         console.error('Failed to create blog:', error);
         throw new Error(error.message || 'Failed to create blog');
+    }
+}
+
+export async function updateBlog(blogId, data) {
+    try {
+        if (!(await isAuthenticated())) {
+            throw new Error('Unauthorized');
+        }
+        const validated = blogSchema.parse(data);
+        await dbConnect();
+        const updatedBlog = await Blog.findByIdAndUpdate(blogId, validated, {
+            new: true,
+        });
+        if (!updatedBlog) {
+            throw new Error('Blog not found');
+        }
+        return { message: 'Blog updated successfully' };
+    } catch (error) {
+        console.error('Failed to update blog:', error);
+        throw new Error(error.message || 'Failed to update blog');
     }
 }
 

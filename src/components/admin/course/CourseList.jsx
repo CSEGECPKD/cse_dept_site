@@ -1,13 +1,17 @@
 'use client';
 
-import React from 'react';
-import { Image } from 'lucide-react';
+import React, { useState } from 'react';
+import { Image as ImageIcon } from 'lucide-react';
 
 import DataTable from '../ui/DataTable';
 import RowActions from '../ui/RowActions';
+import EditDialog from '../ui/EditDialog';
+import CourseForm from './CourseForm';
 import { deleteCourse } from '@/actions/course.action';
 
 const CourseList = ({ courseList, loading, refresh }) => {
+    const [editingItem, setEditingItem] = useState(null);
+
     const columns = [
         {
             key: 'imageUrl',
@@ -15,7 +19,6 @@ const CourseList = ({ courseList, loading, refresh }) => {
             cell: (item) => (
                 <div className="h-10 w-10 overflow-hidden rounded-lg border bg-muted">
                     {item.imageUrl ? (
-                        // eslint-disable-next-line @next/next/no-img-element
                         <img
                             src={item.imageUrl}
                             alt=""
@@ -23,7 +26,7 @@ const CourseList = ({ courseList, loading, refresh }) => {
                         />
                     ) : (
                         <div className="flex h-full w-full items-center justify-center text-muted-foreground">
-                            <Image className="h-5 w-5" />
+                            <ImageIcon className="h-5 w-5" />
                         </div>
                     )}
                 </div>
@@ -50,6 +53,7 @@ const CourseList = ({ courseList, loading, refresh }) => {
             cellClassName: 'text-right',
             cell: (item) => (
                 <RowActions
+                    onEdit={() => setEditingItem(item)}
                     onDelete={async () => {
                         await deleteCourse(item._id);
                     }}
@@ -62,17 +66,36 @@ const CourseList = ({ courseList, loading, refresh }) => {
     ];
 
     return (
-        <DataTable
-            data={courseList}
-            loading={loading}
-            columns={columns}
-            searchKeys={['name', 'description']}
-            searchPlaceholder="Search courses…"
-            emptyState={{
-                title: 'No courses yet',
-                subtitle: 'Your course list is empty.',
-            }}
-        />
+        <>
+            <DataTable
+                data={courseList}
+                loading={loading}
+                columns={columns}
+                searchKeys={['name', 'description']}
+                searchPlaceholder="Search courses…"
+                emptyState={{
+                    title: 'No courses yet',
+                    subtitle: 'Your course list is empty.',
+                }}
+            />
+            <EditDialog
+                open={Boolean(editingItem)}
+                onOpenChange={(isOpen) => !isOpen && setEditingItem(null)}
+                title="Edit Course"
+                description="Update course details and attachments."
+            >
+                {editingItem && (
+                    <CourseForm
+                        initialData={editingItem}
+                        onSuccess={() => {
+                            setEditingItem(null);
+                            refresh();
+                        }}
+                        onCancel={() => setEditingItem(null)}
+                    />
+                )}
+            </EditDialog>
+        </>
     );
 };
 

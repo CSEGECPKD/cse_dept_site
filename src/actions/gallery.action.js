@@ -6,12 +6,13 @@ import { isAuthenticated } from '../lib/auth';
 
 export async function getGalleries() {
     try {
-        await dbConnect();
+        const conn = await dbConnect();
+        if (!conn) return [];
         const galleries = await Gallery.find({}).lean();
         return JSON.parse(JSON.stringify(galleries));
     } catch (error) {
-        console.error('Failed to fetch galleries:', error);
-        throw new Error(error.message || 'Failed to fetch galleries');
+        console.error('Failed to fetch galleries:', error.message || error);
+        return [];
     }
 }
 
@@ -29,6 +30,30 @@ export async function createGallery({ name, image, imgDescription }) {
     } catch (error) {
         console.error('Failed to create gallery:', error);
         throw new Error(error.message || 'Failed to create gallery');
+    }
+}
+
+export async function updateGallery(
+    galleryId,
+    { name, image, imgDescription }
+) {
+    try {
+        if (!(await isAuthenticated())) {
+            throw new Error('Unauthorized');
+        }
+        await dbConnect();
+        const updatedGallery = await Gallery.findByIdAndUpdate(
+            galleryId,
+            { name, image, imgDescription },
+            { new: true }
+        );
+        if (!updatedGallery) {
+            throw new Error('Gallery not found');
+        }
+        return { message: 'Gallery updated successfully' };
+    } catch (error) {
+        console.error('Failed to update gallery:', error);
+        throw new Error(error.message || 'Failed to update gallery');
     }
 }
 
