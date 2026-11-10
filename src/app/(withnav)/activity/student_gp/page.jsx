@@ -1,12 +1,34 @@
-// app/activity/student_gp/page.jsx
 'use client';
-import React, { useState } from 'react';
-import { data } from './content';
+import React, { useState, useEffect } from 'react';
+import { data as staticData } from './content';
+import { getStudentGroups } from '@/actions/studentgroup.action';
 import Image from 'next/image';
 import ColoredSection from '../../../../components/ColoredSection';
 
 export default function Page() {
+    const [items, setItems] = useState(staticData);
     const [selectedItem, setSelectedItem] = useState(null);
+
+    useEffect(() => {
+        let isMounted = true;
+        getStudentGroups()
+            .then((groups) => {
+                if (isMounted && Array.isArray(groups) && groups.length > 0) {
+                    const dynamic = groups.map((g) => ({
+                        _id: g._id,
+                        img: g.logoUrl || '/events/activity2.png',
+                        head: g.name,
+                        content: g.description,
+                        btn: 'Read More',
+                    }));
+                    setItems(dynamic);
+                }
+            })
+            .catch(() => {});
+        return () => {
+            isMounted = false;
+        };
+    }, []);
 
     const closeModal = () => {
         setSelectedItem(null);
@@ -24,9 +46,9 @@ export default function Page() {
                             </h1>
                         </div>
                     </div>
-                    {data.map((item, index) => (
+                    {items.map((item, index) => (
                         <HoverableItem
-                            key={index}
+                            key={item._id || index}
                             item={item}
                             onClick={() => setSelectedItem(item)}
                         />
@@ -46,9 +68,10 @@ function HoverableItem({ item, onClick }) {
 
     return (
         <div
-            className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-10 py-10 sm:py-15 md:py-20 md:pl-60"
+            className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-10 py-10 sm:py-15 md:py-20 md:pl-60 cursor-pointer"
             onMouseEnter={() => setHover(true)}
             onMouseLeave={() => setHover(false)}
+            onClick={onClick}
         >
             <div className="flex relative w-full md:w-1/5">
                 <Image
@@ -56,7 +79,8 @@ function HoverableItem({ item, onClick }) {
                     alt={item.head}
                     width={800}
                     height={400}
-                    className={`w-full h-auto object-cover transition-all duration-300`}
+                    unoptimized={typeof item.img === 'string' && item.img.startsWith('http')}
+                    className="w-full h-auto object-cover transition-all duration-300"
                 />
             </div>
 
@@ -104,6 +128,7 @@ function Modal({ item, onClose }) {
                             alt={item.head}
                             width={400}
                             height={200}
+                            unoptimized={typeof item.img === 'string' && item.img.startsWith('http')}
                             className="w-full h-auto object-cover mb-4"
                         />
                         <h3 className="text-xl sm:text-2xl font-bold mb-4">
@@ -116,16 +141,6 @@ function Modal({ item, onClose }) {
                         {item.content}
                     </p>
                 </div>
-
-                {/* Add redirect link button - TODO*/}
-
-                {/* <button
-                    className={`p-2 ${
-                        isHover ? "bg-[#dc856e]" : "bg-[#696969]"
-                    } text-center border hover:border-[#dc856e] hover:bg-[#ffffff] hover:text-[#dc856e] mt-4 sm:mt-6 md:mt-8 text-white transition-all duration-300`}
-                >
-                    {item.btn}
-                </button>*/}
             </div>
         </div>
     );

@@ -15,7 +15,11 @@ import { toast } from '@/hooks/use-toast';
 
 const syllabusFormSchema = z.object({
     course: z.string().min(1, { message: 'Course is required' }),
-    yearOfScheme: z.string().min(1, { message: 'Year of Scheme is required' }).trim(),
+    yearOfScheme: z
+        .string()
+        .min(1, { message: 'Year of Scheme is required' })
+        .max(9, { message: 'Year of Scheme must be at most 9 characters (e.g. 2019)' })
+        .trim(),
     pdfUrl: z.string().min(1, { message: 'PDF URL is required' }),
 });
 

@@ -8,6 +8,7 @@ const cspHeader = `
     base-uri 'self';
     form-action 'self' https://accounts.google.com;
     frame-src 'self' https://drive.google.com;
+    media-src 'self' blob: data:;
     connect-src 'self' ws: wss: https://*.ufs.sh https://ufs.sh https://utfs.io https://*.utfs.io https://uploadthing.com https://*.uploadthing.com https://api.emailjs.com https://www.googleapis.com https://accounts.google.com;
 `
     .replace(/\s{2,}/g, ' ')

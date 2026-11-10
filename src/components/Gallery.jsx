@@ -3,55 +3,24 @@ import React from 'react';
 import ColoredSection from './ColoredSection';
 import { ImageGallery } from 'react-image-grid-gallery';
 
-const imagesArray = [
-    {
-        alt: 'Department activity — campus event',
-        caption: 'Department Activity',
-        src: '/gallery/1.jpg',
-    },
-    {
-        alt: 'Students at a college event',
-        caption: 'College Event',
-        src: '/gallery/2.jpg',
-    },
-    {
-        alt: 'Lab session and technical activities',
-        caption: 'Lab Session',
-        src: '/gallery/3.jpg',
-    },
-    {
-        alt: 'Workshop and hands-on session',
-        caption: 'Workshop',
-        src: '/gallery/4.jpg',
-    },
-    {
-        alt: 'Campus gathering and cultural activities',
-        caption: 'Campus Life',
-        src: '/gallery/5.jpg',
-    },
-    {
-        alt: 'Department seminar and presentations',
-        caption: 'Seminar',
-        src: '/gallery/6.jpg',
-    },
-    {
-        alt: 'Annual fest and student activities',
-        caption: 'Annual Fest',
-        src: '/gallery/gallery1.png',
-    },
-    {
-        alt: 'Technical symposium and project expo',
-        caption: 'Tech Symposium',
-        src: '/gallery/gallery2.png',
-    },
-    {
-        alt: 'Graduation ceremony',
-        caption: 'Graduation Day',
-        src: '/gallery/gallery3.png',
-    },
+// Static fallback shown while DB is empty or unreachable
+const STATIC_IMAGES = [
+    { alt: 'Department activity — campus event', caption: 'Department Activity', src: '/gallery/1.jpg' },
+    { alt: 'Students at a college event', caption: 'College Event', src: '/gallery/2.jpg' },
+    { alt: 'Lab session and technical activities', caption: 'Lab Session', src: '/gallery/3.jpg' },
+    { alt: 'Workshop and hands-on session', caption: 'Workshop', src: '/gallery/4.jpg' },
+    { alt: 'Campus gathering and cultural activities', caption: 'Campus Life', src: '/gallery/5.jpg' },
+    { alt: 'Department seminar and presentations', caption: 'Seminar', src: '/gallery/6.jpg' },
+    { alt: 'Annual fest and student activities', caption: 'Annual Fest', src: '/gallery/gallery1.png' },
+    { alt: 'Technical symposium and project expo', caption: 'Tech Symposium', src: '/gallery/gallery2.png' },
+    { alt: 'Graduation ceremony', caption: 'Graduation Day', src: '/gallery/gallery3.png' },
 ];
 
-const Gallery = () => {
+const Gallery = ({ images }) => {
+    const imagesArray = (images && images.length > 0)
+        ? images.map((g) => ({ alt: g.imgDescription, caption: g.name, src: g.image }))
+        : STATIC_IMAGES;
+
     const [columnCount, setColumnCount] = React.useState(4);
     const [columnWidth, setColumnWidth] = React.useState(320);
 

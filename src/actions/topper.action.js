@@ -3,6 +3,24 @@
 import Topper from '@/lib/models/Topper';
 import dbConnect from '../lib/db';
 import { isAuthenticated } from '@/lib/auth';
+import studentsByCategory from '@/constants/contents';
+
+// Convert flat static data to the same [{category, name, batch, cgpa, sem, imageUrl}] shape
+const STATIC_TOPPERS = Object.entries(studentsByCategory).flatMap(
+    ([category, students]) =>
+        students.map((s) => ({
+            _id: null,
+            category,
+            name: s.name,
+            batch: s.batch || '',
+            course: '',
+            year: '',
+            sem: s.desc || '',
+            cgpa: s.cgpa || 0,
+            sgpa: 0,
+            imageUrl: s.image || '',
+        }))
+);
 
 export const createTopper = async (data) => {
     try {
@@ -57,8 +75,10 @@ export const getTopperList = async () => {
     try {
         await dbConnect();
         const toppers = await Topper.find().lean().exec();
-        return JSON.parse(JSON.stringify(toppers));
+        const list = JSON.parse(JSON.stringify(toppers));
+        return list.length > 0 ? list : STATIC_TOPPERS;
     } catch (error) {
-        throw error;
+        console.error('Failed to fetch toppers, using fallback:', error);
+        return STATIC_TOPPERS;
     }
 };

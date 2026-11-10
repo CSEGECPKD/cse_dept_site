@@ -1,5 +1,8 @@
 import React from 'react';
 import Gallery from '@/components/Gallery';
+import { getGalleries } from '@/actions/gallery.action';
+
+export const revalidate = 3600;
 
 export const metadata = {
     title: 'Gallery',
@@ -7,12 +10,17 @@ export const metadata = {
         'Explore photos and visual highlights of departmental events, academic seminars, computing labs, workshops, and campus celebrations at CSE GEC Palakkad.',
 };
 
-const GalleryPage = () => {
+export default async function GalleryPage() {
+    let images = [];
+    try {
+        images = await getGalleries();
+    } catch {
+        // fallback handled inside Gallery component
+    }
+
     return (
-        <div className="">
-            <Gallery />
+        <div>
+            <Gallery images={images} />
         </div>
     );
-};
-
-export default GalleryPage;
+}

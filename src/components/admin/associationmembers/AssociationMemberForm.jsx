@@ -18,7 +18,11 @@ import { toast } from '@/hooks/use-toast';
 
 const associationMemberFormSchema = z.object({
     name: z.string().min(1, { message: 'Name is required' }),
-    year: z.string().min(1, { message: 'Academic Year is required' }).trim(),
+    year: z
+        .string()
+        .min(1, { message: 'Academic Year is required' })
+        .max(9, { message: 'Year must be at most 9 characters (e.g. 2025-26)' })
+        .trim(),
     designation: z.string().min(1, { message: 'Designation is required' }),
     mailId: z.string().email({ message: 'Invalid email' }),
     imageUrl: z.string().min(1, { message: 'Image is required' }),

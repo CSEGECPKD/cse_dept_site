@@ -17,7 +17,11 @@ const topperFormSchema = z.object({
     name: z.string().min(1, { message: 'Name is required' }),
     batch: z.string().min(1, { message: 'Batch is required' }),
     course: z.string().min(1, { message: 'Course is required' }),
-    year: z.string().min(1, { message: 'Year is required' }).trim(),
+    year: z
+        .string()
+        .min(1, { message: 'Year is required' })
+        .max(9, { message: 'Year must be at most 9 characters (e.g. 2025-26)' })
+        .trim(),
     sem: z.string().refine((val) => /^\d+$/.test(val), {
         message: 'Semester must be an integer',
     }),
